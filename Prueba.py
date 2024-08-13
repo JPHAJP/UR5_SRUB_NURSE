@@ -255,8 +255,15 @@ def sendInstructionToUr5(ip, port, instruction):
     except TimeoutError:
         print("Tiempo agotado, no se puede conectar")
 
-
 model = YOLO("best.pt")
+
+T1 = np.radians(-51.9)
+T2 = np.radians(-71.85)
+T3 = np.radians(-112.7)
+T4 = np.radians(-85.96)
+T5 = np.radians(90)
+T6 = np.radians(38)
+ur5_move_command_7 = f"movej([{T1}, {T2}, {T3}, {T4}, {T5}, {T6}], a=1, v=1)\n"
 
 while True: 
     #IP y puerto del robot
