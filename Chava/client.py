@@ -2,7 +2,7 @@
 import socket
 import numpy as np
 import struct
-import time
+from time import sleep
 
 def getStatus():
     # Conexión con el UR5
@@ -85,13 +85,17 @@ z = 0.01
 ur5_ip = "192.168.1.1" 
 ur5_port = 30002 
 
-#Home hardcodeado
-T1 = np.radians(-51.9)
-T2 = np.radians(-71.85)
-T3 = np.radians(-112.7)
-T4 = np.radians(-85.96)
-T5 = np.radians(90)
-T6 = np.radians(38)
+#Home
+Angles_list_0=[-51.9,-71.85,-112.7,-85.96,90,38]
+#Convertir a radianes la lista de angulos
+Angles_list_0=[np.radians(i) for i in Angles_list_0]
+
+#Saludar variable
+Angles_list_1=[-106.75,-100.55,-79.78,-3.93,152.10,38]
+Angles_list_2=[-241.02,2.18,-59.69,-123.5,290.52,-315.06]
+#Convertir a radianes la lista de angulos
+Angles_list_1=[np.radians(i) for i in Angles_list_1]
+Angles_list_2=[np.radians(i) for i in Angles_list_2]
 
 ur5_move_command_1 = "movel(p[.117,-.364,.375,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n"
 ur5_move_command_2 = "movel(p[.064,-.269,.325,2.471,1.940,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 2 para pruebas
@@ -99,11 +103,16 @@ ur5_move_command_3 = "movel(p[.064,-.269,.285,3.139,0.126,0], a = 1.2, v = 0.25,
 ur5_move_command_4 = "movel(p[-.060,-.270,.284,1.388,2.819,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 4 para pruebas
 ur5_move_command_5 = "movel(p[-.174,-.286,.281,0.204,3.135,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 5 para pruebas
 ur5_move_command_6 = "movel(p[.064,-.269,.400,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 6 para pruebas
-ur5_move_command_7 = f"movej([{T1}, {T2}, {T3}, {T4}, {T5}, {T6}], a=1, v=1)\n"
-#ur5_move_command_7 = "movej([0, -1.5708, -1.5708, -1.5708, 1.5708, 3.1416], a=1, v=1.05)\n"
+
+ur5_move_command_7 = f"movej([{Angles_list_0[0]}, {Angles_list_0[1]}, {Angles_list_0[2]}, {Angles_list_0[3]}, {Angles_list_0[4]}, {Angles_list_0[5]}], a=1, v=1)\n"
+ur5_move_command_8 = f"movej([{Angles_list_1[0]}, {Angles_list_1[1]}, {Angles_list_1[2]}, {Angles_list_1[3]}, {Angles_list_1[4]}, {Angles_list_1[5]}], a=1, v=1)\n"
+ur5_move_command_9 = f"movej([{Angles_list_2[0]}, {Angles_list_2[1]}, {Angles_list_2[2]}, {Angles_list_2[3]}, {Angles_list_2[4]}, {Angles_list_2[5]}], a=1, v=1)\n"
 
 #Comando para activar el modo de control manual
-ur5_move_command_8 = 'freedrive_mode()\n'
+ur5_move_command_10 = 'freedrive_mode()\n'
 
-
-send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_7)
+while True:
+    send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_8)
+    sleep(10)
+    send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_9)
+    sleep(10)
