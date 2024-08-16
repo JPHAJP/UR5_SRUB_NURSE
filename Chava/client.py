@@ -76,7 +76,7 @@ def send_instruction_to_ur5(ip, port, instruction):
 def freedrive(ur5_ip, ur5_port):
     while True:
         send_instruction_to_ur5(ur5_ip, ur5_port, 'freedrive_mode()\n')
-        time.sleep(1)
+        sleep(1)
 
 x = 0.2
 y = -.7
@@ -111,8 +111,4 @@ ur5_move_command_9 = f"movej([{Angles_list_2[0]}, {Angles_list_2[1]}, {Angles_li
 #Comando para activar el modo de control manual
 ur5_move_command_10 = 'freedrive_mode()\n'
 
-while True:
-    send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_8)
-    sleep(10)
-    send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_9)
-    sleep(10)
+send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_7)
