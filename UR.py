@@ -140,8 +140,8 @@ def showAndGetPredictionsLive(model):
             results = model(resized_frame, conf=0.7, classes=[0, 1, 2, 3])
             annotated_frame = results[0].plot()
 
-            print("Results: ")
-            print(results)
+            #print("Results: ")
+            #print(results)
 
             for coordinates in results:  #Se itera sobre todas las detecciones
                 for bbox, cls in zip(coordinates.obb.xyxy, coordinates.obb.cls):  #Se itera sobre todas las cajas y sus clases
@@ -262,6 +262,35 @@ def mTomm(toconvert):
 def mmTom(toconvert):
     return toconvert / 1000
 
+#Función para definir el origen y el destino de una trayectoria
+def defineOriginAndDestination(xtransfn, ytransfn, ofzn):
+
+    destinationf = [xtransfn, ytransfn, ofzn]
+    currentPosexf, currentPoseyf, currentPosezf, _, _, _, _ = getPose()
+    currentPosef = [currentPosexf, currentPoseyf, currentPosezf]
+    ur5_move_command = f"movel(p[{xtransfn},{ytransfn},{ofzn},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
+    sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
+        
+    #Normalizamos para poder hacer comparativas
+    destinationf = np.around(destinationf, decimals=2)    
+
+    return currentPosef, destinationf
+
+#Función para manejar las solicitudes de cambio de pose para el robot
+def handleRobotPoseMoveRequest(destination, currentPose):
+
+    while destination[0] != currentPose[0] and destination[1] != currentPose[1] and destination[2] != currentPose[2]:
+        currentPosex, currentPosey, currentPosez, _, _, _, _ = getPose()
+        currentPosex = np.around(currentPosex, decimals=2)
+        currentPosey = np.around(currentPosey, decimals=2)
+        currentPosez = np.around(currentPosez, decimals=2)
+        currentPose = [currentPosex, currentPosey, currentPosez]
+
+        print("Current pose: ")
+        print(currentPose)
+        print("Destination: ")
+        print(destination)
+
 #Coordenadas articulares para el home
 T1 = np.radians(-51.92)
 T2 = np.radians(-71.84)
@@ -270,12 +299,12 @@ T4 = np.radians(-85.53)
 T5 = np.radians(90.02)
 T6 = np.radians(38.05)
 
-model = YOLO('best.pt')
+model = YOLO('V1.0/Models/best.pt')
 ur5_ip = "192.168.1.1" 
 ur5_port = 30002 
 ur5_move_command_1 = f"movej([{T1}, {T2}, {T3}, {T4}, {T5}, {T6}], a=1, v=1.05)\n"
 sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command_1)
-sleep(1)
+sleep(10)
 
 while True: 
 
@@ -312,7 +341,7 @@ while True:
     ytransf3 = mmTom(ytransf3)
     xtransf4 = mmTom(xtransf4)
     ytransf4 = mmTom(ytransf4)
-    ofzr = 0.01
+    ofzr = 0.03
 
     print("1.- Bisturí")
     print("2.- Pinzas")
@@ -321,23 +350,27 @@ while True:
     resp = int(input("Seleccione el instrumento deseado: "))
 
     if resp == 1:
-        ur5_move_command = f"movel(p[{xtransf1},{ytransf1},{ofzr},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
-        sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
+        currentPose, destination = defineOriginAndDestination(xtransf1, ytransf1, ofzr)
+        print(f"Current Pose: {currentPose}")
 
     if resp == 2:
-        ur5_move_command = f"movel(p[{xtransf2},{ytransf2},{ofzr},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
-        sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
-    
+        currentPose, destination = defineOriginAndDestination(xtransf2, ytransf2, ofzr)
+        print(f"Current Pose: {currentPose}")
+
     if resp == 3:
-        ur5_move_command = f"movel(p[{xtransf3},{ytransf3},{ofzr},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
-        sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
+        currentPose, destination = defineOriginAndDestination(xtransf3, ytransf3, ofzr)
     
     if resp == 4:
-        ur5_move_command = f"movel(p[{xtransf4},{ytransf4},{ofzr},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
-        sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
+        currentPose, destination = defineOriginAndDestination(xtransf4, ytransf4, ofzr)
 
     resp2 = int(input("Presione 1 para volver al home: "))
+
+    handleRobotPoseMoveRequest(destination, currentPose)
+
     if resp2 == 1:
         ur5_move_command_1 = "movel(p[.117,-.364,.375,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 1 para pruebas
+        destination = [0.12,-0.36,0.38]
+        currentPosexr, currentPoseyr, currentPosezr, _, _, _, _ = getPose()
+        currentPosefr = [currentPosexr, currentPoseyr, currentPosezr]
         sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command_1)
-    sleep(3)
+        handleRobotPoseMoveRequest(destination, currentPosefr)
