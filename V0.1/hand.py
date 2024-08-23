@@ -3,8 +3,8 @@ import struct
 import pyrealsense2 as rs
 import cv2
 import numpy as np
-from ultralytics import YOLO
 from time import sleep
+import mediapipe as mp
 
 #Función para obtener tanto coordenadas articulares como cartesianas del robot vía Socket
 def getPose():
@@ -138,10 +138,10 @@ def sendInstructionToUr5(ip, port, instruction):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         #Conectarse al robot
-        sock.connect((ip, port))
+        #sock.connect((ip, port))
         
         #Manda la instrucción al robot
-        sock.sendall(instruction.encode())
+        #sock.sendall(instruction.encode())
         
         print("Instrucción mandada al UR5: ", instruction)
         
@@ -169,19 +169,82 @@ def handleRobotPoseMoveRequest(destination, currentPose):
         print("Destination: ")
         print(destination)
 
+def cameracontrol():
+    # Initialize MediaPipe Hands
+    mp_hands = mp.solutions.hands
+    hands = mp_hands.Hands(static_image_mode=False, max_num_hands=1, min_detection_confidence=0.7)
+
+    # Initialize RealSense Camera
+    pipeline = rs.pipeline()
+    config = rs.config()
+    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+    pipeline.start(config)
+
+    try:
+        while True:
+            # Capture frames from RealSense
+            frames = pipeline.wait_for_frames()
+            color_frame = frames.get_color_frame()
+            if not color_frame:
+                continue
+            
+            # Convert images to numpy array
+            color_image = np.asanyarray(color_frame.get_data())
+            
+            # Convert the image to RGB
+            image_rgb = cv2.cvtColor(color_image, cv2.COLOR_BGR2RGB)
+            
+            # Process the image and detect hands
+            results = hands.process(image_rgb)
+            
+            if results.multi_hand_landmarks:
+                for hand_landmarks in results.multi_hand_landmarks:
+                    # Extract keypoint 9 (Middle Finger Tip)
+                    keypoint_9 = hand_landmarks.landmark[9]
+                    x, y = int(keypoint_9.x * color_image.shape[1]), int(keypoint_9.y * color_image.shape[0])
+                    
+                    # Draw keypoint 9 on the image
+                    cv2.circle(color_image, (x, y), 10, (0, 255, 0), cv2.FILLED)
+                    cv2.putText(color_image, "Keypoint 9", (x, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+            
+            # Display the output
+            cv2.imshow('RealSense', color_image)
+            
+            # Break the loop if 'q' is pressed
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+    finally:
+        # Release resources
+        pipeline.stop()
+        cv2.destroyAllWindows()
+
+T1 = np.radians(-56.42)
+T2 = np.radians(-110.61)
+T3 = np.radians(-85.44)
+T4 = np.radians(17.86)
+T5 = np.radians(90)
+T6 = np.radians(45)
+
+ur5_move_command_1 = f"movej([{T1}, {T2}, {T3}, {T4}, {T5}, {T6}], a=1, v=1.05)\n"
+
 URip = '192.168.1.1'
 URport = 30002
 xi = 0.117
 yi = -0.364
 zi = 0.375
 
+#sendInstructionToUr5(URip, URport, ur5_move_command_1)
+cameracontrol()
+"""
 for i in range(1,5,1):
     xi = xi + 0.02
     yi = yi - 0.02 
-    ur5_move_command_1 = f"movel(p[{xi},{yi},{zi},0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 1 para pruebas
+    #ur5_move_command_1 = f"movel(p[{xi},{yi},{zi},0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 1 para pruebas
     currentx, currenty, currentz, _, _, _, _ = getPose()
     currentPose = [currentx, currenty, currentz]
     destination = [xi, yi, zi]
     destination = np.around(destination, decimals=2)
     handleRobotPoseMoveRequest(destination, currentPose)
     sendInstructionToUr5(URip, URport, ur5_move_command_1)
+"""
