@@ -1,4 +1,4 @@
 #Ignorar venv de python
 venv/
-
-dataset
+dataset/
+ur_log/
