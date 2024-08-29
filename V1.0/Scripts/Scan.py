@@ -6,10 +6,6 @@ import rtde_receive
 control = rtde_control.RTDEControlInterface("192.168.1.1")
 receive = rtde_receive.RTDEReceiveInterface("192.168.1.1")
 
-# def freedrive(ur5_ip, ur5_port):
-#     while True:
-#         send_instruction_to_ur5(ur5_ip, ur5_port, 'freedrive_mode()\n')
-#         sleep(1)
 
 def saludar_continuo():
     ## Posicion 1A
@@ -83,16 +79,13 @@ Angles_list_0=[-51.9,-71.85,-112.7,-85.96,90,38]
 Angles_list_0=[np.radians(i) for i in Angles_list_0]
 
 #Ejemplo movimiento lineal
-ur5_move_command_1 = "movel(p[.117,-.364,.375,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n"
+#ur5_move_command_1 = "movel(p[.117,-.364,.375,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n"
 #Ejemplo movimiento por angulos
-ur5_move_command_7 = f"movej([{Angles_list_0[0]}, {Angles_list_0[1]}, {Angles_list_0[2]}, {Angles_list_0[3]}, {Angles_list_0[4]}, {Angles_list_0[5]}], a=1, v=1)\n"
+#ur5_move_command_7 = f"movej([{Angles_list_0[0]}, {Angles_list_0[1]}, {Angles_list_0[2]}, {Angles_list_0[3]}, {Angles_list_0[4]}, {Angles_list_0[5]}], a=1, v=1)\n"
 
 #Comunicacion en tiempo real
 control.moveJ([Angles_list_0[0], Angles_list_0[1], Angles_list_0[2], Angles_list_0[3], Angles_list_0[4], Angles_list_0[5]], 1, 1)
 #print(receive.getActualTCPPose())
-
 #Comando para activar el modo de control manual
 #ur5_move_command_10 = 'freedrive_mode()\n'
-
 saludar_continuo()
-#send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_7)
