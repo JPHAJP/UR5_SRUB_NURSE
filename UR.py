@@ -268,7 +268,11 @@ def defineOriginAndDestination(xtransfn, ytransfn, ofzn):
     destinationf = [xtransfn, ytransfn, ofzn]
     currentPosexf, currentPoseyf, currentPosezf, _, _, _, _ = getPose()
     currentPosef = [currentPosexf, currentPoseyf, currentPosezf]
-    ur5_move_command = f"movel(p[{xtransfn},{ytransfn},{ofzn},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
+    #Comando para mover el robot a la posición deseada
+    #CHAVA PENDEJO, CAMBIA ESTO
+    #ur5_move_command = f"movel(p[{xtransfn},{ytransfn},{ofzn},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
+    control.moveJ([Angles_list_0[0], Angles_list_0[1], Angles_list_0[2], Angles_list_0[3], Angles_list_0[4], Angles_list_0[5]], 1, 1)
+    
     sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
         
     #Normalizamos para poder hacer comparativas
