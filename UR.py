@@ -2,7 +2,6 @@ import pyrealsense2 as rs
 import cv2
 import numpy as np
 from ultralytics import YOLO
-from time import sleep
 import rtde_control
 import rtde_receive
 

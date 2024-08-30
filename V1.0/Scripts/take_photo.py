@@ -3,30 +3,14 @@ import cv2
 import pyrealsense2 as rs
 import numpy as np
 import socket
-import struct
 from time import sleep
 
-def send_instruction_to_ur5(ip, port, instruction):
-    try:
-        #Socket object
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
-        #Connect to robot
-        sock.connect((ip, port))
-        
-        #Send the instruction to the robot
-        sock.sendall(instruction.encode())
-        
-        #print("Instruction sent to UR5 robot:", instruction)
-        
-        #Close the socket
-        sock.close()
-        
-    except ConnectionRefusedError:
-        print("Connection refused")
-    
-    except TimeoutError:
-        print("Timeout, can't connect")
+import rtde_control
+import rtde_receive
+
+control = rtde_control.RTDEControlInterface("192.168.1.1")
+receive = rtde_receive.RTDEReceiveInterface("192.168.1.1")
+
 
 # configurar el pipeline
 pipeline = rs.pipeline()
@@ -57,7 +41,7 @@ Angles_list_2=[np.radians(i) for i in Angles_list_2]
 ur5_move_command_0 = f"movej([{Angles_list_0[0]}, {Angles_list_0[1]}, {Angles_list_0[2]}, {Angles_list_0[3]}, {Angles_list_0[4]}, {Angles_list_0[5]}], a=1, v=1)\n"
 ur5_move_command_1 = f"movej([{Angles_list_1[0]}, {Angles_list_1[1]}, {Angles_list_1[2]}, {Angles_list_1[3]}, {Angles_list_1[4]}, {Angles_list_1[5]}], a=1, v=1)\n"
 ur5_move_command_2 = f"movej([{Angles_list_2[0]}, {Angles_list_2[1]}, {Angles_list_2[2]}, {Angles_list_2[3]}, {Angles_list_2[4]}, {Angles_list_2[5]}], a=1, v=1)\n"
-send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_1)
+control.moveJ(Angles_list_1, 1, 1)
 
 # inicio de la captura de la pantalla
 profile = pipeline.start(config)
@@ -104,17 +88,17 @@ try:
             print(mov)
             if mov == 1:
                 print("Moviendo a la posición 1")
-                send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_1)
-                sleep(3)
+                control.moveJ(Angles_list_1, 1, 1)
+                
             elif mov == 2:
                 print("Moviendo a la posición 2")
-                send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_0)
-                sleep(3)
+                control.moveJ(Angles_list_2, 1, 1)
+                
             else:
                 print("Moviendo a la posición 0")
-                send_instruction_to_ur5(ur5_ip, ur5_port, ur5_move_command_2)
+                control.moveJ(Angles_list_0, 1, 1)
                 mov = 0
-                sleep(3)
+                
 finally:
     pipeline.stop()
     cv2.destroyAllWindows()
