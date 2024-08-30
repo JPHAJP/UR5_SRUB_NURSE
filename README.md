@@ -11,7 +11,7 @@ Librerias de trabajo:
 -ur_rtde
 
 -UR en docker
-[https://github.com/urrsk/ursim_docker/blob/main/README.md](https://hub.docker.com/r/universalrobots/ursim_e-series)
+https://hub.docker.com/r/universalrobots/ursim_e-series
 
 Libreria UR_rtde
 https://sdurobotics.gitlab.io/ur_rtde/index.html
