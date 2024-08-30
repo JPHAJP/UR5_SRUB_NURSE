@@ -1,63 +1,14 @@
-import socket
-import struct
 import pyrealsense2 as rs
 import cv2
 import numpy as np
 from ultralytics import YOLO
 from time import sleep
+import rtde_control
+import rtde_receive
 
-#Función para obtener tanto coordenadas articulares como cartesianas del robot vía Socket
-def getPose():
-    #Conexión con el UR5
-    HOST = '192.168.1.1'
-    PORT = 30002
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.connect((HOST, PORT))
-
-    cdr = 0
-    while cdr < 3:
-        #Recibir 4096 bytes de datos (suficiente para almacenar cualquier paquete)
-        data = s.recv(4096)
-        #Inicializar i para trackear la posición en el paquete
-        i = 0
-        if data:
-            #Información del paquete recibido
-            packlen = (struct.unpack('!i', data[0:4]))[0]
-            timestamp = (struct.unpack('!Q', data[10:18]))[0]
-            packtype = (struct.unpack('!b', data[4:5]))[0]
-
-            #Si el tipo de paquete es el estado del robot, loopear hasta alcanzar el final del paquete
-            if packtype == 16:
-                while i + 5 < packlen:
-                    #Tamaño y tipo de mensaje
-                    msglen = (struct.unpack('!i', data[5+i:9+i]))[0]
-                    msgtype = (struct.unpack('!b', data[9+i:10+i]))[0]
-
-                    if msgtype == 1:
-                        #Si el mensaje es coordenada articular, crear una lista para guardar los ángulos
-                        angle = [0] * 6
-                        j = 0
-                        while j < 6:
-                            #Bytes del 10 al 18 tienen ángulo j0, cada coordenada articular es de 41 bytes (saltamos j*41 cada vez)
-                            angle[j] = (struct.unpack('!d', data[10+i+(j*41):18+i+(j*41)]))[0]
-                            j += 1
-
-                    #Si el tipo de mensaje son coordenadas cartesianas, almacenamos las coordenadas actuales del TCP
-                    elif msgtype == 4:
-                        x = (struct.unpack('!d', data[10+i:18+i]))[0]
-                        y = (struct.unpack('!d', data[18+i:26+i]))[0]
-                        z = (struct.unpack('!d', data[26+i:34+i]))[0]
-                        rx = (struct.unpack('!d', data[34+i:42+i]))[0]
-                        ry = (struct.unpack('!d', data[42+i:50+i]))[0]
-                        rz = (struct.unpack('!d', data[50+i:58+i]))[0]
-
-                    #Incrementamos i por el tamaño del mensaje para movernos al siguiente mensaje en el paquete
-                    i += msglen
-        cdr = cdr + 1
-
-    return x, y, z, rx, ry, rz, angle[5]
+control = rtde_control.RTDEControlInterface("192.168.1.1")
+receive = rtde_receive.RTDEReceiveInterface("192.168.1.1")
+model = YOLO('V1.0/Models/best.pt')
 
 #Función para calcular las coordenadas cartesianas del origen del frame respecto a la base del robot
 def frameOriginCoordinates(xtool, ytool, H, V, wrist3):
@@ -131,17 +82,14 @@ def showAndGetPredictionsLive(model):
             V = distance * np.tan(83.96) 
             V = np.abs(V)
 
-            H = mTomm(H)
-            V = mTomm(V)
+            H = H*1000
+            V = V*1000
 
             resized_frame = cv2.resize(color_image, (640, 480))
             
             #Se aplica el modelo de detección
             results = model(resized_frame, conf=0.7, classes=[0, 1, 2, 3])
             annotated_frame = results[0].plot()
-
-            #print("Results: ")
-            #print(results)
 
             for coordinates in results:  #Se itera sobre todas las detecciones
                 for bbox, cls in zip(coordinates.obb.xyxy, coordinates.obb.cls):  #Se itera sobre todas las cajas y sus clases
@@ -231,91 +179,37 @@ def transformCoordinates(x1, y1, ofx, ofy, theta):
     
     return coordTransf[0][0], coordTransf[1][0]
 
-#Función para pedirle al UR5 hacer un movimiento lineal 
-def sendInstructionToUr5(ip, port, instruction):
-    try:
-        #Objeto socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
-        #Conectarse al robot
-        sock.connect((ip, port))
-        
-        #Manda la instrucción al robot
-        sock.sendall(instruction.encode())
-        
-        print("Instrucción mandada al UR5: ", instruction)
-        
-        #Cierra la conexión
-        sock.close()
-        
-    except ConnectionRefusedError:
-        print("Conexión rechazada")
-    
-    except TimeoutError:
-        print("Tiempo agotado, no se puede conectar")
-
-#Función para convertir metros a milímetros
-def mTomm(toconvert):
-    return toconvert * 1000
-
-#Función para convertir de milímetros a metros
-def mmTom(toconvert):
-    return toconvert / 1000
-
 #Función para definir el origen y el destino de una trayectoria
 def defineOriginAndDestination(xtransfn, ytransfn, ofzn):
-
     destinationf = [xtransfn, ytransfn, ofzn]
-    currentPosexf, currentPoseyf, currentPosezf, _, _, _, _ = getPose()
+    currentPosexf, currentPoseyf, currentPosezf, _, _, _ = receive.getActualTCPPose()
     currentPosef = [currentPosexf, currentPoseyf, currentPosezf]
     #Comando para mover el robot a la posición deseada
-    #CHAVA PENDEJO, CAMBIA ESTO
-    #ur5_move_command = f"movel(p[{xtransfn},{ytransfn},{ofzn},{rxr},{ryr},{rzr}], a = 1.2, v = 0.25, t = 0, r = 0)\n"
-    control.moveJ([Angles_list_0[0], Angles_list_0[1], Angles_list_0[2], Angles_list_0[3], Angles_list_0[4], Angles_list_0[5]], 1, 1)
-    
-    sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command)
-        
+    control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], 1, 1)
     #Normalizamos para poder hacer comparativas
-    destinationf = np.around(destinationf, decimals=2)    
+    destinationf = np.around(destinationf, decimals=2)
 
-    return currentPosef, destinationf
+#Función para mover el robot a la posición "Home"
+def gohome():
+    # Coordenadas articulares para el home
+    home_joint_angles_deg = [-51.9, -71.85, -112.7, -85.96, 90, 38]
+    # Convertir la lista de ángulos a radianes
+    home_joint_angles_rad = np.radians(home_joint_angles_deg)
+    # Mover el robot a la posición "Home" usando control.moveJ
+    # Velocidad = 1 rad/s, Aceleración = 1 rad/s^2
+    control.moveJ(home_joint_angles_rad, 1, 1)
 
-#Función para manejar las solicitudes de cambio de pose para el robot
-def handleRobotPoseMoveRequest(destination, currentPose):
-
-    while destination[0] != currentPose[0] and destination[1] != currentPose[1] and destination[2] != currentPose[2]:
-        currentPosex, currentPosey, currentPosez, _, _, _, _ = getPose()
-        currentPosex = np.around(currentPosex, decimals=2)
-        currentPosey = np.around(currentPosey, decimals=2)
-        currentPosez = np.around(currentPosez, decimals=2)
-        currentPose = [currentPosex, currentPosey, currentPosez]
-
-        print("Current pose: ")
-        print(currentPose)
-        print("Destination: ")
-        print(destination)
-
-#Coordenadas articulares para el home
-T1 = np.radians(-51.92)
-T2 = np.radians(-71.84)
-T3 = np.radians(-112.63)
-T4 = np.radians(-85.53)
-T5 = np.radians(90.02)
-T6 = np.radians(38.05)
-
-model = YOLO('V1.0/Models/best.pt')
-ur5_ip = "192.168.1.1" 
-ur5_port = 30002 
-ur5_move_command_1 = f"movej([{T1}, {T2}, {T3}, {T4}, {T5}, {T6}], a=1, v=1.05)\n"
-sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command_1)
-sleep(10)
+gohome()
 
 while True: 
-
     #Parámetros para obtener las coordenadas cartesianas del origen del frame
-    xr, yr, zr, rxr, ryr, rzr, wrist3r = getPose()
-    xr = mTomm(xr)
-    yr = mTomm(yr)
+    xr, yr, zr, rxr, ryr, rzr = receive.getActualTCPPose()
+    # Obtén las posiciones actuales de las articulaciones (en radianes)
+    joint_positions = receive.getActualQ()
+    # El ángulo del joint 5 es el quinto elemento de la lista
+    wrist3r = joint_positions[5]
+    xr = xr*1000
+    yr = yr*1000
     Hr, Vr, bluexr, blueyr, greenxr, greenyr, redxr, redyr, yellowxr, yellowyr = showAndGetPredictionsLive(model)
     angle = np.rad2deg(wrist3r)
     ofxr, ofyr, thetar = frameOriginCoordinates(xr, yr, Hr, Vr, angle)
@@ -335,17 +229,17 @@ while True:
     xtransf4, ytransf4 = transformCoordinates(xfinal4, yfinal4, ofxr, ofyr, thetar)
 
     #Conversión de milímetros a metros
-    ofxr = mmTom(ofxr)
-    ofyr = mmTom(ofyr)
-    xtransf1 = mmTom(xtransf1)
-    ytransf1 = mmTom(ytransf1)
-    xtransf2 = mmTom(xtransf2)
-    ytransf2 = mmTom(ytransf2)
-    xtransf3 = mmTom(xtransf3)
-    ytransf3 = mmTom(ytransf3)
-    xtransf4 = mmTom(xtransf4)
-    ytransf4 = mmTom(ytransf4)
-    ofzr = 0.03
+    ofxr = ofxr/1000
+    ofyr = ofyr/1000
+    xtransf1 = xtransf1/1000
+    ytransf1 = ytransf1/1000
+    xtransf2 = xtransf2/1000
+    ytransf2 = ytransf2/1000
+    xtransf3 = xtransf3/1000
+    ytransf3 = ytransf3/1000
+    xtransf4 = xtransf4/1000
+    ytransf4 = ytransf4/1000
+    ofzr = 0.02
 
     print("1.- Bisturí")
     print("2.- Pinzas")
@@ -354,27 +248,18 @@ while True:
     resp = int(input("Seleccione el instrumento deseado: "))
 
     if resp == 1:
-        currentPose, destination = defineOriginAndDestination(xtransf1, ytransf1, ofzr)
-        print(f"Current Pose: {currentPose}")
-
+        defineOriginAndDestination(xtransf1, ytransf1, ofzr)
+    
     if resp == 2:
-        currentPose, destination = defineOriginAndDestination(xtransf2, ytransf2, ofzr)
-        print(f"Current Pose: {currentPose}")
+        defineOriginAndDestination(xtransf2, ytransf2, ofzr)
 
     if resp == 3:
-        currentPose, destination = defineOriginAndDestination(xtransf3, ytransf3, ofzr)
+        defineOriginAndDestination(xtransf3, ytransf3, ofzr)
     
     if resp == 4:
-        currentPose, destination = defineOriginAndDestination(xtransf4, ytransf4, ofzr)
+        defineOriginAndDestination(xtransf4, ytransf4, ofzr)
 
     resp2 = int(input("Presione 1 para volver al home: "))
 
-    handleRobotPoseMoveRequest(destination, currentPose)
-
     if resp2 == 1:
-        ur5_move_command_1 = "movel(p[.117,-.364,.375,0,3.142,0], a = 1.2, v = 0.25, t = 0, r = 0)\n" #Origen 1 para pruebas
-        destination = [0.12,-0.36,0.38]
-        currentPosexr, currentPoseyr, currentPosezr, _, _, _, _ = getPose()
-        currentPosefr = [currentPosexr, currentPoseyr, currentPosezr]
-        sendInstructionToUr5(ur5_ip, ur5_port, ur5_move_command_1)
-        handleRobotPoseMoveRequest(destination, currentPosefr)
+        gohome()
