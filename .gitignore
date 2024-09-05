@@ -2,3 +2,6 @@
 venv/
 dataset/
 ur_log/
+/Train/train/
+/Train/valid/
+/Train/test/

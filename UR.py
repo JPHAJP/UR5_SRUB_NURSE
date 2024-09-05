@@ -1,10 +1,14 @@
 import pyrealsense2 as rs
 import cv2
+
 import numpy as np
+
 from ultralytics import YOLO
+
 import rtde_control
 import rtde_receive
 import rtde_io
+
 import threading
 import time
 
@@ -225,8 +229,9 @@ def monitor_io_and_interrupt():
 
         if sensor_state:  # Si el sensor se activa
             print("Sensor activado, deteniendo el robot.")
-            control.stopJ()  # Detener el movimiento del robot si se está moviendo por juntas
-            gohome()
+            control.stopL(1.0)  # Detener el movimiento del robot si se está moviendo por trayectorias
+            control.stopJ(1.0)  # Detener el movimiento del robot si se está moviendo por articulaciones
+            #gohome()
 
         time.sleep(0.01)  # Esperar un poco antes de verificar de nuevo
 
