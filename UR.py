@@ -208,7 +208,7 @@ def defineOriginAndDestination(xtransfn, ytransfn, ofzn):
     destinationf = [xtransfn, ytransfn, ofzn]
     #currentPosexf, currentPoseyf, currentPosezf, _, _, _ = receive.getActualTCPPose()
     # Comando para mover el robot a la posición deseada
-    control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], .5, .5)
+    control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], .5, .5, asynchronous=True)
     # Normalizamos para poder hacer comparativas
     destinationf = np.around(destinationf, decimals=2)
 
@@ -220,7 +220,7 @@ def gohome():
     home_joint_angles_rad = np.radians(home_joint_angles_deg)
     # Mover el robot a la posición "Home" usando control.moveJ
     # Velocidad = 1 rad/s, Aceleración = 1 rad/s^2
-    control.moveJ(home_joint_angles_rad, 1, 1)
+    control.moveJ(home_joint_angles_rad, 1, 1, asynchronous=True)
 
 # Función para monitorear el estado del sensor en un hilo separado
 def monitor_io_and_interrupt():
@@ -231,7 +231,7 @@ def monitor_io_and_interrupt():
             print("Sensor activado, deteniendo el robot.")
             control.stopL(1.0)  # Detener el movimiento del robot si se está moviendo por trayectorias
             control.stopJ(1.0)  # Detener el movimiento del robot si se está moviendo por articulaciones
-            #gohome()
+            gohome()
 
         time.sleep(0.01)  # Esperar un poco antes de verificar de nuevo
 
@@ -247,6 +247,7 @@ sensor_thread.start()
 print("Iniciando el programa principal...")
 try:
     while True: 
+        Hr, Vr, bluexr, blueyr, greenxr, greenyr, redxr, redyr, yellowxr, yellowyr, pinkxr, pinkyr = showAndGetPredictionsLive(model)
         # Parámetros para obtener las coordenadas cartesianas del origen del frame
         xr, yr, zr, rxr, ryr, rzr = receive.getActualTCPPose()
         # Obtén las posiciones actuales de las articulaciones (en radianes)
@@ -256,7 +257,6 @@ try:
         xr = xr*1000
         yr = yr*1000
         print(f'Posición actual del robot:{receive.getActualTCPPose()}')
-        Hr, Vr, bluexr, blueyr, greenxr, greenyr, redxr, redyr, yellowxr, yellowyr, pinkxr, pinkyr = showAndGetPredictionsLive(model)
         angle = np.rad2deg(wrist3r)
         ofxr, ofyr, thetar = frameOriginCoordinates(xr, yr, Hr, Vr, angle)
 

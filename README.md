@@ -15,3 +15,12 @@ https://hub.docker.com/r/universalrobots/ursim_e-series
 
 Libreria UR_rtde
 https://sdurobotics.gitlab.io/ur_rtde/index.html
+
+
+bool teachMode()
+Set robot in freedrive mode.
+
+In this mode the robot can be moved around by hand in the same way as by pressing the “freedrive” button. The robot will not be able to follow a trajectory (eg. a movej) in this mode.
+
+bool endTeachMode()
+Set robot back in normal position control mode after freedrive mode.
