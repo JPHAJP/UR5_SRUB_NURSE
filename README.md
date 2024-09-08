@@ -9,12 +9,24 @@ Librerias de trabajo:
 -numpy
 -cv2
 -ur_rtde
+-ollama
+-whisper
+-gradio
+-gtts
 
 -UR en docker
 https://hub.docker.com/r/universalrobots/ursim_e-series
 
-Libreria UR_rtde
+-Libreria UR_rtde
 https://sdurobotics.gitlab.io/ur_rtde/index.html
+
+-Whisper
+https://github.com/openai/whisper
+
+-llama3.1 8B
+https://ollama.com/download
+    ollama pull llama3.1:latest
+
 
 
 bool teachMode()
