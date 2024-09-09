@@ -14,6 +14,7 @@ def speech_to_text(audio):
         _, probs = model.detect_language(mel)
         print(f"Detected language: {max(probs, key=probs.get)}")
         result = whisper.decode(model, mel)
+        print(result.text)  # Acceder al texto de la transcripción
         return result.text  # Acceder al texto de la transcripción
     except Exception as e:
         print(f"Error en la transcripción del audio: {e}")
@@ -56,6 +57,7 @@ def detect_command_llama(text):
         command_response = ""
         for chunk in stream:
             command_response += chunk['message']['content']
+        print(command_response)
         return command_response
     except Exception as e:
         print(f"Error en la generación del comando: {e}")
@@ -104,4 +106,4 @@ demo = gr.Interface(
 )
 
 if __name__ == "__main__":
-    demo.launch(share=True)
+    demo.launch(share=False)
