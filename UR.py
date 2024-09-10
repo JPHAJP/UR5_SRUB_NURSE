@@ -16,7 +16,7 @@ control = rtde_control.RTDEControlInterface("192.168.1.1")
 receive = rtde_receive.RTDEReceiveInterface("192.168.1.1")
 io = rtde_io.RTDEIOInterface("192.168.1.1")
 
-model = YOLO('V1.0/Models/V4_best.pt')
+model = YOLO('V1.0/Models/V5_best.pt')
 
 # Función para calcular las coordenadas cartesianas del origen del frame respecto a la base del robot
 def frameOriginCoordinates(xtool, ytool, H, V, wrist3):
