@@ -102,7 +102,7 @@ def showAndGetPredictionsLive(model):
             resized_frame = cv2.resize(color_image, (640, 480))
             
             # Se aplica el modelo de detección
-            results = model(resized_frame, conf=0.7, classes=[0, 1, 2, 3])
+            results = model(resized_frame, conf=0.6, classes=[0, 1, 2, 3, 4, 5])
             annotated_frame = results[0].plot()
 
             for coordinates in results:  # Se itera sobre todas las detecciones
