@@ -1,6 +1,10 @@
+import numpy as np
+import time
+import threading
+
 import pyrealsense2 as rs
 import cv2
-import numpy as np
+
 from ultralytics import YOLO
 
 import rtde_control
@@ -21,6 +25,9 @@ ip = "192.168.1.1"
 control = rtde_control.RTDEControlInterface(ip)
 receive = rtde_receive.RTDEReceiveInterface(ip)
 io = rtde_io.RTDEIOInterface(ip)
+
+# Offset en el eje z para la posición del robot
+ofzr = 0.02
 
 def initialize_pipeline():
     # Inicializa el pipeline de la cámara RealSense.
@@ -200,6 +207,37 @@ def frameOriginCoordinates(xtool, ytool, H_cam, V_cam, wrist3):
 
     return ofx, ofy, angulo_tangencia
 
+def move_robot(xtransfn, ytransfn, ofzn):
+    xr, yr, zr, rxr, ryr, rzr = receive.getActualTCPPose()
+    #destinationf = [xtransfn, ytransfn, ofzn]
+    control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], .5, .5, asynchronous=True)
+    # Normalizamos para poder hacer comparativas
+    #destinationf = np.around(destinationf, decimals=2)
+
+def gohome():
+    # Función para mover el robot a la posición "Home"
+    # Coordenadas articulares para el home
+    home_joint_angles_deg = [-51.9, -71.85, -112.7, -85.96, 90, 38]
+    # Convertir la lista de ángulos a radianes
+    home_joint_angles_rad = np.radians(home_joint_angles_deg)
+    # Mover el robot a la posición "Home" usando control.moveJ
+    # Velocidad = 1 rad/s, Aceleración = 1 rad/s^2
+    control.moveJ(home_joint_angles_rad, 1, 1, asynchronous=True)
+
+def monitor_io_and_interrupt():
+    # Función para monitorear el estado del sensor digital y detener el robot si se activa
+    while True:
+        sensor_state = receive.getDigitalInState(0)  # Leer el estado del pin 0
+
+        if sensor_state:  # Si el sensor se activa
+            print("Sensor activado, deteniendo el robot.")
+            control.stopL(1.0)  # Detener el movimiento del robot si se está moviendo por trayectorias
+            control.stopJ(1.0)  # Detener el movimiento del robot si se está moviendo por articulaciones
+            gohome()
+            time.sleep(5)  # Esperar un poco antes de verificar de nuevo
+            io.setStandardDigitalOut(0, False)  # Apagar el electroimán
+        time.sleep(0.1)  # Esperar un poco antes de verificar de nuevo
+
 def mostrar_menu(object_points):
     # Extraer las clases únicas detectadas en el object_points
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
@@ -229,30 +267,29 @@ def mostrar_menu(object_points):
     # Encender electroimán
     io.setStandardDigitalOut(0, True)
 
-    # Lógica para manejar la selección
+    # Obtener la clase seleccionada
     clase_seleccionada = opciones_menu[resp]
-    if clase_seleccionada == 'Bisturi':
-        pass
-        #defineOriginAndDestination(xtransf1, ytransf1, ofzr)
-    elif clase_seleccionada == 'Pinzas':
-        pass
-        #defineOriginAndDestination(xtransf2, ytransf2, ofzr)
-    elif clase_seleccionada == 'Tijeras_curvas':
-        pass
-        #defineOriginAndDestination(xtransf3, ytransf3, ofzr)
-    elif clase_seleccionada == 'Tijeras_rectas':
-        pass
-        #defineOriginAndDestination(xtransf4, ytransf4, ofzr)
-    elif clase_seleccionada == 'Mano':
-        pass
-        #defineOriginAndDestination(xtransf5, ytransf5, ofzr)
+
+    # Filtrar los puntos de la clase seleccionada
+    puntos_clase = [(x, y, clase, score) for (x, y, clase, score) in object_points if clase == clase_seleccionada]
+
+    # Asegurarse de que hay puntos para la clase seleccionada
+    if puntos_clase:
+        # Selecciona el primer punto de la clase seleccionada
+        xtransf, ytransf = puntos_clase[0][0], puntos_clase[0][1]
+
+        print(f"Coordenadas del punto seleccionado: ({xtransf}, {ytransf})")
+        # Mover el robot a las coordenadas transformadas
+        move_robot(xtransf, ytransf, ofzr)
+    else:
+        print(f"No se encontraron puntos para la clase {clase_seleccionada}")
 
     # Opción para volver al home
     while True:
         try:
             resp2 = int(input("Presione 1 para volver al home: "))
             if resp2 == 1:
-                #gohome()
+                gohome()
                 break
             else:
                 print("Opción no válida. Solo presione 1 para volver al home.")
@@ -260,9 +297,14 @@ def mostrar_menu(object_points):
             print("Entrada no válida. Por favor, ingrese un número.")
 
 def main():
+    gohome()
     # Inicializar la cámara y el modelo YOLO
     pipeline = initialize_pipeline()
     model = YOLO(r'V1.0/Models/V5_best.pt')
+
+    # Iniciar un hilo para monitorear el estado del sensor digital y detener el robot si se activa
+    monitor_thread = threading.Thread(target=monitor_io_and_interrupt)
+    monitor_thread.start()
 
     try:
         while True:
@@ -303,6 +345,9 @@ def main():
         io.setStandardDigitalOut(0, False)
         pipeline.stop()
         cv2.destroyAllWindows()
+        # Terminar el hilo de monitoreo
+        monitor_thread.join()
+
 
 # Ejecutar el programa principal
 if __name__ == "__main__":

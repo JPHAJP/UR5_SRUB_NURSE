@@ -232,7 +232,11 @@ def monitor_io_and_interrupt():
             control.stopJ(1.0)  # Detener el movimiento del robot si se está moviendo por articulaciones
             gohome()
 
-        time.sleep(0.01)  # Esperar un poco antes de verificar de nuevo
+            time.sleep(1)  # Esperar un poco antes de verificar de nuevo
+            io.setStandardDigitalOut(0, False)  # Apagar el electroimán
+
+
+        time.sleep(0.1)  # Esperar un poco antes de verificar de nuevo
 
 
 #--------------------Inicio del programa--------------------#
