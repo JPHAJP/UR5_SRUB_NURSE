@@ -17,7 +17,7 @@ io = rtde_io.RTDEIOInterface("192.168.1.1")
 
 model = YOLO('V1.0/Models/V5_best.pt')
 
-# Función para calcular las coordenadas cartesianas del origen del frame respecto a la base del robot
+#------------- Función para calcular las coordenadas cartesianas del origen del frame respecto a la base del robot
 def frameOriginCoordinates(xtool, ytool, H, V, wrist3):
     radio = 39.18
     longitud_tangente = 11.5
@@ -78,18 +78,18 @@ def showAndGetPredictionsLive(model):
             depth_frame = frames.get_depth_frame()
             color_frame = frames.get_color_frame()
             
-
             if not color_frame:
                 continue
 
-            depth_image = np.asanyarray(depth_frame.get_data())
+            #depth_image = np.asanyarray(depth_frame.get_data())
             color_image = np.asanyarray(color_frame.get_data())
 
             height, width, _ = color_image.shape
             center_x, center_y = int(width / 2), int((height / 2))
-            cv2.circle(color_image, (center_x, center_y), 5, (0, 0, 255), -1)
+            #cv2.circle(color_image, (center_x, center_y), 5, (0, 0, 255), -1)
 
             distance = depth_frame.get_distance(center_x, center_y)
+            #print(f'Distancia al objeto: {distance} m')
 
             H = distance * np.tan(23) 
             V = distance * np.tan(83.96) 
@@ -161,11 +161,11 @@ def showAndGetPredictionsLive(model):
 
     return H, V, bbox_center_bluex, bbox_center_bluey, bbox_center_greenx, bbox_center_greeny, bbox_center_redx, bbox_center_redy, bbox_center_yellowx, bbox_center_yellowy, bbox_center_pinkx, bbox_center_pinky
 
-# Función para encontrar la densidad de pixeles por metro
+#-------------- Función para encontrar la densidad de pixeles por metro
 def mapValue(value, from_low, from_high, to_low, to_high):
     return (value - from_low) * (to_high - to_low) / (from_high - from_low) + to_low
 
-# Función para transformar coordenadas locales de la fotografía en coordenadas globales (respecto la base del robot)
+#----------------- Función para transformar coordenadas locales de la fotografía en coordenadas globales (respecto la base del robot)
 def transformCoordinates(x1, y1, ofx, ofy, theta):
     r = np.array([
                     [0, -1, 0],
@@ -256,7 +256,11 @@ try:
         xr = xr*1000
         yr = yr*1000
         print(f'Posición actual del robot:{receive.getActualTCPPose()}')
+        
+        
         angle = np.rad2deg(wrist3r)
+        
+        
         ofxr, ofyr, thetar = frameOriginCoordinates(xr, yr, Hr, Vr, angle)
 
         # Transformación de coordenadas locales del frame a coordenadas globales (base del robot)
