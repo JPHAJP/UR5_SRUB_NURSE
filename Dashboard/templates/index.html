@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interfaz Gráfica</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
         <div class="header">Encabezado (Imagen o video)</div>
 
-        <div class="left-top">
-            <div style="margin-bottom: 10px;">Campo de texto 1</div>
-            <div>Campo de texto 2</div>
-        </div>
-
-        <div class="right-top">
-            <div>
-                <div>Campo 1</div>
-                <div>Campo 2</div>
+        <div class="row">
+            <div class="column left-top">
+                <div style="margin-bottom: 10px;">Campo de texto 1</div>
+                <div style="margin-bottom: 10px;">Campo de texto 2</div>
+                <div style="margin-bottom: 10px;">Campo de texto 3</div>
+                <div style="margin-bottom: 10px;">Campo de texto 4</div>
+                <div style="margin-bottom: 10px;">Campo de texto 5</div>
+                <div>Campo de texto 6</div>
             </div>
-            <div>
-                <div>Campo 3</div>
-                <div>Campo 4</div>
+
+            <div class="column right-top">
+                <div style="margin-bottom: 10px;">Campo 1</div>
+                <div style="margin-bottom: 10px;">Campo 2</div>
+                <div style="margin-bottom: 10px;">Campo 3</div>
+                <div style="margin-bottom: 10px;">Campo 4</div>
+                <div style="margin-bottom: 10px;">Campo 5</div>
+                <div>Campo 6</div>
             </div>
         </div>
 
@@ -30,11 +35,15 @@
             <button class="button">Botón 1</button>
             <button class="button">Botón 2</button>
             <button class="button">Botón 3</button>
+            <button class="button">Botón 4</button>
+            <button class="button">Botón 5</button>
         </div>
 
-        <div class="right-bottom">
-            <div style="margin-bottom: 10px;">Campo de texto inferior 1</div>
-            <div>Campo de texto inferior 2</div>
+        <div class="row">
+            <div class="column right-bottom">
+                <div style="margin-bottom: 10px;">Campo de texto inferior 1</div>
+                <div>Campo de texto inferior 2</div>
+            </div>
         </div>
 
         <div class="footer">

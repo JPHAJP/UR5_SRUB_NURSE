@@ -1,63 +1,101 @@
-body {
-    font-family: Arial, sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
 }
+
 .container {
-    width: 80%;
-    margin: auto;
-    display: grid;
-    grid-template-areas: 
-        "header header"
-        "left-top right-top"
-        "left-bottom right-bottom"
-        "footer footer";
-    grid-gap: 10px;
-}
-.header {
-    grid-area: header;
-    background-color: lightgray;
-    height: 200px;
-}
-.left-top, .right-top, .left-bottom, .right-bottom {
-    background-color: white;
+    width: 90%;
+    max-width: 1200px;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-.left-top {
-    grid-area: left-top;
+
+.header {
+    background-color: #ddd;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
-.right-top {
-    grid-area: right-top;
+
+.left-top, .right-top, .left-bottom, .right-bottom {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.left-top, .right-top, .left-bottom, .right-bottom, .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-top, .right-top {
+    margin-bottom: 20px;
+}
+
+.left-top, .right-top {
+    width: 48%;
+}
+
+.left-bottom {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.left-bottom {
     display: flex;
     justify-content: space-between;
 }
-.left-bottom {
-    grid-area: left-bottom;
-    display: flex;
-    justify-content: space-around;
-}
-.right-bottom {
-    grid-area: right-bottom;
-}
+
 .footer {
-    grid-area: footer;
-    background-color: lightgray;
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+    background-color: #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
 }
-.button {
-    width: 100px;
-    height: 40px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+.footer .button {
+    margin: 0 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    width: 48%;
 }
