@@ -181,11 +181,11 @@ while True:
     xtransf = xtransf/1000
     ytransf = ytransf/1000
 
-    #print(f'mano x pixeles: {handx:.2f}')
-    #print(f'mano y pixeles: {handy:.2f}')
+    print(f'mano x pixeles: {handx:.2f}')
+    print(f'mano y pixeles: {handy:.2f}')
 
-    #print(f'x final: {xfinal:.2f}')
-    #print(f'y final: {yfinal:.2f}')    
+    print(f'x final: {xfinal:.2f}')
+    print(f'y final: {yfinal:.2f}')    
 
     print(f'xtransf: {xtransf:.2f}')
     print(f'ytransf: {ytransf:.2f}')

@@ -27,7 +27,7 @@ receive = rtde_receive.RTDEReceiveInterface(ip)
 io = rtde_io.RTDEIOInterface(ip)
 
 # Offset en el eje z para la posición del robot
-ofzr = 0.02
+ofzr = 0.01
 
 def initialize_pipeline():
     # Inicializa el pipeline de la cámara RealSense.
@@ -238,6 +238,44 @@ def monitor_io_and_interrupt():
             io.setStandardDigitalOut(0, False)  # Apagar el electroimán
         time.sleep(0.1)  # Esperar un poco antes de verificar de nuevo
 
+# def check_and_recover_protective_stop():
+#     # Checar si el robot está en "protective stop"
+#     if receive.getSafetyMode() == 2:  # Safety mode 2 es "protective stop"
+#         print("El robot está en protective stop, intentando recuperación...")
+#         control.recoverFromProtectiveStop()
+#         time.sleep(5)
+#         gohome()
+
+# def check_rtde_connection():
+#     global control  # Asegúrate de declarar la variable global antes de usarla
+#     if not control.isConnected():
+#         print("Reconectando RTDEControlInterface...")
+#         control = rtde_control.RTDEControlInterface(ip)
+#         time.sleep(1)  # Esperar para asegurar la conexión
+
+
+# def restart_rtde_script():
+#     global control, receive, io
+#     try:
+#         control.disconnect()  # Desconectar la interfaz actual
+#         receive.disconnect()
+#         io.disconnect()
+#     except:
+#         pass
+
+#     control = rtde_control.RTDEControlInterface(ip)
+#     receive = rtde_receive.RTDEReceiveInterface(ip)
+#     io = rtde_io.RTDEIOInterface(ip)
+#     print("RTDE control script reiniciado.")
+
+def safe_move_to_home():
+    #check_and_recover_protective_stop()
+    if control.isConnected():  # Verifica que RTDE esté conectado
+        gohome()  # Mover el robot a "home"
+    else:
+        pass
+        #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
+
 def mostrar_menu(object_points):
     # Extraer las clases únicas detectadas en el object_points
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
@@ -297,7 +335,7 @@ def mostrar_menu(object_points):
             print("Entrada no válida. Por favor, ingrese un número.")
 
 def main():
-    gohome()
+    #safe_move_to_home()
     # Inicializar la cámara y el modelo YOLO
     pipeline = initialize_pipeline()
     model = YOLO(r'V1.0/Models/V5_best.pt')
@@ -305,40 +343,42 @@ def main():
     # Iniciar un hilo para monitorear el estado del sensor digital y detener el robot si se activa
     monitor_thread = threading.Thread(target=monitor_io_and_interrupt)
     monitor_thread.start()
-
     try:
         while True:
-            # Obtener el frame de la cámara
-            color_image, distance = get_color_frame_and_distance(pipeline)
-            if color_image is None:
-                continue
+            while True:
+                #check_rtde_connection()  # Verificar RTDE en cada iteración
+                #check_and_recover_protective_stop()
+                # Obtener el frame de la cámara
+                color_image, distance = get_color_frame_and_distance(pipeline)
+                if color_image is None:
+                    continue
 
-            # Convertir la imagen a escala de grises
-            gray_image_3_channels = convert_to_grayscale(color_image)
+                # Convertir la imagen a escala de grises
+                gray_image_3_channels = convert_to_grayscale(color_image)
 
-            # Ejecutar YOLO en la imagen en escala de grises con un umbral de confianza de 0.6
-            annotated_image, results = run_yolo(model, gray_image_3_channels, conf_threshold=0.6)
+                # Ejecutar YOLO en la imagen en escala de grises con un umbral de confianza de 0.6
+                annotated_image, results = run_yolo(model, gray_image_3_channels, conf_threshold=0.6)
 
-            # Calcular los puntos de los objetos detectados y guardarlos en una lista
-            object_points = calculate_object_points(results)
+                # Calcular los puntos de los objetos detectados y guardarlos en una lista
+                object_points = calculate_object_points(results)
 
-            # Dibujar puntos en los centros de los objetos detectados
-            annotated_image_with_points = draw_center_points(annotated_image, object_points)
+                # Dibujar puntos en los centros de los objetos detectados
+                annotated_image_with_points = draw_center_points(annotated_image, object_points)
 
-            # Calcular posición de robot y objeto respecto a la cámara
-            transformed_object_points = robot_and_camara(distance, object_points)
+                # Calcular posición de robot y objeto respecto a la cámara
+                transformed_object_points = robot_and_camara(distance, object_points)
 
-            # Mostrar la imagen con detecciones y puntos
-            display_image('RealSense', annotated_image_with_points)
+                # Mostrar la imagen con detecciones y puntos
+                display_image('RealSense', annotated_image_with_points)
 
-            # Presionar 'q' para salir
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+                # Presionar 'q' para salir
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
 
-            # Imprimir las coordenadas de los puntos junto con el nombre de la clase
-            print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
-        
-        mostrar_menu(transformed_object_points)
+                # Imprimir las coordenadas de los puntos junto con el nombre de la clase
+                print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
+            
+            mostrar_menu(transformed_object_points)
 
     finally:
         # Detener el pipeline y cerrar las ventanas
