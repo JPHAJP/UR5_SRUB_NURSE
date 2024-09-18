@@ -187,6 +187,5 @@ while True:
     print(f'x final: {xfinal:.2f}')
     print(f'y final: {yfinal:.2f}')    
 
-    print(f'xtransf: {xtransf:.2f}')
-    print(f'ytransf: {ytransf:.2f}')
-
+    print(f'xtransf: {xtransf}')
+    print(f'ytransf: {ytransf}')

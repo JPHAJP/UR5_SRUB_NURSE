@@ -27,7 +27,7 @@ receive = rtde_receive.RTDEReceiveInterface(ip)
 io = rtde_io.RTDEIOInterface(ip)
 
 # Offset en el eje z para la posición del robot
-ofzr = 0.01
+ofzr = .55
 
 def initialize_pipeline():
     # Inicializa el pipeline de la cámara RealSense.
@@ -43,17 +43,19 @@ def get_color_frame_and_distance(pipeline):
     frames = pipeline.wait_for_frames()
     depth_frame = frames.get_depth_frame()
     color_frame = frames.get_color_frame()
-    
+
     if not color_frame or not depth_frame:
         print("Error: No se pudo obtener el frame.")
         return None
-    
+
     color_image = np.asanyarray(color_frame.get_data())
 
     height, width, _ = color_image.shape
     center_x, center_y = int(width / 2), int((height / 2))
     distance = depth_frame.get_distance(center_x, center_y)
-
+    print(f'Distance: {distance}')
+    #Hardcoded distance for testing = ofzr
+    distance = ofzr
     return color_image, distance
 
 def convert_to_grayscale(color_image):
@@ -109,7 +111,7 @@ def robot_and_camara(distance, object_points):
     angle_3 = np.rad2deg(joint_positions[5])
 
     # Cálculo de H_cam y V_cam
-    H_cam = distance * np.tan(23) 
+    H_cam = distance * np.tan(23)
     V_cam = np.abs(distance * np.tan(83.96))
 
     # Obtener el origen del frame de la cámara
@@ -121,10 +123,10 @@ def robot_and_camara(distance, object_points):
 
         # Calcular la posición del objeto respecto a la cámara
         x_obj, y_obj = transformCoordinates(
-            mapValue(point[0], 0, 640, 0, H_cam), 
-            mapValue(point[1], 0, 480, 0, V_cam), 
-            ofxr, 
-            ofyr, 
+            mapValue(point[0], 0, 640, 0, H_cam),
+            mapValue(point[1], 0, 480, 0, V_cam),
+            ofxr,
+            ofyr,
             thetar
         )
 
@@ -177,7 +179,7 @@ def transformCoordinates(x1, y1, ofx, ofy, theta):
     ])
 
     coordTransf = np.dot(H0_f, punto)
-    
+
     return coordTransf[0][0], coordTransf[1][0]
 
 def frameOriginCoordinates(xtool, ytool, H_cam, V_cam, wrist3):
@@ -217,7 +219,9 @@ def move_robot(xtransfn, ytransfn, ofzn):
 def gohome():
     # Función para mover el robot a la posición "Home"
     # Coordenadas articulares para el home
-    home_joint_angles_deg = [-51.9, -71.85, -112.7, -85.96, 90, 38]
+    #home_joint_angles_deg = [-51.9, -71.85, -112.7, -85.96, 90, 38]
+    #home mano
+    home_joint_angles_deg = [-51.9, -75.16, -84.35, -110.49, 90, 38]
     # Convertir la lista de ángulos a radianes
     home_joint_angles_rad = np.radians(home_joint_angles_deg)
     # Mover el robot a la posición "Home" usando control.moveJ
@@ -246,66 +250,61 @@ def safe_move_to_home():
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def mostrar_menu(object_points):
-    # Extraer las clases únicas detectadas en el object_points
-    clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
 
-    # Mostrar solo las opciones que están en las clases detectadas
-    print("Menu:")
-    opciones_menu = {}
-    for key, value in CLASS_NAMES.items():
-        if value in clases_detectadas:
-            print(f"{key + 1}.- {value}")
-            opciones_menu[key + 1] = value
-
-    # Capturar la respuesta del usuario en un bucle hasta que se ingrese una opción válida
-    while True:
-        try:
-            resp = int(input("Seleccione el instrumento deseado: "))
-
-            if resp in opciones_menu:
-                # Si la opción es válida, romper el bucle
-                break
-            else:
-                print("Opción no válida. Por favor, seleccione una opción válida.")
-        except ValueError:
-            # Si no se ingresa un número entero
-            print("Entrada no válida. Por favor, ingrese un número.")
-
-    # Encender electroimán
-    io.setStandardDigitalOut(0, True)
-
-    # Obtener la clase seleccionada
-    clase_seleccionada = opciones_menu[resp]
-
+def seguir_mano(object_points):
+    clase_seleccionada = 'Mano'  # Mano
     # Filtrar los puntos de la clase seleccionada
     puntos_clase = [(x, y, clase, score) for (x, y, clase, score) in object_points if clase == clase_seleccionada]
-
+    print(f"Puntos de la clase {clase_seleccionada}: {puntos_clase}")
+    
     # Asegurarse de que hay puntos para la clase seleccionada
     if puntos_clase:
         # Selecciona el primer punto de la clase seleccionada
         xtransf, ytransf = puntos_clase[0][0], puntos_clase[0][1]
-
         print(f"Coordenadas del punto seleccionado: ({xtransf}, {ytransf})")
-        # Mover el robot a las coordenadas transformadas
-        move_robot(xtransf, ytransf, ofzr)
+        
+        # Obtener las coordenadas actuales del robot
+        xrobot, yrobot, zrobot, _, _, _ = receive.getActualTCPPose()
+        print(f"Coordenadas actuales del robot: ({xrobot}, {yrobot})")
+        
+        # Función para comprobar si el robot se ha detenido
+        def robot_esta_detenido():
+            velocidad_actual = receive.getActualTCPSpeed()  # Obtén la velocidad actual del robot
+            velocidad_limite = 0.01  # Define un umbral para considerar que el robot está detenido
+            return all(abs(v) < velocidad_limite for v in velocidad_actual)  # Comprueba si todas las componentes de la velocidad son menores que el umbral
+        
+        # Función para calcular el error porcentual entre las coordenadas actuales y las objetivo
+        def error_dentro_del_rango(x_actual, y_actual, x_objetivo, y_objetivo, porcentaje_error):
+            error_x = abs(x_objetivo - x_actual) / abs(x_objetivo) if x_objetivo != 0 else 0
+            error_y = abs(y_objetivo - y_actual) / abs(y_objetivo) if y_objetivo != 0 else 0
+            return error_x <= porcentaje_error and error_y <= porcentaje_error
+        
+        # Establecer el porcentaje de error permitido
+        porcentaje_error_permitido = 0.1
+        
+        # Verificar si ya estamos dentro del margen de error antes de mover
+        if error_dentro_del_rango(xrobot, yrobot, xtransf, ytransf, porcentaje_error_permitido):
+            print(f"El robot ya está dentro del margen de error del {porcentaje_error_permitido*100}%, no se requiere corrección.")
+        else:
+            # Esperar a que el robot se detenga antes de moverse
+            while not robot_esta_detenido():
+                print("Esperando a que el robot se detenga...")
+                #time.sleep(0.1)  # Esperar 100 ms antes de comprobar de nuevo
+            
+            # Imprimir el movimiento que se va a realizar
+            print(f"Moviendo el robot a las coordenadas objetivo ({xtransf}, {ytransf})")
+            
+            # Mover el robot directamente a las coordenadas transformadas (objetivo)
+            move_robot(xtransf, ytransf, ofzr)  
+            
+            print("El robot ha alcanzado las coordenadas objetivo.")
+        
     else:
         print(f"No se encontraron puntos para la clase {clase_seleccionada}")
 
-    # Opción para volver al home
-    while True:
-        try:
-            resp2 = int(input("Presione 1 para volver al home: "))
-            if resp2 == 1:
-                gohome()
-                break
-            else:
-                print("Opción no válida. Solo presione 1 para volver al home.")
-        except ValueError:
-            print("Entrada no válida. Por favor, ingrese un número.")
 
 def main():
-    #safe_move_to_home()
+    safe_move_to_home()
     # Inicializar la cámara y el modelo YOLO
     pipeline = initialize_pipeline()
     model = YOLO(r'V1.0/Models/V5_best.pt')
@@ -315,40 +314,38 @@ def main():
     monitor_thread.start()
     try:
         while True:
-            while True:
-                #check_rtde_connection()  # Verificar RTDE en cada iteración
-                #check_and_recover_protective_stop()
-                # Obtener el frame de la cámara
-                color_image, distance = get_color_frame_and_distance(pipeline)
-                if color_image is None:
-                    continue
+            # Obtener el frame de la cámara
+            color_image, distance = get_color_frame_and_distance(pipeline)
+            if color_image is None:
+                continue
 
-                # Convertir la imagen a escala de grises
-                gray_image_3_channels = convert_to_grayscale(color_image)
+            # Convertir la imagen a escala de grises
+            gray_image_3_channels = convert_to_grayscale(color_image)
 
-                # Ejecutar YOLO en la imagen en escala de grises con un umbral de confianza de 0.6
-                annotated_image, results = run_yolo(model, gray_image_3_channels, conf_threshold=0.6)
+            # Ejecutar YOLO en la imagen en escala de grises con un umbral de confianza de 0.6
+            annotated_image, results = run_yolo(model, gray_image_3_channels, conf_threshold=0.6)
 
-                # Calcular los puntos de los objetos detectados y guardarlos en una lista
-                object_points = calculate_object_points(results)
+            # Calcular los puntos de los objetos detectados y guardarlos en una lista
+            object_points = calculate_object_points(results)
 
-                # Dibujar puntos en los centros de los objetos detectados
-                annotated_image_with_points = draw_center_points(annotated_image, object_points)
+            # Dibujar puntos en los centros de los objetos detectados
+            annotated_image_with_points = draw_center_points(annotated_image, object_points)
 
-                # Calcular posición de robot y objeto respecto a la cámara
-                transformed_object_points = robot_and_camara(distance, object_points)
+            # Calcular posición de robot y objeto respecto a la cámara
+            transformed_object_points = robot_and_camara(distance, object_points)
 
-                # Mostrar la imagen con detecciones y puntos
-                display_image('RealSense', annotated_image_with_points)
+            # Mostrar la imagen con detecciones y puntos
+            display_image('RealSense', annotated_image_with_points)
 
-                # Presionar 'q' para salir
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+            # Presionar 'q' para salir
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
 
-                # Imprimir las coordenadas de los puntos junto con el nombre de la clase
-                print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
-            
-            mostrar_menu(transformed_object_points)
+            # Imprimir las coordenadas de los puntos junto con el nombre de la clase
+            print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
+
+            # Mover el robot constantemente a mano
+            seguir_mano(transformed_object_points)
 
     finally:
         # Detener el pipeline y cerrar las ventanas

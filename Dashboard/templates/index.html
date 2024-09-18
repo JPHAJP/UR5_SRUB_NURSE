@@ -13,42 +13,50 @@
 
         <div class="row">
             <div class="column left-top">
-                <div style="margin-bottom: 10px;">Campo de texto 1</div>
-                <div style="margin-bottom: 10px;">Campo de texto 2</div>
-                <div style="margin-bottom: 10px;">Campo de texto 3</div>
-                <div style="margin-bottom: 10px;">Campo de texto 4</div>
-                <div style="margin-bottom: 10px;">Campo de texto 5</div>
-                <div>Campo de texto 6</div>
+                <div style="margin-bottom: 10px;"><h2>Coordenadas del UR5</h2></div>
+                <div style="margin-bottom: 10px;">Coordenada x {{ur_x}}</div> <!-- Coordenadas del UR -->
+                <div style="margin-bottom: 10px;">Coordenada y {{ur_y}}</div>
+                <div style="margin-bottom: 10px;">Coordenada z {{ur_z}}</div>
+                <div style="margin-bottom: 10px;">Coordenada rx {{ur_rx}}</div>
+                <div style="margin-bottom: 10px;">Coordenada ry {{ur_ry}}</div>
+                <div style="margin-bottom: 10px;">Coordenada rz {{ur_rz}}</div>
             </div>
 
             <div class="column right-top">
-                <div style="margin-bottom: 10px;">Campo 1</div>
-                <div style="margin-bottom: 10px;">Campo 2</div>
-                <div style="margin-bottom: 10px;">Campo 3</div>
-                <div style="margin-bottom: 10px;">Campo 4</div>
-                <div style="margin-bottom: 10px;">Campo 5</div>
-                <div>Campo 6</div>
+                <div style="margin-bottom: 10px;"><h2>Coordenadas del instrumento quirurgico</h2></div>
+                <div style="margin-bottom: 10px;">Coordenada x {{x}}</div> <!-- Coordenadas del UR -->
+                <div style="margin-bottom: 10px;">Coordenada y {{y}}</div>
+                <div style="margin-bottom: 10px;">Coordenada z {{z}}</div>
+                <div style="margin-bottom: 10px;">Coordenada rx {{rx}}</div>
+                <div style="margin-bottom: 10px;">Coordenada ry {{ry}}</div>
+                <div style="margin-bottom: 10px;">Coordenada rz {{rz}}</div>
             </div>
         </div>
 
         <div class="left-bottom">
-            <button class="button">Botón 1</button>
-            <button class="button">Botón 2</button>
-            <button class="button">Botón 3</button>
-            <button class="button">Botón 4</button>
-            <button class="button">Botón 5</button>
+            <div style="margin-bottom: 10px;"><h2>Selecciona un instrumento quirurgico</h2></div>
+            <button class="button">
+                <img src="../static/images/glove.png" height="20px" width="20px" alt="icono">Mano</button> <!-- Botones de las clases a detectar -->
+            <button class="button">
+                <img src="../static/images/scalpel.png" height="20px" width="20px">Bisturi</button>
+            <button class="button">
+                <img src="../static/images/medical.png" height="20px" width="20px">Pinzas</button>
+            <button class="button">
+                <img src="../static/images/scissor.png" height="20px" width="20px">Tijeras rectas</button>
+            <button class="button">
+                <img src="../static/images/scissors.png" height="20px" width="20px">Tijeras curvas</button>
         </div>
 
         <div class="row">
             <div class="column right-bottom">
-                <div style="margin-bottom: 10px;">Campo de texto inferior 1</div>
-                <div>Campo de texto inferior 2</div>
+                <div style="margin-bottom: 10px;">Activar / Desactivar interuptor</div> <!-- Activar o desactivar el interuptor -->
+                <div>Activar / Desactivar iman</div> <!-- Activar o desactivar el iman -->
             </div>
         </div>
 
         <div class="footer">
-            <button class="button">Botón A</button>
-            <button class="button">Botón B</button>
+            <button class="button">Botón A</button> <!-- Botones para usar comando de voz -->
+            <button class="button">Botón B</button> <!-- Botones para escuchar la grabacion -->
         </div>
     </div>
 </body>

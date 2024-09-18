@@ -258,9 +258,9 @@ def showAndGetPredictionsLive():
 
     return H, V, keypoint_5_x, keypoint_5_y
 
-
 def calculateCenter(image, center_x, center_y, red, green, blue):
     cv2.circle(image, (center_x, center_y), 5, (blue, green, red), -1)
+
 while True:
     #IP y puerto del robot
     ur5_ip = "192.168.1.1" 
