@@ -250,7 +250,6 @@ def safe_move_to_home():
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-
 def seguir_mano(object_points):
     clase_seleccionada = 'Mano'  # Mano
     # Filtrar los puntos de la clase seleccionada

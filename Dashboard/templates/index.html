@@ -6,6 +6,11 @@
     <title>Interfaz Gráfica</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function enviarFormulario(){
+            document.getElementById("controlForm").submit();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -49,14 +54,18 @@
 
         <div class="row">
             <div class="column right-bottom">
-                <div style="margin-bottom: 10px;">Activar / Desactivar interuptor</div> <!-- Activar o desactivar el interuptor -->
-                <div>Activar / Desactivar iman</div> <!-- Activar o desactivar el iman -->
+                <div style="margin-bottom: 10px;">Activar / Desactivar interuptor
+                    <input type="checkbox" id="interruptor" name="interruptor" value="true" onchange="enviarFormulario()">
+                </div> <!-- Activar o desactivar el interuptor -->
+                <div>Activar / Desactivar iman
+                    <input type="checkbox" id="iman" name="iman" value="true" onchange="enviarFormulario()">
+                </div> <!-- Activar o desactivar el iman -->
             </div>
         </div>
 
         <div class="footer">
-            <button class="button">Botón A</button> <!-- Botones para usar comando de voz -->
-            <button class="button">Botón B</button> <!-- Botones para escuchar la grabacion -->
+            <button class="button">Grabar voz</button> <!-- Botones para usar comando de voz -->
+            <button class="button">Escuchar grabacion</button> <!-- Botones para escuchar la grabacion -->
         </div>
     </div>
 </body>
