@@ -254,57 +254,6 @@ def safe_move_to_home(control):
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def seguir_mano(object_points, receive, io):
-    clase_seleccionada = 'Mano'  # Mano
-    # Filtrar los puntos de la clase seleccionada
-    puntos_clase = [(x, y, clase, score) for (x, y, clase, score) in object_points if clase == clase_seleccionada]
-    print(f"Puntos de la clase {clase_seleccionada}: {puntos_clase}")
-    
-    # Asegurarse de que hay puntos para la clase seleccionada
-    if puntos_clase:
-        # Selecciona el primer punto de la clase seleccionada
-        xtransf, ytransf = puntos_clase[0][0], puntos_clase[0][1]
-        print(f"Coordenadas del punto seleccionado: ({xtransf}, {ytransf})")
-        
-        # Obtener las coordenadas actuales del robot
-        xrobot, yrobot, zrobot, _, _, _ = receive.getActualTCPPose()
-        print(f"Coordenadas actuales del robot: ({xrobot}, {yrobot})")
-        
-        # Función para comprobar si el robot se ha detenido
-        def robot_esta_detenido():
-            velocidad_actual = receive.getActualTCPSpeed()  # Obtén la velocidad actual del robot
-            velocidad_limite = 0.01  # Define un umbral para considerar que el robot está detenido
-            return all(abs(v) < velocidad_limite for v in velocidad_actual)  # Comprueba si todas las componentes de la velocidad son menores que el umbral
-        
-        # Función para calcular el error porcentual entre las coordenadas actuales y las objetivo
-        def error_dentro_del_rango(x_actual, y_actual, x_objetivo, y_objetivo, porcentaje_error):
-            error_x = abs(x_objetivo - x_actual) / abs(x_objetivo) if x_objetivo != 0 else 0
-            error_y = abs(y_objetivo - y_actual) / abs(y_objetivo) if y_objetivo != 0 else 0
-            return error_x <= porcentaje_error and error_y <= porcentaje_error
-        
-        # Establecer el porcentaje de error permitido
-        porcentaje_error_permitido = 0.1
-        
-        # Verificar si ya estamos dentro del margen de error antes de mover
-        if error_dentro_del_rango(xrobot, yrobot, xtransf, ytransf, porcentaje_error_permitido):
-            print(f"El robot ya está dentro del margen de error del {porcentaje_error_permitido*100}%, no se requiere corrección.")
-        else:
-            # Esperar a que el robot se detenga antes de moverse
-            while not robot_esta_detenido():
-                print("Esperando a que el robot se detenga...")
-                #time.sleep(0.1)  # Esperar 100 ms antes de comprobar de nuevo
-            
-            # Imprimir el movimiento que se va a realizar
-            print(f"Moviendo el robot a las coordenadas objetivo ({xtransf}, {ytransf})")
-            
-            # Mover el robot directamente a las coordenadas transformadas (objetivo)
-            move_robot(xtransf, ytransf, ofzr)  
-            
-            print("El robot ha alcanzado las coordenadas objetivo.")
-        
-    else:
-        print(f"No se encontraron puntos para la clase {clase_seleccionada}")
-
 def mostrar_menu(object_points,control,receive,io):
     # Extraer las clases únicas detectadas en el object_points
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
@@ -362,8 +311,6 @@ def mostrar_menu(object_points,control,receive,io):
                 print("Opción no válida. Solo presione 1 para volver al home.")
         except ValueError:
             print("Entrada no válida. Por favor, ingrese un número.")
-
-
 
 def main(control):
     # Inicializar el robot
