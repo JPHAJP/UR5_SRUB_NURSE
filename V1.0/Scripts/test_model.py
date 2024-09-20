@@ -21,13 +21,21 @@ CLASS_NAMES = {
     5: "Tijeras_rectas"
 }
 
-ip = "192.168.1.1"
-control = rtde_control.RTDEControlInterface(ip)
-receive = rtde_receive.RTDEReceiveInterface(ip)
-io = rtde_io.RTDEIOInterface(ip)
-
 # Offset en el eje z para la posición del robot
 ofzr = 0.02
+control = None
+
+def inicializar_robot():
+    try:
+        ip = "192.168.1.1"
+        control = rtde_control.RTDEControlInterface(ip)
+        receive = rtde_receive.RTDEReceiveInterface(ip)
+        io = rtde_io.RTDEIOInterface(ip)
+        return control, receive, io
+    except:
+        print("Error al inicializar el robot.")
+        time.sleep(1)
+        return None, None, None
 
 def initialize_pipeline():
     # Inicializa el pipeline de la cámara RealSense.
@@ -99,7 +107,7 @@ def display_image(window_name, image):
     # Muestra la imagen en una ventana.
     cv2.imshow(window_name, image)
 
-def robot_and_camara(distance, object_points):
+def robot_and_camara(distance, object_points, receive):
     # Crear una lista para almacenar los nuevos puntos
     new_object_points = []
 
@@ -207,14 +215,14 @@ def frameOriginCoordinates(xtool, ytool, H_cam, V_cam, wrist3):
 
     return ofx, ofy, angulo_tangencia
 
-def move_robot(xtransfn, ytransfn, ofzn):
+def move_robot(xtransfn, ytransfn, ofzn, control, receive):
     xr, yr, zr, rxr, ryr, rzr = receive.getActualTCPPose()
     #destinationf = [xtransfn, ytransfn, ofzn]
     control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], .5, .5, asynchronous=True)
     # Normalizamos para poder hacer comparativas
     #destinationf = np.around(destinationf, decimals=2)
 
-def gohome():
+def gohome(control):
     # Función para mover el robot a la posición "Home"
     # Coordenadas articulares para el home
     home_joint_angles_deg = [-51.9, -71.85, -112.7, -85.96, 90, 38]
@@ -224,29 +232,29 @@ def gohome():
     # Velocidad = 1 rad/s, Aceleración = 1 rad/s^2
     control.moveJ(home_joint_angles_rad, 1, 1, asynchronous=True)
 
-def monitor_io_and_interrupt():
-    # Función para monitorear el estado del sensor digital y detener el robot si se activa
-    while True:
+def monitor_io_and_interrupt(control, receive, io, stop_event):
+    print("Iniciando el hilo de monitoreo del sensor digital.")
+    while not stop_event.is_set():
         sensor_state = receive.getDigitalInState(0)  # Leer el estado del pin 0
-
         if sensor_state:  # Si el sensor se activa
             print("Sensor activado, deteniendo el robot.")
-            control.stopL(1.0)  # Detener el movimiento del robot si se está moviendo por trayectorias
-            control.stopJ(1.0)  # Detener el movimiento del robot si se está moviendo por articulaciones
-            gohome()
-            time.sleep(5)  # Esperar un poco antes de verificar de nuevo
+            control.stopL(1.0)
+            control.stopJ(1.0)
+            gohome(control)
+            time.sleep(5)
             io.setStandardDigitalOut(0, False)  # Apagar el electroimán
         time.sleep(0.1)  # Esperar un poco antes de verificar de nuevo
+    print("Hilo de monitoreo detenido.")
 
-def safe_move_to_home():
+def safe_move_to_home(control):
     #check_and_recover_protective_stop()
     if control.isConnected():  # Verifica que RTDE esté conectado
-        gohome()  # Mover el robot a "home"
+        gohome(control)  # Mover el robot a "home"
     else:
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def seguir_mano(object_points):
+def seguir_mano(object_points, receive, io):
     clase_seleccionada = 'Mano'  # Mano
     # Filtrar los puntos de la clase seleccionada
     puntos_clase = [(x, y, clase, score) for (x, y, clase, score) in object_points if clase == clase_seleccionada]
@@ -297,7 +305,7 @@ def seguir_mano(object_points):
     else:
         print(f"No se encontraron puntos para la clase {clase_seleccionada}")
 
-def mostrar_menu(object_points):
+def mostrar_menu(object_points,control,receive,io):
     # Extraer las clases únicas detectadas en el object_points
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
 
@@ -339,7 +347,7 @@ def mostrar_menu(object_points):
 
         print(f"Coordenadas del punto seleccionado: ({xtransf}, {ytransf})")
         # Mover el robot a las coordenadas transformadas
-        move_robot(xtransf, ytransf, ofzr)
+        move_robot(xtransf, ytransf, ofzr, control, receive)
     else:
         print(f"No se encontraron puntos para la clase {clase_seleccionada}")
 
@@ -348,21 +356,28 @@ def mostrar_menu(object_points):
         try:
             resp2 = int(input("Presione 1 para volver al home: "))
             if resp2 == 1:
-                gohome()
+                gohome(control)
                 break
             else:
                 print("Opción no válida. Solo presione 1 para volver al home.")
         except ValueError:
             print("Entrada no válida. Por favor, ingrese un número.")
 
-def main():
-    safe_move_to_home()
+
+
+def main(control):
+    # Inicializar el robot
+    while control is None:
+        control, receive, io = inicializar_robot()
+
+    safe_move_to_home(control)
     # Inicializar la cámara y el modelo YOLO
     pipeline = initialize_pipeline()
     model = YOLO(r'V1.0/Models/V5_best.pt')
 
     # Iniciar un hilo para monitorear el estado del sensor digital y detener el robot si se activa
-    monitor_thread = threading.Thread(target=monitor_io_and_interrupt)
+    stop_event = threading.Event()
+    monitor_thread = threading.Thread(target=monitor_io_and_interrupt, args=(control, receive, io, stop_event))
     monitor_thread.start()
     try:
         while True:
@@ -385,7 +400,7 @@ def main():
                 annotated_image_with_points = draw_center_points(annotated_image, object_points)
 
                 # Calcular posición de robot y objeto respecto a la cámara
-                transformed_object_points = robot_and_camara(distance, object_points)
+                transformed_object_points = robot_and_camara(distance, object_points, receive)
 
                 # Mostrar la imagen con detecciones y puntos
                 display_image('RealSense', annotated_image_with_points)
@@ -396,18 +411,34 @@ def main():
 
                 # Imprimir las coordenadas de los puntos junto con el nombre de la clase
                 print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
-            
-            mostrar_menu(transformed_object_points)
 
-    finally:
+                # Revisar conexión del robot
+                # if not control.isConnected():
+                #     print("Conexión perdida con el robot. Intentando reconectar...")
+                #     while not control.isConnected():
+                #         control, receive, io = inicializar_robot()
+                #         safe_move_to_home(control) 
+                #     print("Conexión restablecida.")
+            
+            mostrar_menu(transformed_object_points, control, receive, io)
+    except KeyboardInterrupt:
         # Detener el pipeline y cerrar las ventanas
+        print("Terminando programa por interrupción de teclado.")
         io.setStandardDigitalOut(0, False)
         pipeline.stop()
         cv2.destroyAllWindows()
         # Terminar el hilo de monitoreo
+        stop_event.set()
         monitor_thread.join()
 
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+        io.setStandardDigitalOut(0, False)
+        pipeline.stop()
+        cv2.destroyAllWindows()
+        stop_event.set()
+        monitor_thread.join()
 
 # Ejecutar el programa principal
 if __name__ == "__main__":
-    main()
+    main(control)

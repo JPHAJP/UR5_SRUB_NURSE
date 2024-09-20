@@ -5,68 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interfaz Gráfica</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script>
         function enviarFormulario(){
             document.getElementById("controlForm").submit();
         }
     </script>
 </head>
-<body>
-    <div class="container">
-        <div class="header">Encabezado (Imagen o video)</div>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-5">
+        <div class="header bg-blue-500 text-white p-5 rounded-lg">Encabezado (Imagen o video)</div>
+        <div class="p-5 my-5">
+            <button class="bg-blue-500 text-white p-2 rounded-lg">Conectar con robot</button>
+            <button class="bg-blue-500 text-white p-2 rounded-lg">Conectar con cámara</button>
+            <p class="mb-2">Estado del robot: {{conexion_ur}}</p>
+        </div> 
 
-        <div class="row">
-            <div class="column left-top">
-                <div style="margin-bottom: 10px;"><h2>Coordenadas del UR5</h2></div>
-                <div style="margin-bottom: 10px;">Coordenada x {{ur_x}}</div> <!-- Coordenadas del UR -->
-                <div style="margin-bottom: 10px;">Coordenada y {{ur_y}}</div>
-                <div style="margin-bottom: 10px;">Coordenada z {{ur_z}}</div>
-                <div style="margin-bottom: 10px;">Coordenada rx {{ur_rx}}</div>
-                <div style="margin-bottom: 10px;">Coordenada ry {{ur_ry}}</div>
-                <div style="margin-bottom: 10px;">Coordenada rz {{ur_rz}}</div>
+        <div class="grid grid-cols-2 gap-4 my-5">
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Coordenadas del UR5</h2>
+                <p class="mb-2">Coordenada x: {{ur_x}}</p>
+                <p class="mb-2">Coordenada y: {{ur_y}}</p>
+                <p class="mb-2">Coordenada z: {{ur_z}}</p>
+                <p class="mb-2">Coordenada rx: {{ur_rx}}</p>
+                <p class="mb-2">Coordenada ry: {{ur_ry}}</p>
+                <p class="mb-2">Coordenada rz: {{ur_rz}}</p>
             </div>
 
-            <div class="column right-top">
-                <div style="margin-bottom: 10px;"><h2>Coordenadas del instrumento quirurgico</h2></div>
-                <div style="margin-bottom: 10px;">Coordenada x {{x}}</div> <!-- Coordenadas del UR -->
-                <div style="margin-bottom: 10px;">Coordenada y {{y}}</div>
-                <div style="margin-bottom: 10px;">Coordenada z {{z}}</div>
-                <div style="margin-bottom: 10px;">Coordenada rx {{rx}}</div>
-                <div style="margin-bottom: 10px;">Coordenada ry {{ry}}</div>
-                <div style="margin-bottom: 10px;">Coordenada rz {{rz}}</div>
-            </div>
-        </div>
-
-        <div class="left-bottom">
-            <div style="margin-bottom: 10px;"><h2>Selecciona un instrumento quirurgico</h2></div>
-            <button class="button">
-                <img src="../static/images/glove.png" height="20px" width="20px" alt="icono">Mano</button> <!-- Botones de las clases a detectar -->
-            <button class="button">
-                <img src="../static/images/scalpel.png" height="20px" width="20px">Bisturi</button>
-            <button class="button">
-                <img src="../static/images/medical.png" height="20px" width="20px">Pinzas</button>
-            <button class="button">
-                <img src="../static/images/scissor.png" height="20px" width="20px">Tijeras rectas</button>
-            <button class="button">
-                <img src="../static/images/scissors.png" height="20px" width="20px">Tijeras curvas</button>
-        </div>
-
-        <div class="row">
-            <div class="column right-bottom">
-                <div style="margin-bottom: 10px;">Activar / Desactivar interuptor
-                    <input type="checkbox" id="interruptor" name="interruptor" value="true" onchange="enviarFormulario()">
-                </div> <!-- Activar o desactivar el interuptor -->
-                <div>Activar / Desactivar iman
-                    <input type="checkbox" id="iman" name="iman" value="true" onchange="enviarFormulario()">
-                </div> <!-- Activar o desactivar el iman -->
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Coordenadas objetivo</h2>
+                <p class="mb-2">Coordenada x: {{x}}</p>
+                <p class="mb-2">Coordenada y: {{y}}</p>
+                <p class="mb-2">Coordenada z: {{z}}</p>
+                <p class="mb-2">Coordenada rx: {{rx}}</p>
+                <p class="mb-2">Coordenada ry: {{ry}}</p>
+                <p class="mb-2">Coordenada rz: {{rz}}</p>
             </div>
         </div>
 
-        <div class="footer">
-            <button class="button">Grabar voz</button> <!-- Botones para usar comando de voz -->
-            <button class="button">Escuchar grabacion</button> <!-- Botones para escuchar la grabacion -->
+        <div class="bg-white p-5 rounded-lg shadow-lg my-5">
+            <h2 class="text-xl font-semibold mb-4">Selecciona un instrumento quirúrgico</h2>
+            <div class="flex space-x-4">
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                    <img src="../static/images/glove.png" alt="Mano" class="h-5 w-5 mr-2"> Mano
+                </button>
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                    <img src="../static/images/scalpel.png" alt="Bisturí" class="h-5 w-5 mr-2"> Bisturí
+                </button>
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                    <img src="../static/images/medical.png" alt="Pinzas" class="h-5 w-5 mr-2"> Pinzas
+                </button>
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                    <img src="../static/images/scissor.png" alt="Tijeras rectas" class="h-5 w-5 mr-2"> Tijeras rectas
+                </button>
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                    <img src="../static/images/scissors.png" alt="Tijeras curvas" class="h-5 w-5 mr-2"> Tijeras curvas
+                </button>
+            </div>
         </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" id="interruptor" name="interruptor" value="true" onchange="enviarFormulario()" class="form-checkbox h-5 w-5 text-blue-600">
+                    <span class="ml-2">Activar / Desactivar interruptor</span>
+                </label>
+            </div>
+
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" id="iman" name="iman" value="true" onchange="enviarFormulario()" class="form-checkbox h-5 w-5 text-blue-600">
+                    <span class="ml-2">Activar / Desactivar imán</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="p-5 my-5">
+            <button class="bg-blue-500 text-white p-2 rounded-lg">Grabar voz</button>
+            <button class="bg-blue-500 text-white p-2 rounded-lg">Escuchar grabación</button>
+        </div>
+        <div class="footer bg-blue-500 text-white p-5 rounded-lg">Pie de página</div>
     </div>
 </body>
 </html>
