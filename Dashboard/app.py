@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+
+from flask import Flask, render_template, request, Response
 import numpy as np
 import time
 import threading
@@ -8,9 +9,9 @@ import cv2
 
 from ultralytics import YOLO
 
-import rtde_control
-import rtde_receive
-import rtde_io
+# import rtde_control
+# import rtde_receive
+# import rtde_io
 
 # Diccionario que mapea identificadores de clase a nombres de clase
 CLASS_NAMES = {
@@ -31,6 +32,29 @@ CLASS_NAMES = {
 ofzr = 0.01
 
 app = Flask(__name__)
+
+cap = cv2.VideoCapture(0)
+
+# Funcion para activar la camara con opencv
+def get_frame():
+    if not cap.isOpened():
+        print("Error al abrir la camara")
+        return
+    
+    while True:
+        while True:
+            # Capturar frame a frame
+            success, frame = cap.read()
+            if not success:
+                break
+            else:
+                # Codificar el frame en formato JPEG
+                ret, buffer = cv2.imencode('.jpg', frame)
+                frame = buffer.tobytes()
+
+                # Usar el frame como un flujo de video en formato multipart/x-mixed-replace
+                yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -62,6 +86,11 @@ def home():
             'conexion_ur': 'Null'
             }
     return render_template('index.html', **valores)
+
+@app.route('/video_feed')
+def video_feed():
+    # Ruta que genera los frames de video
+    return Response(get_frame(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def main():
     pass

@@ -6,22 +6,34 @@
     <title>Interfaz Gráfica</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script>
-        function enviarFormulario(){
-            document.getElementById("controlForm").submit();
-        }
-    </script>
 </head>
+
 <body class="bg-gray-100">
     <div class="container mx-auto p-5">
-        <div class="header bg-blue-500 text-white p-5 rounded-lg">Encabezado (Imagen o video)</div>
-        <div class="p-5 my-5">
-            <button class="bg-blue-500 text-white p-2 rounded-lg">Conectar con robot</button>
-            <button class="bg-blue-500 text-white p-2 rounded-lg">Conectar con cámara</button>
-            <p class="mb-2">Estado del robot: {{conexion_ur}}</p>
-        </div> 
+        <!-- Contenedor de la webcam con padding inferior ajustado -->
+        <div class="header bg-blue-500 text-white pt-3 pb-3 px-3 rounded-lg text-center">
+            <h1 class="text-2xl font-semibold">Transmisión en Vivo de la Webcam</h1>
+            <div class="flex justify-center my-4">
+                <!-- Video de la webcam con tamaño fijo de 640x480 -->
+                <img src="{{ url_for('video_feed') }}" class="rounded-lg shadow-lg" style="margin-left: 10px; margin-right: 10px;">
+            </div>
+        </div>
+        
+        <!-- Botones de conexión -->
+        <div class="p-5 my-5 text-center">
+            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
+                    onclick="toggleButtonColor(this)">
+                Conectar con robot
+            </button>
+            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
+                    onclick="toggleButtonColor(this)">
+                Conectar con cámara
+            </button>
+            <p class="mt-3">Estado del robot: {{conexion_ur}}</p>
+        </div>
 
-        <div class="grid grid-cols-2 gap-4 my-5">
+        <!-- Sección de coordenadas en dos columnas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
             <div class="bg-white p-5 rounded-lg shadow-lg">
                 <h2 class="text-xl font-semibold mb-4">Coordenadas del UR5</h2>
                 <p class="mb-2">Coordenada x: {{ur_x}}</p>
@@ -31,7 +43,6 @@
                 <p class="mb-2">Coordenada ry: {{ur_ry}}</p>
                 <p class="mb-2">Coordenada rz: {{ur_rz}}</p>
             </div>
-
             <div class="bg-white p-5 rounded-lg shadow-lg">
                 <h2 class="text-xl font-semibold mb-4">Coordenadas objetivo</h2>
                 <p class="mb-2">Coordenada x: {{x}}</p>
@@ -43,28 +54,37 @@
             </div>
         </div>
 
+        <!-- Selección de instrumentos quirúrgicos -->
         <div class="bg-white p-5 rounded-lg shadow-lg my-5">
             <h2 class="text-xl font-semibold mb-4">Selecciona un instrumento quirúrgico</h2>
-            <div class="flex space-x-4">
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+            <div class="flex flex-wrap justify-center space-x-4">
+                
+                <!-- Botones que cambian de color temporalmente al hacer clic -->
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
+                        onclick="changeColorTemporary(this)">
                     <img src="../static/images/glove.png" alt="Mano" class="h-5 w-5 mr-2"> Mano
                 </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
+                        onclick="changeColorTemporary(this)">
                     <img src="../static/images/scalpel.png" alt="Bisturí" class="h-5 w-5 mr-2"> Bisturí
                 </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
+                        onclick="changeColorTemporary(this)">
                     <img src="../static/images/medical.png" alt="Pinzas" class="h-5 w-5 mr-2"> Pinzas
                 </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
+                        onclick="changeColorTemporary(this)">
                     <img src="../static/images/scissor.png" alt="Tijeras rectas" class="h-5 w-5 mr-2"> Tijeras rectas
                 </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center">
+                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
+                        onclick="changeColorTemporary(this)">
                     <img src="../static/images/scissors.png" alt="Tijeras curvas" class="h-5 w-5 mr-2"> Tijeras curvas
                 </button>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <!-- Interruptor y activación de imán -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-white p-5 rounded-lg shadow-lg">
                 <label class="inline-flex items-center">
                     <input type="checkbox" id="interruptor" name="interruptor" value="true" onchange="enviarFormulario()" class="form-checkbox h-5 w-5 text-blue-600">
@@ -80,11 +100,41 @@
             </div>
         </div>
 
-        <div class="p-5 my-5">
-            <button class="bg-blue-500 text-white p-2 rounded-lg">Grabar voz</button>
-            <button class="bg-blue-500 text-white p-2 rounded-lg">Escuchar grabación</button>
+        <!-- Sección de grabación de voz -->
+        <div class="p-5 my-5 text-center">
+            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
+                    onclick="toggleButtonColor(this)">
+                Grabar voz
+            </button>
+            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
+                    onclick="toggleButtonColor(this)">
+                Escuchar grabación
+            </button>
         </div>
-        <div class="footer bg-blue-500 text-white p-5 rounded-lg">Pie de página</div>
+
+        <!-- Footer -->
+        <div class="footer bg-blue-500 text-white p-5 rounded-lg text-center">
+            <p class="flex flex-wrap justify-center items-center space-x-2">
+                <span class="text-center">
+                    <a property="dct:title" rel="cc:attributionURL" href="https://github.com/JPHAJP/UR5_SRUB_NURSE" class="underline hover:text-gray-200">
+                        UR5-Scrube-Nurse
+                    </a> 
+                    by <span property="cc:attributionName">José Pablo Hernández Alonso, Aldo Cova Martínez</span> is licensed under 
+                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" class="underline hover:text-gray-200">
+                        Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+                    </a>
+                </span>
+                <!-- Icons from Creative Commons -->
+                <span class="flex items-center space-x-2 ml-2">
+                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="Creative Commons">
+                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="By">
+                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="Non-Commercial">
+                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt="No Derivatives">
+                </span>
+            </p>
+        </div>
     </div>
+    <!-- Enlace del archivo scripts -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
