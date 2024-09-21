@@ -45,7 +45,7 @@ def get_frame():
         while True:
             # Capturar frame a frame
             success, frame = cap.read()
-            if not success:
+            if not success: 
                 break
             else:
                 # Codificar el frame en formato JPEG
