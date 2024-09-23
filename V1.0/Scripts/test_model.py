@@ -379,14 +379,6 @@ def main(control):
 
                 # Imprimir las coordenadas de los puntos junto con el nombre de la clase
                 print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
-
-                # Revisar conexión del robot
-                # if not control.isConnected():
-                #     print("Conexión perdida con el robot. Intentando reconectar...")
-                #     while not control.isConnected():
-                #         control, receive, io = inicializar_robot()
-                #         safe_move_to_home(control) 
-                #     print("Conexión restablecida.")
             
             mostrar_menu(transformed_object_points, control, receive, io)
     except KeyboardInterrupt:
@@ -410,3 +402,9 @@ def main(control):
 # Ejecutar el programa principal
 if __name__ == "__main__":
     main(control)
+
+# bool teachMode()
+# Set robot in freedrive mode.
+
+# bool endTeachMode()
+# Set robot back in normal position control mode after freedrive mode.
