@@ -1,140 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaz Gráfica</title>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Transmisión en Vivo de la Webcam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-
-<body class="bg-gray-100">
+<body class="bg-[var(--color-background)] text-[var(--color-text)]">
     <div class="container mx-auto p-5">
-        <!-- Contenedor de la webcam con padding inferior ajustado -->
-        <div class="header bg-blue-500 text-white pt-3 pb-3 px-3 rounded-lg text-center">
-            <h1 class="text-2xl font-semibold">Transmisión en Vivo de la Webcam</h1>
+        <header class="bg-[var(--color-primary)] text-white pt-3 pb-3 px-3 rounded-lg text-center">
+            <h1 id="transmisión-en-vivo-de-la-webcam" class="text-2xl font-semibold">Transmisión en Vivo de la Webcam</h1>
             <div class="flex justify-center my-4">
-                <!-- Video de la webcam con tamaño fijo de 640x480 -->
-                <img src="{{ url_for('video_feed') }}" class="rounded-lg shadow-lg" style="margin-left: 10px; margin-right: 10px;">
+                <img src="{{ url_for('video_feed') }}" alt="Video Feed" class="rounded-lg shadow-lg mx-2">
+            </div>
+        </header>
+
+        <div class="p-5 my-5 text-center">
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg mr-2">Conectar con robot</button>
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">Conectar con cámara</button>
+            <p class="mt-3">Estado del robot: <span class="font-bold">{{conexion_ur}}</span></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)]">
+                <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas del UR5</h2>
+                <p>Coordenada x: {{ur_x}}</p>
+                <p>Coordenada y: {{ur_y}}</p>
+                <p>Coordenada z: {{ur_z}}</p>
+                <p>Coordenada rx: {{ur_rx}}</p>
+                <p>Coordenada ry: {{ur_ry}}</p>
+                <p>Coordenada rz: {{ur_rz}}</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)]">
+                <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas objetivo</h2>
+                <p>Coordenada x: {{x}}</p>
+                <p>Coordenada y: {{y}}</p>
+                <p>Coordenada z: {{z}}</p>
+                <p>Coordenada rx: {{rx}}</p>
+                <p>Coordenada ry: {{ry}}</p>
+                <p>Coordenada rz: {{rz}}</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] my-5">
+            <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Selecciona un instrumento quirúrgico</h2>
+            <div class="flex flex-wrap justify-center space-x-4">
+                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
+                    <img src="{{ url_for('static', filename='images/glove.png') }}" alt="Mano" class="h-5 w-5 mr-2"> Mano
+                </button>
+                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
+                    <img src="{{ url_for('static', filename='images/scalpel.png') }}" alt="Bisturí" class="h-5 w-5 mr-2"> Bisturí
+                </button>
+                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
+                    <img src="{{ url_for('static', filename='images/medical.png') }}" alt="Pinzas" class="h-5 w-5 mr-2"> Pinzas
+                </button>
+                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
+                    <img src="{{ url_for('static', filename='images/scissor.png') }}" alt="Tijeras rectas" class="h-5 w-5 mr-2"> Tijeras rectas
+                </button>
+                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
+                    <img src="{{ url_for('static', filename='images/scissors.png') }}" alt="Tijeras curvas" class="h-5 w-5 mr-2"> Tijeras curvas
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] flex justify-center items-center">
+                <label class="switch">
+                    <input type="checkbox" id="interruptor-checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span class="ml-2">Activar / Desactivar interruptor</span>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] flex justify-center items-center">
+                <label class="switch">
+                    <input type="checkbox" id="iman-checkbox">
+                    <span class="slider"></span>
+                </label>
+                <span class="ml-2">Activar / Desactivar imán</span>
             </div>
         </div>
         
-        <!-- Botones de conexión -->
+
         <div class="p-5 my-5 text-center">
-            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
-                    onclick="toggleButtonColor(this)">
-                Conectar con robot
-            </button>
-            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
-                    onclick="toggleButtonColor(this)">
-                Conectar con cámara
-            </button>
-            <p class="mt-3">Estado del robot: {{conexion_ur}}</p>
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg mr-2">Grabar voz</button>
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">Escuchar grabación</button>
         </div>
 
-        <!-- Sección de coordenadas en dos columnas -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
-            <div class="bg-white p-5 rounded-lg shadow-lg">
-                <h2 class="text-xl font-semibold mb-4">Coordenadas del UR5</h2>
-                <p class="mb-2">Coordenada x: {{ur_x}}</p>
-                <p class="mb-2">Coordenada y: {{ur_y}}</p>
-                <p class="mb-2">Coordenada z: {{ur_z}}</p>
-                <p class="mb-2">Coordenada rx: {{ur_rx}}</p>
-                <p class="mb-2">Coordenada ry: {{ur_ry}}</p>
-                <p class="mb-2">Coordenada rz: {{ur_rz}}</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-lg">
-                <h2 class="text-xl font-semibold mb-4">Coordenadas objetivo</h2>
-                <p class="mb-2">Coordenada x: {{x}}</p>
-                <p class="mb-2">Coordenada y: {{y}}</p>
-                <p class="mb-2">Coordenada z: {{z}}</p>
-                <p class="mb-2">Coordenada rx: {{rx}}</p>
-                <p class="mb-2">Coordenada ry: {{ry}}</p>
-                <p class="mb-2">Coordenada rz: {{rz}}</p>
-            </div>
-        </div>
-
-        <!-- Selección de instrumentos quirúrgicos -->
-        <div class="bg-white p-5 rounded-lg shadow-lg my-5">
-            <h2 class="text-xl font-semibold mb-4">Selecciona un instrumento quirúrgico</h2>
-            <div class="flex flex-wrap justify-center space-x-4">
-                
-                <!-- Botones que cambian de color temporalmente al hacer clic -->
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
-                        onclick="changeColorTemporary(this)">
-                    <img src="../static/images/glove.png" alt="Mano" class="h-5 w-5 mr-2"> Mano
-                </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
-                        onclick="changeColorTemporary(this)">
-                    <img src="../static/images/scalpel.png" alt="Bisturí" class="h-5 w-5 mr-2"> Bisturí
-                </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
-                        onclick="changeColorTemporary(this)">
-                    <img src="../static/images/medical.png" alt="Pinzas" class="h-5 w-5 mr-2"> Pinzas
-                </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
-                        onclick="changeColorTemporary(this)">
-                    <img src="../static/images/scissor.png" alt="Tijeras rectas" class="h-5 w-5 mr-2"> Tijeras rectas
-                </button>
-                <button class="bg-blue-500 text-white p-2 rounded-lg flex items-center m-2 transition-all duration-300"
-                        onclick="changeColorTemporary(this)">
-                    <img src="../static/images/scissors.png" alt="Tijeras curvas" class="h-5 w-5 mr-2"> Tijeras curvas
-                </button>
-            </div>
-        </div>
-
-        <!-- Interruptor y activación de imán -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-5 rounded-lg shadow-lg">
-                <label class="inline-flex items-center">
-                    <input type="checkbox" id="interruptor" name="interruptor" value="true" onchange="enviarFormulario()" class="form-checkbox h-5 w-5 text-blue-600">
-                    <span class="ml-2">Activar / Desactivar interruptor</span>
-                </label>
-            </div>
-
-            <div class="bg-white p-5 rounded-lg shadow-lg">
-                <label class="inline-flex items-center">
-                    <input type="checkbox" id="iman" name="iman" value="true" onchange="enviarFormulario()" class="form-checkbox h-5 w-5 text-blue-600">
-                    <span class="ml-2">Activar / Desactivar imán</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Sección de grabación de voz -->
-        <div class="p-5 my-5 text-center">
-            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
-                    onclick="toggleButtonColor(this)">
-                Grabar voz
-            </button>
-            <button class="bg-blue-500 text-white p-2 rounded-lg mx-2 transition-all duration-300"
-                    onclick="toggleButtonColor(this)">
-                Escuchar grabación
-            </button>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer bg-blue-500 text-white p-5 rounded-lg text-center">
-            <p class="flex flex-wrap justify-center items-center space-x-2">
-                <span class="text-center">
-                    <a property="dct:title" rel="cc:attributionURL" href="https://github.com/JPHAJP/UR5_SRUB_NURSE" class="underline hover:text-gray-200">
-                        UR5-Scrube-Nurse
-                    </a> 
-                    by <span property="cc:attributionName">José Pablo Hernández Alonso, Aldo Cova Martínez</span> is licensed under 
-                    <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" class="underline hover:text-gray-200">
-                        Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
-                    </a>
-                </span>
-                <!-- Icons from Creative Commons -->
-                <span class="flex items-center space-x-2 ml-2">
-                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="Creative Commons">
-                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="By">
-                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="Non-Commercial">
-                    <img class="h-6" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt="No Derivatives">
-                </span>
+        <footer class="bg-[var(--color-primary)] text-white p-5 rounded-lg text-center">
+            <p>
+                <a href="https://github.com/JPHAJP/UR5_SRUB_NURSE" class="underline hover:text-[var(--color-accent)]" property="dct:title" rel="cc:attributionURL">UR5-Scrube-Nurse</a> by
+                <span property="cc:attributionName">José Pablo Hernández Alonso, Aldo Cova Martínez</span> is licensed under
+                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" class="underline hover:text-[var(--color-accent)]" target="_blank" rel="license noopener noreferrer">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International</a>
             </p>
-        </div>
+            <div class="flex items-center justify-center space-x-2 mt-2">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC" class="h-6">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY" class="h-6">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="NC" class="h-6">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt="ND" class="h-6">
+            </div>
+        </footer>
     </div>
-    <!-- Enlace del archivo scripts -->
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
