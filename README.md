@@ -1,6 +1,5 @@
-# UR5_SRUB_NURSE
+# UR5_SRUB_NURSE -- S.I.L.V.I.A. - Surgical Instrument Logistics Virtual Intelligent Assistant
 Repositorio para trabajo de robot UR5 con camara de profundidad para detectar objetos de instrumental quirurjico con IA.
-
 
 Librerias de trabajo:
 -Mediapipe
@@ -26,3 +25,6 @@ https://github.com/openai/whisper
 -llama3.1 8B
 https://ollama.com/download
     ollama pull llama3.1:latest
+
+
+-sudo apt-get install portaudio19-dev

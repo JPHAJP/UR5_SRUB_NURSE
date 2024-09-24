@@ -14,7 +14,7 @@ model = whisper.load_model("base")
 recognizer = sr.Recognizer()
 
 # Palabra clave que activará la respuesta
-palabra_activacion = "ur5"
+palabra_activacion = "silvia"
 
 # Inicializar el micrófono solo una vez para mejorar el rendimiento
 mic = sr.Microphone()
@@ -31,6 +31,7 @@ mic = sr.Microphone()
 #     os.remove(archivo_audio)
 
 def reproducir_audio(mensaje):
+    mensaje = "aaa.........." + mensaje
     tts = gTTS(mensaje, lang='es')
     archivo_audio = "esperando_comando.mp3"
     tts.save(archivo_audio)
@@ -73,7 +74,7 @@ def detectar_comando_llama(text):
         messages = [
             {"role": "system", "content": """
             Eres un robot asistente de un cirujano. 
-            Tu nombre es "UR5 Scrube Nurse".
+            Tu nombre es "SILVIA" - (Surgical Instrument Logistics Virtual Intelligent Assistant); eres un UR5e que ayuda a los cirujanos en el quirófano.
             El usuario puede pedirte instrumentos quirúrgicos específicos.
             Puedes ayudar con tareas simples de manejo de instrumental quirúrgico, como un enfermero instrumentista.
             Tu tarea es identificar el instrumento solicitado de la siguiente lista:
@@ -94,7 +95,7 @@ def detectar_comando_llama(text):
             Si no tienes el instrumental puedes responder: "Parece que no tengo esa herramienta en mi inventario. Intenta otra vez."
             Las tijeras curvas y rectas son diferentes, asegúrate de identificarlas correctamente; tabien se les conoce como tijeras de Metzenbaum y Mayo (Tijeras Mayo Curvas o Rectas).
             Debes responder de manera clara y concisa, se requiere una respuesta corta y precisa para ejecutar los commandos rápido.
-            Si ya diste un commando no es necesario que continues con más texto, solo espera la siguiente instrucción.
+            Si ya diste un commando no es necesario que continues con más texto, solo espera la siguiente instrucción; si no recibes instrucciones, puedes preguntar "¿En qué puedo asistirte?".
             
             Muy importante: Siempre debes responder con un solo comando ejecutado por respuesta, si no puedes ayudar, responde con un mensaje adecuado.
             """},
