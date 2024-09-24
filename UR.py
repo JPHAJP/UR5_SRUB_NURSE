@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import threading
+import queue
 
 import pyrealsense2 as rs
 import cv2
@@ -10,6 +11,8 @@ from ultralytics import YOLO
 import rtde_control
 import rtde_receive
 import rtde_io
+
+from activacion_voz import ActivacionVoz
 
 # Diccionario que mapea identificadores de clase a nombres de clase
 CLASS_NAMES = {
@@ -275,7 +278,7 @@ def safe_move_to_home(control):
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def mostrar_menu(object_points,control,receive,io):
+def mostrar_menu(object_points,control,receive,io, resp):
     # Extraer las clases únicas detectadas en el object_points
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
 
@@ -290,13 +293,13 @@ def mostrar_menu(object_points,control,receive,io):
     # Capturar la respuesta del usuario en un bucle hasta que se ingrese una opción válida
     while True:
         try:
-            resp = int(input("Seleccione el instrumento deseado: "))
-
+            #resp = int(input("Seleccione el instrumento deseado: "))
             if resp in opciones_menu:
                 # Si la opción es válida, romper el bucle
                 break
             else:
                 print("Opción no válida. Por favor, seleccione una opción válida.")
+            time.sleep(1)
         except ValueError:
             # Si no se ingresa un número entero
             print("Entrada no válida. Por favor, ingrese un número.")
@@ -347,6 +350,13 @@ def main(control):
     stop_event = threading.Event()
     monitor_thread = threading.Thread(target=monitor_io_and_interrupt, args=(control, receive, io, stop_event))
     monitor_thread.start()
+
+    # Iniciar el hilo que corre la escucha
+    command_queue = queue.Queue()
+    activador = ActivacionVoz(command_queue)
+    activador.iniciar_hilo()
+    
+
     try:
         while True:
             while True:
@@ -379,8 +389,13 @@ def main(control):
 
                 # Imprimir las coordenadas de los puntos junto con el nombre de la clase
                 print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
+                if not command_queue.empty():
+                    resp = command_queue.get()
+                    break
+                else:
+                    resp = None
             
-            mostrar_menu(transformed_object_points, control, receive, io)
+            mostrar_menu(transformed_object_points, control, receive, io, resp)
     except KeyboardInterrupt:
         # Detener el pipeline y cerrar las ventanas
         print("Terminando programa por interrupción de teclado.")
@@ -390,6 +405,7 @@ def main(control):
         # Terminar el hilo de monitoreo
         stop_event.set()
         monitor_thread.join()
+        activador.detener()
 
     except Exception as e:
         print(f"Error inesperado: {e}")
@@ -398,6 +414,7 @@ def main(control):
         cv2.destroyAllWindows()
         stop_event.set()
         monitor_thread.join()
+        activador.detener()
 
 # Ejecutar el programa principal
 if __name__ == "__main__":
