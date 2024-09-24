@@ -88,3 +88,228 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* Modo Claro (Light Mode) - por defecto */
+:root {
+    --color-background: #F0F8FF;
+    --color-text: #333333;
+}
+
+/* Modo Oscuro (Dark Mode) */
+body.dark-mode {
+    --color-background: #121212;
+    --color-text: #ffffff;
+}
+
+/* Switch general (ya lo tienes) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-secondary);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--color-accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Transiciones generales */
+* {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Mejora de botones: Cambios de color y efecto hover */
+button {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--color-accent);
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir una sombra suave */
+}
+
+/* Botones para dispositivos táctiles */
+button:active {
+    transform: scale(0.95); /* Se reduce un poco al hacer click */
+}
+
+/* Mejora de los botones con íconos */
+button.flex {
+    align-items: center;
+    gap: 8px;
+}
+
+button.flex img {
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2)); /* Añadir sombra a los íconos */
+}
+
+/* Efecto hover para las imágenes del video feed */
+img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.03); /* Aumenta ligeramente al pasar el cursor */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+}
+
+/* Mejora visual del switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-secondary);
+    transition: background-color 0.4s, transform 0.4s ease-in-out;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: transform 0.4s ease-in-out;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+}
+
+input:checked + .slider {
+    background-color: var(--color-accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Estilo del contenedor */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Añadir sombra a los contenedores */
+.shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Mejora de las tarjetas (cards) */
+.bg-white {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.bg-white:hover {
+    background-color: var(--color-accent);
+    transform: scale(1.03);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.bg-white h2 {
+    transition: color 0.3s ease;
+}
+
+.bg-white:hover h2 {
+    color: var(--color-text);
+}
+
+/* Modo Claro (Light Mode) - por defecto */
+:root {
+    --color-primary: #0077BE;
+    --color-secondary: #00A8E8;
+    --color-accent: #40E0D0;
+    --color-background: #F0F8FF;
+    --color-text: #333333;
+}
+
+/* Paleta del modo oscuro */
+body.dark-mode {
+    --color-primary: #052B56;  /* Berkeley Blue */
+    --color-secondary: #03416B; /* Indigo Dye */
+    --color-accent: #036E7A;   /* Caribbean Current */
+    --color-background: #052F5F; /* Más Berkeley Blue */
+    --color-text: #FFFFFF;     /* Texto claro para contraste */
+}
+
+/* Transiciones suaves para los cambios de color */
+* {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Ajustes adicionales si los necesitas */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode p, 
+body.dark-mode span {
+    color: var(--color-text);
+}
+
+body.dark-mode .bg-white {
+    background-color: var(--color-primary);
+}
+
+body.dark-mode button {
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+}
+
+body.dark-mode .border {
+    border-color: var(--color-accent);
+}
+/* Transición más suave */
+* {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}

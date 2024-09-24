@@ -78,3 +78,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modeSwitch = document.getElementById('mode-switch');
+    const body = document.body;
+
+    // Verifica si ya está guardada la preferencia de modo en localStorage
+    const currentMode = localStorage.getItem('theme');
+    if (currentMode === 'dark') {
+        body.classList.add('dark-mode');
+        modeSwitch.checked = true;
+    }
+
+    // Función para cambiar entre modo oscuro y claro
+    modeSwitch.addEventListener('change', function () {
+        if (this.checked) {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark'); // Guarda la preferencia en localStorage
+        } else {
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light'); // Guarda la preferencia en localStorage
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modeSwitch = document.getElementById('mode-switch');
+    const body = document.body;
+
+    // Verifica si ya está guardada la preferencia de modo en localStorage
+    const currentMode = localStorage.getItem('theme');
+    if (currentMode === 'dark') {
+        body.classList.add('dark-mode');
+        modeSwitch.checked = true;
+    }
+
+    // Función para cambiar entre modo oscuro y claro
+    modeSwitch.addEventListener('change', function () {
+        if (this.checked) {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark'); // Guarda la preferencia en localStorage
+        } else {
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light'); // Guarda la preferencia en localStorage
+        }
+    });
+
+    // Añadir un efecto de scroll en la página
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+            header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.boxShadow = 'none';
+        }
+    });
+});

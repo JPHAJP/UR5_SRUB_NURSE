@@ -15,6 +15,17 @@
             <div class="flex justify-center my-4">
                 <img src="{{ url_for('video_feed') }}" alt="Video Feed" class="rounded-lg shadow-lg mx-2">
             </div>
+
+            <!-- Switch para cambiar de modo (claro/oscuro) -->
+            <div class="text-center mt-4">
+                <label class="switch">
+                    <input type="checkbox" id="mode-switch">
+                    <span class="slider"></span>
+                </label>
+                <span class="ml-2">Modo Oscuro</span>
+            </div>
+            
+
         </header>
 
         <div class="p-5 my-5 text-center">
