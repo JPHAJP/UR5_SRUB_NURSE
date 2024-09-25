@@ -1,30 +1,31 @@
 import time
 import queue
-from activacion_voz import ActivacionVoz
+from alt import ActivacionVoz  # Import your class from the updated file
 
 if __name__ == "__main__":
-    # Crear una cola para pasar datos entre hilos
+    # Create an instance of the class ActivacionVoz
+    activacion_voz = ActivacionVoz()
     command_queue = queue.Queue()
 
-    # Crear una instancia de la clase ActivacionVoz y pasarle la cola
-    activador = ActivacionVoz(command_queue)
 
-    # Iniciar el hilo que corre la escucha
-    activador.iniciar_hilo()
+    # Start the ActivacionVoz thread
+    activacion_voz.start()
 
-    # Simular una tarea en el hilo principal (contador que imprime)
+    # Simulate the main thread doing other tasks (e.g., a counter that prints)
     contador = 0
     try:
         while True:
-            # Verificar si hay comandos en la cola
             if not command_queue.empty():
                 comando = command_queue.get()
                 print(f"Comando recibido en el hilo principal: {comando}")
-
-            # Continuar con otra tarea en el hilo principal
-            print(f"Contador en hilo principal: {contador}")
+            # Simulate doing something else in the main thread
+            print(f"Main thread counter: {contador}")
             contador += 1
-            time.sleep(1)  # Pausa de 1 segundo entre cada iteración
+            time.sleep(1)  # Sleep for 1 second between each iteration
     except KeyboardInterrupt:
-        print("Deteniendo...")
-        activador.detener()
+        print("Stopping...")
+        # Call the detener() method to stop the ActivacionVoz thread
+        activacion_voz.detener()
+        # Optionally, wait for the thread to finish before exiting
+        activacion_voz.join()  # Wait for the thread to stop completely
+        print("ActivacionVoz thread stopped.")
