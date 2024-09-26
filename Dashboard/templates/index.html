@@ -10,108 +10,13 @@
 </head>
 <body class="bg-[var(--color-background)] text-[var(--color-text)]">
     <div class="container mx-auto p-5">
-        <header class="bg-[var(--color-primary)] text-white pt-3 pb-3 px-3 rounded-lg text-center">
-            <h1 id="transmisión-en-vivo-de-la-webcam" class="text-2xl font-semibold">Transmisión en Vivo de la Webcam</h1>
-            <div class="flex justify-center my-4">
-                <img src="{{ url_for('video_feed') }}" alt="Video Feed" class="rounded-lg shadow-lg mx-2">
-            </div>
-
-            <!-- Switch para cambiar de modo (claro/oscuro) -->
-            <div class="text-center mt-4">
-                <label class="switch">
-                    <input type="checkbox" id="mode-switch">
-                    <span class="slider"></span>
-                </label>
-                <span class="ml-2">Modo Oscuro</span>
-            </div>
-            
-
-        </header>
-
-        <div class="p-5 my-5 text-center">
-            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg mr-2">Conectar con robot</button>
-            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">Conectar con cámara</button>
-            <p class="mt-3">Estado del robot: <span class="font-bold">{{conexion_ur}}</span></p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)]">
-                <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas del UR5</h2>
-                <p>Coordenada x: {{ur_x}}</p>
-                <p>Coordenada y: {{ur_y}}</p>
-                <p>Coordenada z: {{ur_z}}</p>
-                <p>Coordenada rx: {{ur_rx}}</p>
-                <p>Coordenada ry: {{ur_ry}}</p>
-                <p>Coordenada rz: {{ur_rz}}</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)]">
-                <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas objetivo</h2>
-                <p>Coordenada x: {{x}}</p>
-                <p>Coordenada y: {{y}}</p>
-                <p>Coordenada z: {{z}}</p>
-                <p>Coordenada rx: {{rx}}</p>
-                <p>Coordenada ry: {{ry}}</p>
-                <p>Coordenada rz: {{rz}}</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] my-5">
-            <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Selecciona un instrumento quirúrgico</h2>
-            <div class="flex flex-wrap justify-center space-x-4">
-                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
-                    <img src="{{ url_for('static', filename='images/glove.png') }}" alt="Mano" class="h-5 w-5 mr-2"> Mano
-                </button>
-                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
-                    <img src="{{ url_for('static', filename='images/scalpel.png') }}" alt="Bisturí" class="h-5 w-5 mr-2"> Bisturí
-                </button>
-                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
-                    <img src="{{ url_for('static', filename='images/medical.png') }}" alt="Pinzas" class="h-5 w-5 mr-2"> Pinzas
-                </button>
-                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
-                    <img src="{{ url_for('static', filename='images/scissor.png') }}" alt="Tijeras rectas" class="h-5 w-5 mr-2"> Tijeras rectas
-                </button>
-                <button class="flex items-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">
-                    <img src="{{ url_for('static', filename='images/scissors.png') }}" alt="Tijeras curvas" class="h-5 w-5 mr-2"> Tijeras curvas
-                </button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] flex justify-center items-center">
-                <label class="switch">
-                    <input type="checkbox" id="interruptor-checkbox">
-                    <span class="slider"></span>
-                </label>
-                <span class="ml-2">Activar / Desactivar interruptor</span>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] flex justify-center items-center">
-                <label class="switch">
-                    <input type="checkbox" id="iman-checkbox">
-                    <span class="slider"></span>
-                </label>
-                <span class="ml-2">Activar / Desactivar imán</span>
-            </div>
-        </div>
-        
-
-        <div class="p-5 my-5 text-center">
-            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg mr-2">Grabar voz</button>
-            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg">Escuchar grabación</button>
-        </div>
-
-        <footer class="bg-[var(--color-primary)] text-white p-5 rounded-lg text-center">
-            <p>
-                <a href="https://github.com/JPHAJP/UR5_SRUB_NURSE" class="underline hover:text-[var(--color-accent)]" property="dct:title" rel="cc:attributionURL">UR5-Scrube-Nurse</a> by
-                <span property="cc:attributionName">José Pablo Hernández Alonso, Aldo Cova Martínez</span> is licensed under
-                <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" class="underline hover:text-[var(--color-accent)]" target="_blank" rel="license noopener noreferrer">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International</a>
-            </p>
-            <div class="flex items-center justify-center space-x-2 mt-2">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC" class="h-6">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY" class="h-6">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="NC" class="h-6">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt="ND" class="h-6">
-            </div>
-        </footer>
+        {% include 'header.html' %}
+        {% include 'controls.html' %}
+        {% include 'robot-coordinates.html' %}
+        {% include 'instrument-selection.html' %}
+        {% include 'toggle-controls.html' %}
+        {% include 'voice-controls.html' %}
+        {% include 'footer.html' %}
     </div>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>

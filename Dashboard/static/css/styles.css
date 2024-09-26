@@ -1,21 +1,32 @@
 :root {
-    --color-primary: #0077BE;
-    --color-secondary: #00A8E8;
-    --color-accent: #40E0D0;
-    --color-background: #F0F8FF;
-    --color-text: #333333;
+    --color-primary: #5C6B73;  /* Texto principal */
+    --color-secondary: #253237; /* Fondo oscuro o contrastes fuertes */
+    --color-accent: #9DB4C0;    /* Acentos y botones */
+    --color-background: #E1E1E1; /* Nuevo fondo claro */
+    --color-text: #5C6B73;      /* Texto general */
 }
 
 body {
     font-family: Arial, sans-serif;
+    background-color: var(--color-background); /* Aplicar el nuevo color de fondo */
+    color: var(--color-text);
 }
 
 button {
-    transition: background-color 0.3s ease;
+    background-color: var(--color-primary); /* Color inicial de los botones */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+
 button:hover {
-    opacity: 0.9;
+    background-color: var(--color-accent); /* Acento en hover */
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .rounded-lg {
@@ -26,169 +37,26 @@ button:hover {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos para los nuevos checkboxes de tipo interruptor */
-.toggle-dot {
-    top: 0.125rem;
-    left: 0.125rem;
-    transition: transform 0.3s ease-in-out;
-}
-
-input:checked ~ div > .toggle-dot {
-    transform: translateX(100%);
-}
-
-input:checked ~ div {
-    background-color: var(--color-accent);
-}
-
-/* Añade más estilos personalizados según sea necesario */
-
-/* Estilos para el switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--color-secondary);
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: var(--color-accent);
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-/* Modo Claro (Light Mode) - por defecto */
-:root {
-    --color-background: #F0F8FF;
-    --color-text: #333333;
-}
-
-/* Modo Oscuro (Dark Mode) */
-body.dark-mode {
-    --color-background: #121212;
-    --color-text: #ffffff;
-}
-
-/* Switch general (ya lo tienes) */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--color-secondary);
-    transition: .4s;
-    border-radius: 34px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background-color: var(--color-accent);
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-/* Transiciones generales */
-* {
-    transition: all 0.3s ease-in-out;
-}
-
-/* Mejora de botones: Cambios de color y efecto hover */
-button {
+.bg-white {
+    background-color: #C2DFE3; /* Fondo suave */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-button:hover {
-    background-color: var(--color-accent);
-    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir una sombra suave */
+.bg-white:hover {
+    background-color: var(--color-accent); /* Acento en hover */
+    transform: scale(1.03);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Botones para dispositivos táctiles */
-button:active {
-    transform: scale(0.95); /* Se reduce un poco al hacer click */
+h1, h2, h3 {
+    color: var(--color-primary); /* Texto principal */
 }
 
-/* Mejora de los botones con íconos */
-button.flex {
-    align-items: center;
-    gap: 8px;
+p, span {
+    color: var(--color-text); /* Texto general */
 }
 
-button.flex img {
-    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2)); /* Añadir sombra a los íconos */
-}
-
-/* Efecto hover para las imágenes del video feed */
-img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-img:hover {
-    transform: scale(1.03); /* Aumenta ligeramente al pasar el cursor */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Añadir sombra */
-}
-
-/* Mejora visual del switch */
+/* Switch general */
 .switch {
     position: relative;
     display: inline-block;
@@ -209,7 +77,7 @@ img:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary); /* Fondo oscuro para el switch */
     transition: background-color 0.4s, transform 0.4s ease-in-out;
     border-radius: 34px;
 }
@@ -228,88 +96,37 @@ img:hover {
 }
 
 input:checked + .slider {
-    background-color: var(--color-accent);
+    background-color: var(--color-accent); /* Cambio de color cuando está activo */
 }
 
 input:checked + .slider:before {
     transform: translateX(26px);
 }
 
-/* Estilo del contenedor */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+.no-animation {
+    transition: none !important;  /* Eliminar transiciones */
+    transform: none !important;   /* Eliminar cualquier transformación */
 }
 
-/* Añadir sombra a los contenedores */
-.shadow-lg {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios */
 }
 
-/* Mejora de las tarjetas (cards) */
-.bg-white {
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.no-animation {
+    transition: none !important;
+    transform: none !important;
 }
 
-.bg-white:hover {
-    background-color: var(--color-accent);
-    transform: scale(1.03);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios en hover */
 }
 
-.bg-white h2 {
-    transition: color 0.3s ease;
+.no-animation {
+    transition: none !important;
+    transform: none !important;
 }
 
-.bg-white:hover h2 {
-    color: var(--color-text);
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios en hover */
 }
 
-/* Modo Claro (Light Mode) - por defecto */
-:root {
-    --color-primary: #0077BE;
-    --color-secondary: #00A8E8;
-    --color-accent: #40E0D0;
-    --color-background: #F0F8FF;
-    --color-text: #333333;
-}
-
-/* Paleta del modo oscuro */
-body.dark-mode {
-    --color-primary: #052B56;  /* Berkeley Blue */
-    --color-secondary: #03416B; /* Indigo Dye */
-    --color-accent: #036E7A;   /* Caribbean Current */
-    --color-background: #052F5F; /* Más Berkeley Blue */
-    --color-text: #FFFFFF;     /* Texto claro para contraste */
-}
-
-/* Transiciones suaves para los cambios de color */
-* {
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-/* Ajustes adicionales si los necesitas */
-body.dark-mode h1, 
-body.dark-mode h2, 
-body.dark-mode p, 
-body.dark-mode span {
-    color: var(--color-text);
-}
-
-body.dark-mode .bg-white {
-    background-color: var(--color-primary);
-}
-
-body.dark-mode button {
-    background-color: var(--color-secondary);
-    color: var(--color-text);
-}
-
-body.dark-mode .border {
-    border-color: var(--color-accent);
-}
-/* Transición más suave */
-* {
-    transition: background-color 0.5s ease, color 0.5s ease;
-}

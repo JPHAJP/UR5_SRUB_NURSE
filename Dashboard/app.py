@@ -1,12 +1,8 @@
-
 from flask import Flask, render_template, request, Response
 import numpy as np
 import time
 import threading
-
-import pyrealsense2 as rs
 import cv2
-
 from ultralytics import YOLO
 
 # import rtde_control
@@ -42,19 +38,18 @@ def get_frame():
         return
     
     while True:
-        while True:
-            # Capturar frame a frame
-            success, frame = cap.read()
-            if not success: 
-                break
-            else:
-                # Codificar el frame en formato JPEG
-                ret, buffer = cv2.imencode('.jpg', frame)
-                frame = buffer.tobytes()
+        # Capturar frame a frame
+        success, frame = cap.read()
+        if not success: 
+            break
+        else:
+            # Codificar el frame en formato JPEG
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
 
-                # Usar el frame como un flujo de video en formato multipart/x-mixed-replace
-                yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            # Usar el frame como un flujo de video en formato multipart/x-mixed-replace
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -67,13 +62,13 @@ def home():
     
         valores = {
             'ur_x': 0, 'ur_y': 0, 'ur_z': 0, 
-            'ur_rx': 0, 'ur_ry': 0, 'ur_rz': 0, # ur son las coordenadas del robot
+            'ur_rx': 0, 'ur_ry': 0, 'ur_rz': 0,  # ur son las coordenadas del robot
             'x': 0, 'y': 0, 'z': 0,             # x, y, z son las coordenadas del objeto
             'rx': 0, 'ry': 0, 'rz': 0,
             'interruptor': interruptor,
             'iman': iman,
             'conexion_ur': conexion_ur
-            }
+        }
     
     else:
         valores = {
@@ -84,7 +79,8 @@ def home():
             'interruptor': 'Null',
             'iman': 'Null',
             'conexion_ur': 'Null'
-            }
+        }
+    
     return render_template('index.html', **valores)
 
 @app.route('/video_feed')
