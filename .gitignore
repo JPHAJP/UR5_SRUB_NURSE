@@ -6,3 +6,4 @@ ur_log/
 /Train/valid/
 /Train/test/
 venv_2/
+__pycache__
