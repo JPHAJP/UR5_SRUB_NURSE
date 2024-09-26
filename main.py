@@ -4,8 +4,9 @@ from alt import ActivacionVoz  # Import your class from the updated file
 
 if __name__ == "__main__":
     # Create an instance of the class ActivacionVoz
-    activacion_voz = ActivacionVoz()
     command_queue = queue.Queue()
+    activacion_voz = ActivacionVoz(command_queue)
+    
 
 
     # Start the ActivacionVoz thread

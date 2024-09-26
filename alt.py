@@ -12,16 +12,18 @@ import ollama
 from scipy.io.wavfile import write
 
 class ActivacionVoz(threading.Thread):
-    def __init__(self):
+    def __init__(self, command_queue):
         threading.Thread.__init__(self)
-        self.queue = queue.Queue()
+        # Cola para enviar comandos al hilo principal
+        self.command_queue = command_queue
+
         self.model = whisper.load_model("base")
         self.palabra_activacion = "silvia"
         self.stop_event = threading.Event()
 
     # Función para generar y reproducir el audio con TTS
     def reproducir_audio(self, mensaje):
-        mensaje = "aaa.........." + mensaje
+        mensaje = "aa......."+str(mensaje)
         tts = gTTS(mensaje, lang='es')
         archivo_audio = "esperando_comando.mp3"
         tts.save(archivo_audio)
@@ -67,6 +69,98 @@ class ActivacionVoz(threading.Thread):
         return False
 
     
+    # Función para tratar respuetas largas
+    def interpretar_respuestas_cortas(self, text):
+        print(f"Texto recibido")
+        try:
+                # Casa: 0
+                # Bisturí: 1
+                # Mano: 2
+                # Pinzas: 4
+                # Tijeras curvas: 5
+                # Tijeras rectas: 6
+                # Cancelar: 3
+                # Error: 7
+                # Especificar tijeras: 8
+            messages = [
+                {"role": "system", "content": """
+                Eres un robot asistente de un cirujano.
+                El usuario puede pedirte instrumentos quirúrgicos específicos.
+                Puedes ayudar con tareas simples de manejo de instrumental quirúrgico, como un enfermero instrumentista.
+                Tu tarea es identificar el instrumento solicitado o el commando de la siguiente lista:
+                
+                Lista de comandos:
+                Casa: 0
+                "Bisturí": 1
+                Mano: 2
+                Cancelar o detener robot: 3
+                Pinzas: 4
+                Tijeras curvas: 5
+                Tijeras rectas: 6
+                Error: 7
+                Especificar tijeras: 8
+                
+                SIEMPRE debes de responder solo con el número correspondiente "#".
+                Si se te pide un instrumento, responde con el número del comando correspondiente.
+                Si se te pide un commando, responde con el número del commando correspondiente.
+                Si no puedes ayudar enviar el comando 7.
+                Si pide solo tijeras debes preguntar si son "tijeras curvas" o "tijeras rectas" Manda comando 8.
+                No puedes responder si solo pide "tijeras" debe de pedir "tijeras curvas" o "tijeras rectas" envia el comando 8 para especificar cuales son.
+                Si hay un error ortográfico o fonético en la solicitud, debes responder con el comando más cercano.
+                Si ya diste un commando no es necesario que continues con más texto, solo espera la siguiente instrucción.
+                Muy importante: Siempre debes responder con un solo número por respuesta.
+                """},
+                {"role": "user", "content": "¿Qué instrumentos tienes?"},
+                {"role": "system", "content": "7"},
+                {"role": "user", "content": "Sigue mi mano."},
+                {"role": "system", "content": "2"},
+                {"role": "user", "content": "Las tijeras por favor."},
+                {"role": "system", "content": "8"},
+                {"role": "user", "content": "Pásame las tijeras rectas."},
+                {"role": "system", "content": "6"},
+                {"role": "user", "content": "Pásame las tijeras curvas."},
+                {"role": "system", "content": "5"},
+                {"role": "user", "content": "Es una emergencia el paciente se está desangrando, dame el bisturi."},
+                {"role": "system", "content": "1"},
+                {"role": "user", "content": "Se desangra el pasiente dame el bisturí."},
+                {"role": "system", "content": "1"},
+                {"role": "user", "content": "Ve a casa."},
+                {"role": "system", "content": "0"},
+                {"role": "user", "content": "Busca las tijeras."},
+                {"role": "system", "content": "8"},
+                {"role": "user", "content": "Dame las tijeras."},
+                {"role": "system", "content": "8"},
+                {"role": "user", "content": "   "},
+                {"role": "system", "content": "7"},
+                {"role": "user", "content": "-----"},
+                {"role": "system", "content": "7"},
+                {"role": "user", "content": "Detén el proceso."},
+                {"role": "system", "content": "3"},
+                {"role": "user", "content": "Cancela"},
+                {"role": "system", "content": "3"},
+                {"role": "user", "content": "Es una emergencia."},
+                {"role": "system", "content": "7"},
+                {"role": "user", "content": "Lo siento mucho, pero no puedo ayudarte con eso."},
+                {"role": "system", "content": "7"},
+                {"role": "user", "content": text}
+            ]
+            stream = ollama.chat(model='llama3.1:latest', messages=messages, stream=True)
+
+            command_response = ""
+            for chunk in stream:
+                command_response += chunk['message']['content']
+            print(command_response)
+            try:
+                command_response = int(command_response)
+            except:
+                command_response = 7
+            return command_response
+        
+        except Exception as e:
+            print(f"Error en la generación del comando: {e}")
+            return None
+    
+    # Función para detectar el comando de Llama
     def detectar_comando_llama(self, text):
         try:
             messages = [
@@ -80,11 +174,12 @@ class ActivacionVoz(threading.Thread):
             Lista de comandos:
             Casa: 0
             Bisturí: 1
-            Pinzas: 2
-            Tijeras curvas: 3
-            Tijeras rectas: 4
-            Mano: 5
-            Cancelar: 6
+            Mano: 2
+            Pinzas: 4
+            Tijeras curvas: 5
+            Tijeras rectas: 6
+            Cancelar: 3
+            Error: 7
              
             Debes responder en el formato: "Detectando [instrumento], ejecutando comando [número]."
             Si escuchas visturí o bisturí, debes responder con bisturí.
@@ -151,9 +246,10 @@ class ActivacionVoz(threading.Thread):
                     audio_data = self.escuchar()
                     texto = self.transcribir_con_whisper(audio_data)
                     print(f"Instrucción recibida: {texto}")
-                    respuesta, comando = self.detectar_comando_llama(texto)
+                    #respuesta, comando = self.detectar_comando_llama(texto)
+                    respuesta = self.interpretar_respuestas_cortas(texto)
                     if respuesta:
-                        print(f"Comando ejecutado: {comando}")
+                        print(f"Comando ejecutado: {respuesta}")
                         self.reproducir_audio(respuesta)
                         break
                     else:

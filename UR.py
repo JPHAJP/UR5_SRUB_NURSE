@@ -25,7 +25,7 @@ CLASS_NAMES = {
 }
 
 # Offset en el eje z para la posición del robot
-ofzr = 0.02
+ofzr = 0.03
 control = None
 
 def inicializar_robot():
@@ -233,7 +233,7 @@ def move_robot(xtransfn, ytransfn, ofzn, control, receive):
         distance = np.linalg.norm(point)
     
         # Verifica si la distancia está dentro del rango máximo
-        UR5E_MAX_REACH = 850
+        UR5E_MAX_REACH = .850
         return distance <= UR5E_MAX_REACH
     is_point_on_work=is_point_within_reach([xtransfn, ytransfn, ofzn])
     if not is_point_on_work:
@@ -327,7 +327,9 @@ def mostrar_menu(object_points,control,receive,io, resp):
     # Opción para volver al home
     while True:
         try:
-            resp2 = int(input("Presione 1 para volver al home: "))
+            time.sleep(3)
+            resp2 = 1
+            #resp2 = int(input("Presione 1 para volver al home: "))
             if resp2 == 1:
                 gohome(control)
                 break

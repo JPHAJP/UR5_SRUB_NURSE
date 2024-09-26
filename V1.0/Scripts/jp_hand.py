@@ -209,12 +209,34 @@ def frameOriginCoordinates(xtool, ytool, H_cam, V_cam, wrist3):
 
     return ofx, ofy, angulo_tangencia
 
-def move_robot(xtransfn, ytransfn, ofzn):
+def move_robot(xtransfn, ytransfn, ofzn, control, receive):
+    def is_point_within_reach(point):
+        """
+        Verifica si un punto está dentro del alcance del UR5-e.
+        
+        Parámetro:
+        point (tuple): Una tupla con las coordenadas (x, y, z) del punto en milímetros.
+        
+        Retorna:
+        bool: True si el punto está dentro del alcance, False de lo contrario.
+        """
+        # Calcula la distancia euclidiana desde la base (0, 0, 0) al punto
+        distance = np.linalg.norm(point)
+    
+        # Verifica si la distancia está dentro del rango máximo
+        UR5E_MAX_REACH = .85
+        UR5E_MIN_REACH = .30
+        return distance <= UR5E_MAX_REACH and distance >= UR5E_MIN_REACH
+    is_point_on_work=is_point_within_reach([xtransfn, ytransfn, ofzn])
+    if not is_point_on_work:
+        print("Punto fuera de alcance")
+        return
     xr, yr, zr, rxr, ryr, rzr = receive.getActualTCPPose()
     #destinationf = [xtransfn, ytransfn, ofzn]
     control.moveL([xtransfn, ytransfn, ofzn, rxr, ryr, rzr], .5, .5, asynchronous=True)
     # Normalizamos para poder hacer comparativas
     #destinationf = np.around(destinationf, decimals=2)
+    return
 
 def gohome():
     # Función para mover el robot a la posición "Home"
@@ -250,7 +272,7 @@ def safe_move_to_home():
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def seguir_mano(object_points):
+def seguir_mano(object_points, control=control, receive=receive):
     clase_seleccionada = 'Mano'  # Mano
     # Filtrar los puntos de la clase seleccionada
     puntos_clase = [(x, y, clase, score) for (x, y, clase, score) in object_points if clase == clase_seleccionada]
@@ -294,7 +316,7 @@ def seguir_mano(object_points):
             print(f"Moviendo el robot a las coordenadas objetivo ({xtransf}, {ytransf})")
             
             # Mover el robot directamente a las coordenadas transformadas (objetivo)
-            move_robot(xtransf, ytransf, ofzr)  
+            move_robot(xtransf, ytransf, ofzr, control, receive)  
             
             print("El robot ha alcanzado las coordenadas objetivo.")
         
