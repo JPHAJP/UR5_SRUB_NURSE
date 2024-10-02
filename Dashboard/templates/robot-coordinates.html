@@ -1,4 +1,5 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-5 md:col-span-3">
+    <!-- Coordenadas del UR5 (ocupando 1 columna) -->
     <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] no-animation">
         <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas del UR5</h2>
         <p>Coordenada x: {{ur_x}}</p>
@@ -7,14 +8,19 @@
         <p>Coordenada rx: {{ur_rx}}</p>
         <p>Coordenada ry: {{ur_ry}}</p>
         <p>Coordenada rz: {{ur_rz}}</p>
+
+        <div class="flex justify-between mt-4">
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--color-accent)]">Conectar con robot</button>
+            <button class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--color-accent)]">Conectar con cámara</button>
+        </div>
+        <p class="mt-2">Estado del robot: <span class="font-semibold">Null</span></p>
     </div>
+
+    <!-- Transmisión de la cámara (ocupando 1 columna) -->
     <div class="bg-white p-5 rounded-lg shadow-sm border border-[var(--color-accent)] no-animation">
-        <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Coordenadas objetivo</h2>
-        <p>Coordenada x: {{x}}</p>
-        <p>Coordenada y: {{y}}</p>
-        <p>Coordenada z: {{z}}</p>
-        <p>Coordenada rx: {{rx}}</p>
-        <p>Coordenada ry: {{ry}}</p>
-        <p>Coordenada rz: {{rz}}</p>
+        <h2 class="text-xl font-semibold mb-4 text-[var(--color-primary)]">Transmisión en Vivo de la Webcam</h2>
+        <div class="flex justify-center my-4">
+            <img src="{{ url_for('video_feed') }}" alt="Video Feed" class="rounded-lg shadow-lg w-full h-auto">
+        </div>
     </div>
 </div>

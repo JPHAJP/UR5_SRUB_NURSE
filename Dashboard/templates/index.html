@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transmisión en Vivo de la Webcam</title>
+    <title>Interfaz de Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body class="bg-[var(--color-background)] text-[var(--color-text)]">
     <div class="container mx-auto p-5">
-        {% include 'header.html' %}
-        {% include 'controls.html' %}
-        {% include 'robot-coordinates.html' %}
-        {% include 'instrument-selection.html' %}
-        {% include 'toggle-controls.html' %}
-        {% include 'voice-controls.html' %}
+        <!-- Sección superior: Coordenadas y transmisión en vivo -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">
+            {% include 'robot-coordinates.html' %}
+        </div>
+        
+        <!-- Sección inferior: Herramientas e interruptores -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-5">
+            {% include 'instrument-selection.html' %}
+            {% include 'toggle-controls.html' %}
+        </div>
+
         {% include 'footer.html' %}
     </div>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
