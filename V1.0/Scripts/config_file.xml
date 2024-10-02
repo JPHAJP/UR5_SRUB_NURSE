@@ -1,0 +1,5 @@
+<rtde_config>
+    <output>
+        <field name="robot_mode"/>
+    </output>
+</rtde_config>
