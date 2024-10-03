@@ -7,3 +7,5 @@ ur_log/
 /Train/test/
 venv_2/
 __pycache__
+__pycache__
+.vscode
