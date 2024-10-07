@@ -12,6 +12,7 @@ Librerias de trabajo:
 -whisper
 -gradio
 -gtts
+-flask
 
 -UR en docker
 https://hub.docker.com/r/universalrobots/ursim_e-series

@@ -1,0 +1,132 @@
+:root {
+    --color-primary: #5C6B73;  /* Texto principal */
+    --color-secondary: #253237; /* Fondo oscuro o contrastes fuertes */
+    --color-accent: #9DB4C0;    /* Acentos y botones */
+    --color-background: #E1E1E1; /* Nuevo fondo claro */
+    --color-text: #5C6B73;      /* Texto general */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-background); /* Aplicar el nuevo color de fondo */
+    color: var(--color-text);
+}
+
+button {
+    background-color: var(--color-primary); /* Color inicial de los botones */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+button:hover {
+    background-color: var(--color-accent); /* Acento en hover */
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.bg-white {
+    background-color: #C2DFE3; /* Fondo suave */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.bg-white:hover {
+    background-color: var(--color-accent); /* Acento en hover */
+    transform: scale(1.03);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+h1, h2, h3 {
+    color: var(--color-primary); /* Texto principal */
+}
+
+p, span {
+    color: var(--color-text); /* Texto general */
+}
+
+/* Switch general */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-secondary); /* Fondo oscuro para el switch */
+    transition: background-color 0.4s, transform 0.4s ease-in-out;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: transform 0.4s ease-in-out;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+}
+
+input:checked + .slider {
+    background-color: var(--color-accent); /* Cambio de color cuando está activo */
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.no-animation {
+    transition: none !important;  /* Eliminar transiciones */
+    transform: none !important;   /* Eliminar cualquier transformación */
+}
+
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios */
+}
+
+.no-animation {
+    transition: none !important;
+    transform: none !important;
+}
+
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios en hover */
+}
+
+.no-animation {
+    transition: none !important;
+    transform: none !important;
+}
+
+.no-animation:hover {
+    background-color: var(--color-background) !important; /* Mantener el fondo sin cambios en hover */
+}
+

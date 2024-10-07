@@ -11,7 +11,10 @@ from ultralytics import YOLO
 import rtde_control
 import rtde_receive
 import rtde_io
+import sys, os
 
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'V1.0/Scripts'))
 from activacion_voz import ActivacionVoz
 
 # Diccionario que mapea identificadores de clase a nombres de clase
