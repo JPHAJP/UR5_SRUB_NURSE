@@ -30,7 +30,7 @@ class ActivacionVoz:
         self.escuchando = True
 
     def reproducir_audio(self, mensaje):
-        mensaje = "aaa.........." + mensaje
+        #mensaje = "aaa.........." + mensaje
         tts = gTTS(mensaje, lang='es')
         archivo_audio = "esperando_comando.mp3"
         tts.save(archivo_audio)
@@ -81,11 +81,11 @@ class ActivacionVoz:
             Lista de comandos:
             Casa: 0
             Bisturí: 1
-            Pinzas: 2
-            Tijeras curvas: 3
-            Tijeras rectas: 4
-            Mano: 5
-            Cancelar: 6
+            Pinzas: 4
+            Tijeras curvas: 5
+            Tijeras rectas: 6
+            Mano: 2
+            Cancelar: 7
              
             Debes responder en el formato: "Detectando [instrumento], ejecutando comando [número]."
             Si escuchas visturí o bisturí, debes responder con bisturí.

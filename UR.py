@@ -28,7 +28,7 @@ CLASS_NAMES = {
 }
 
 # Offset en el eje z para la posición del robot
-ofzr = 0.03
+ofzr = 0.00
 control = None
 
 def inicializar_robot():
@@ -281,8 +281,7 @@ def safe_move_to_home(control):
         pass
         #restart_rtde_script()  # Reiniciar la conexión RTDE si no está conectada
 
-def mostrar_menu(object_points,control,receive,io, resp):
-    # Extraer las clases únicas detectadas en el object_points
+def mostrar_menu(object_points,control,receive,io, resp, mode):
     clases_detectadas = list({point[2] for point in object_points})  # Usamos un set para evitar duplicados
 
     # Mostrar solo las opciones que están en las clases detectadas
@@ -292,7 +291,12 @@ def mostrar_menu(object_points,control,receive,io, resp):
         if value in clases_detectadas:
             print(f"{key + 1}.- {value}")
             opciones_menu[key + 1] = value
+    if mode == 'input':
+        # Extraer las clases únicas detectadas en el object_points
+        resp = int(input("Seleccione el instrumento deseado: "))
 
+    if mode == 'voice':
+        pass
     # Capturar la respuesta del usuario en un bucle hasta que se ingrese una opción válida
     while True:
         try:
@@ -390,17 +394,19 @@ def main(control):
 
                 # Presionar 'q' para salir
                 if cv2.waitKey(1) & 0xFF == ord('q'):
+                    mode = 'input'
                     break
 
                 # Imprimir las coordenadas de los puntos junto con el nombre de la clase
                 print("Coordenadas de los puntos detectados con clase:", transformed_object_points)
                 if not command_queue.empty():
                     resp = command_queue.get()
+                    mode = 'voice'
                     break
                 else:
                     resp = None
             
-            mostrar_menu(transformed_object_points, control, receive, io, resp)
+            mostrar_menu(transformed_object_points, control, receive, io, resp, mode)
     except KeyboardInterrupt:
         # Detener el pipeline y cerrar las ventanas
         print("Terminando programa por interrupción de teclado.")

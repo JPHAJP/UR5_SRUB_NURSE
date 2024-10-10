@@ -12,7 +12,7 @@ import queue
 class ActivacionVoz:
     def __init__(self, command_queue):
         # Cargar el modelo de Whisper
-        self.model = whisper.load_model("base")
+        self.model = whisper.load_model("small")
 
         # Crear el reconocedor de voz
         self.recognizer = sr.Recognizer()
