@@ -11,6 +11,8 @@ Adapted by JPHA -
     
 *Pronto estarán disponibles los planos, por el momento usar archivos STEP en carpeta 3D_Models
 
+
+
 Librerias de trabajo:
 -Mediapipe
 -Ultralytics
