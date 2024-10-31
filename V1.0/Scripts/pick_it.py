@@ -24,7 +24,7 @@ CLASS_NAMES = {
 }
 
 # Offset en el eje z para la posición del robot
-ofzr = 0.02
+ofzr = 0.00
 control = None
 
 def inicializar_robot():
