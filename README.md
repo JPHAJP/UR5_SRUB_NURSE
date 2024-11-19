@@ -1,7 +1,3 @@
-Aquí tienes una versión mejorada del README con emojis y una organización visual más atractiva para GitHub:
-
----
-
 # 🤖 UR5_SRUB_NURSE — S.I.L.V.I.A. | **Surgical Instrument Logistics Virtual Intelligent Assistant**
 
 Repositorio para el trabajo con el robot UR5 utilizando una cámara de profundidad para la detección de instrumental quirúrgico mediante inteligencia artificial.
