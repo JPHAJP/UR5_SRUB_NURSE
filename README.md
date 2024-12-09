@@ -13,7 +13,7 @@ Archivos principales para el cambio de herramienta:
 - **🔩 Cople**
 - **🔒 Pestillo**
 
-> **Nota**: Pronto estarán disponibles los planos completos. Mientras tanto, usa los archivos STEP en la carpeta **3D_Models**.
+> **Nota**:Planos y archivos STEP en la carpeta **3D_Models**.
 
 ---
 
