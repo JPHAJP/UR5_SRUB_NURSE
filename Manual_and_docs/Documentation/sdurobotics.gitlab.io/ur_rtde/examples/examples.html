@@ -1,0 +1,1322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Examples &mdash; ur_rtde 1.6.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../api/api.html" />
+    <link rel="prev" title="Installation" href="../installation/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ur_rtde
+          
+
+          
+            
+            <img src="../_static/robots.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/guides.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="examples.html#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#cmake-example">CMake Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#basic-use">Basic use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-with-externalcontrol-ur-cap">Use with ExternalControl UR Cap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#use-with-custom-script">Use with custom script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#record-data-example">Record Data Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#move-asynchronous-example">Move Asynchronous Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#move-until-contact">Move Until Contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#forcemode-example">Forcemode Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#servoj-example">ServoJ Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#speedj-example">SpeedJ Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#movel-path-with-blending-example">MoveL Path With Blending Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#io-example">IO Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#robotiq-gripper-example">Robotiq Gripper Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#jog-example">Jog Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ur_rtde</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="examples.html#examples" title="Permalink to this headline">¶</a></h1>
+<p>This section contains examples of how to use the <a class="reference internal" href="../api/api.html#rtde-control-api"><span class="std std-ref">RTDE Control Interface</span></a> the
+<a class="reference internal" href="../api/api.html#rtde-receive-api"><span class="std std-ref">RTDE Receive Interface</span></a> and the <a class="reference internal" href="../api/api.html#rtde-io-api"><span class="std std-ref">RTDE IO Interface</span></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is your own responsibility to verify that the movements performed by these examples are collision-free and safe
+to execute on the robot. When in doubt, use the simulator provided by Universal Robots.</p>
+</div>
+<div class="section" id="cmake-example">
+<h2>CMake Example<a class="headerlink" href="examples.html#cmake-example" title="Permalink to this headline">¶</a></h2>
+<p>Once you have installed the ur_rtde library. You can use the cmake command find_package() to locate the library.
+Here is an example of how to find the library and link it against your C++ executable.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.5</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">ur_rtde_cmake_example</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">ur_rtde</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">ur_rtde_cmake_example</span><span class="w"> </span><span class="s">main.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">ur_rtde_cmake_example</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">ur_rtde::rtde</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>if the library is not installed or installed to a none standard system path, use one of the following methods:</p>
+<ul>
+<li><p>Call CMake with <code class="code bash docutils literal notranslate"><span class="pre">-Dur_rtde_DIR</span><span class="operator"><span class="pre">=</span></span><span class="pre">/path/to/ur_rtde</span></code></p></li>
+<li><p>Set the path in <code class="code bash docutils literal notranslate"><span class="pre">find_package</span><span class="operator"><span class="pre">()</span></span></code>:</p>
+<p>find_package(ur_rtde REQUIRED PATHS “/a/possible/path/to/ur_rtde” “/another/possible/path/to/ur_rtde”)</p>
+</li>
+</ul>
+<p>The path to ur_rtde is the one where ur_rtdeTargets.cmake can be found. For a none install it should be
+<code class="file docutils literal notranslate"><span class="pre">/path/to/ur_rtde/Build/ur_rtde</span></code>. For an install it is <code class="file docutils literal notranslate"><span class="pre">/path/to/lib/cmake/ur_rtde</span></code>.</p>
+</div>
+<div class="section" id="basic-use">
+<h2>Basic use<a class="headerlink" href="examples.html#basic-use" title="Permalink to this headline">¶</a></h2>
+<p>Simple example using the RTDE Control Interface to move the robot to a pose with the <strong>moveL</strong> command.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// The constructor simply takes the IP address of the Robot</span>
+<span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// First argument is the pose 6d vector followed by speed and acceleration</span>
+<span class="n">rtde_control</span><span class="p">.</span><span class="n">moveL</span><span class="p">({</span><span class="mf">-0.143</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.435</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">},</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveL</span><span class="p">([</span><span class="o">-</span><span class="mf">0.143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.435</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Simple example using the RTDE Receive Interface to get the joint positions of the robot</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cm">/* The constructor takes the IP address of the robot, by default all variables are</span>
+<span class="cm"> * transmitted. Optionally only a subset of variables, specified by a vector, are transmitted.</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="n">RTDEReceiveInterface</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">joint_positions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getActualQ</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_receive</span>
+<span class="n">rtde_r</span> <span class="o">=</span> <span class="n">rtde_receive</span><span class="o">.</span><span class="n">RTDEReceiveInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">actual_q</span> <span class="o">=</span> <span class="n">rtde_r</span><span class="o">.</span><span class="n">getActualQ</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Simple example using the RTDE IO Interface to set a standard digital output.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// The constructor simply takes the IP address of the Robot</span>
+<span class="n">RTDEIOInterface</span><span class="w"> </span><span class="n">rtde_io</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">rtde_io</span><span class="p">.</span><span class="n">setStandardDigitalOut</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_io</span>
+<span class="n">rtde_io</span> <span class="o">=</span> <span class="n">rtde_io</span><span class="o">.</span><span class="n">RTDEIOInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">rtde_io</span><span class="o">.</span><span class="n">setStandardDigitalOut</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using an e-Series robot data will be received at the maximum available frequency (500Hz), for a CB3
+robot the frequency will be (125Hz).</p>
+</div>
+</div>
+<div class="section" id="use-with-externalcontrol-ur-cap">
+<h2>Use with ExternalControl UR Cap<a class="headerlink" href="examples.html#use-with-externalcontrol-ur-cap" title="Permalink to this headline">¶</a></h2>
+<p>ur_rtde can be used together with UR’s <a class="reference external" href="https://github.com/UniversalRobots/Universal_Robots_ExternalControl_URCap">ExternalControl UR Cap</a>
+which is also used for the Universal Robot’s ROS driver.</p>
+<p>You can download the UR Cap from
+<a class="reference external" href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/resources/externalcontrol-1.0.4.urcap">here</a>.</p>
+<p>To install it on your robot, please follow the instructions:</p>
+<p><a class="reference external" href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/install_urcap_e_series.md">Installing a URCap on a e-Series robot</a>
+(for an e-series robot)</p>
+<p>or</p>
+<p><a class="reference external" href="https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/install_urcap_cb3.md">Installing a URCap on a CB3 robot</a>
+(for a CB-series robot).</p>
+<p>In order to setup ur_rtde for using the ExternalControl UR Cap, all you have to do is to specify
+this in the RTDEControlInterface constructor with the flag FLAG_USE_EXT_UR_CAP.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Remember you can combine flags in the constructor using the bitwise OR operator both in Python
+(eg. RTDEControl.FLAG_VERBOSE | RTDEControl.FLAG_USE_EXT_UR_CAP) and in C++
+(eg. RTDEControlInterface::FLAG_NO_WAIT | RTDEControlInterface::FLAG_USE_EXT_UR_CAP)</p>
+</div>
+<p>for Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtde_control</span> <span class="kn">import</span> <span class="n">RTDEControlInterface</span> <span class="k">as</span> <span class="n">RTDEControl</span>
+<span class="n">rtde_frequency</span> <span class="o">=</span> <span class="mf">500.0</span>
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">RTDEControl</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">rtde_frequency</span><span class="p">,</span> <span class="n">RTDEControl</span><span class="o">.</span><span class="n">FLAG_USE_EXT_UR_CAP</span><span class="p">)</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveL</span><span class="p">([</span><span class="o">-</span><span class="mf">0.143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.435</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">500.0</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FLAG_USE_EXT_UR_CAP</span><span class="p">);</span><span class="w"></span>
+<span class="n">rtde_control</span><span class="p">.</span><span class="n">moveL</span><span class="p">({</span><span class="mf">-0.143</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.435</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">},</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>When you execute your ur_rtde application it will simply wait for you to press play on the controller in order
+to start, unless you use the FLAG_NO_WAIT, in which case the interface will be initialized, but cannot be
+used before the program is running on the controller. The port used for communicating with the UR Cap defaults to
+50002 if this does not suit your application it can be changed in the constructor of the RTDEControlInterface right
+after the flags. eg. RTDEControl(“127.0.0.1”, RTDEControl.FLAG_USE_EXT_UR_CAP, &lt;SOME PORT&gt;).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You must have the ExternalControl node as a part of the program and it must be setup with the correct IP of the
+computer that you want to control the robot from. This can be changed under:
+(Installation tab -&gt; URCaps -&gt; ExternalControl).</p>
+</div>
+</div>
+<div class="section" id="use-with-custom-script">
+<h2>Use with custom script<a class="headerlink" href="examples.html#use-with-custom-script" title="Permalink to this headline">¶</a></h2>
+<p>The rtde control script is uploaded to the robot by default. However if you want
+to modify the script and execute it as a part of a program on the controller, you
+have the option of <em>not</em> uploading the default rtde control script. This means that ur_rtde expects a
+script to be running on the controller that you have set up manually eg. copied to the controller from USB or
+scp over the network.</p>
+<p>What you can do, is to split the rtde_control script into two separate scripts: rtde_init.script and rtde_control.script.
+where rtde_init.script contains the header and rtde_control.script contains the control loop.
+You then create a new program in Polyscope and add a BeforeStart sequence to this new program. Simply add the
+rtde_init.script to the BeforeStart sequence and the rtde_control.script to the Robot Program. See picture below:</p>
+<img alt="../_images/ur_rtde_manual_program.png" src="../_images/ur_rtde_manual_program.png" />
+<p>Remember! that if you copy the rtde_control.script, please remove the $MAJOR.MINOR tags, that is used for removing
+lines that are not compatible with specific controller versions. Also set the appropriate offset for reg_offset_float and
+reg_offset_int either 0 or 24.</p>
+<p>The benefit of the approach is that you have access to any functionality installed on the robot such as
+functions from a gripper UR cap etc. (the same is true, when using the ExternalControl UR Cap). You must simply specify
+that you want to use a custom script in the RTDEControlInterface constructor with the FLAG_CUSTOM_SCRIPT:</p>
+<p>for Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtde_control</span> <span class="kn">import</span> <span class="n">RTDEControlInterface</span> <span class="k">as</span> <span class="n">RTDEControl</span>
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">RTDEControl</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">RTDEControl</span><span class="o">.</span><span class="n">FLAG_CUSTOM_SCRIPT</span><span class="p">)</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveL</span><span class="p">([</span><span class="o">-</span><span class="mf">0.143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.435</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">],</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FLAG_CUSTOM_SCRIPT</span><span class="p">);</span><span class="w"></span>
+<span class="n">rtde_control</span><span class="p">.</span><span class="n">moveL</span><span class="p">({</span><span class="mf">-0.143</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.435</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">},</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.2</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>When you execute your ur_rtde application it will simply wait for you to press play on the controller in order
+to start, unless you use the FLAG_NO_WAIT, in which case the interface will be initialized, but cannot be
+used before the program is running on the controller. Finally make sure the robot is in remote control.</p>
+</div>
+<div class="section" id="record-data-example">
+<span id="id1"></span><h2>Record Data Example<a class="headerlink" href="examples.html#record-data-example" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how to record the robot data to a (.csv) file of your choice. You
+can set the frequency at which the data is recorded. Optionally, you can decide to only
+record a subset of the available robot data. You do this by passing a std::vector&lt;std::string&gt; to
+startFileRecording() that contains the names of the variables that you want to record. eg.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">...</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">record_variables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;timestamp&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;actual_q&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;actual_TCP_pose&quot;</span><span class="p">};</span><span class="w"></span>
+<span class="n">rtde_receive</span><span class="p">.</span><span class="n">startFileRecording</span><span class="p">(</span><span class="s">&quot;robot_data.csv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">record_variables</span><span class="p">);</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+<p>by default all variables are recorded, and you are not required to pass the variables argument.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_receive_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;boost/program_options.hpp&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;csignal&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">po</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">boost</span><span class="o">::</span><span class="nn">program_options</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// Interrupt flag</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">flag_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">raiseFlag</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">flag_loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">po</span><span class="o">::</span><span class="n">options_description</span><span class="w"> </span><span class="n">desc</span><span class="p">(</span><span class="s">&quot;Allowed options&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">desc</span><span class="p">.</span><span class="n">add_options</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="s">&quot;help&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Record robot data to a (.csv) file&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="s">&quot;robot_ip&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">po</span><span class="o">::</span><span class="n">value</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">default_value</span><span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="s">&quot;the IP address of the robot&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="s">&quot;frequency&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">po</span><span class="o">::</span><span class="n">value</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">default_value</span><span class="p">(</span><span class="mf">500.0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                 </span><span class="s">&quot;the frequency at which the data is recorded (default is 500Hz)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">po</span><span class="o">::</span><span class="n">value</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">default_value</span><span class="p">(</span><span class="s">&quot;robot_data.csv&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">                     </span><span class="s">&quot;data output (.csv) file to write to (default is </span><span class="se">\&quot;</span><span class="s">robot_data.csv</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">po</span><span class="o">::</span><span class="n">variables_map</span><span class="w"> </span><span class="n">vm</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">po</span><span class="o">::</span><span class="n">store</span><span class="p">(</span><span class="n">po</span><span class="o">::</span><span class="n">parse_command_line</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="n">desc</span><span class="p">),</span><span class="w"> </span><span class="n">vm</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">po</span><span class="o">::</span><span class="n">notify</span><span class="p">(</span><span class="n">vm</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vm</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;help&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">desc</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">signal</span><span class="p">(</span><span class="n">SIGINT</span><span class="p">,</span><span class="w"> </span><span class="n">raiseFlag</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vm</span><span class="p">[</span><span class="s">&quot;frequency&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">frequency</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">RTDEReceiveInterface</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s">&quot;robot_ip&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(),</span><span class="w"> </span><span class="n">frequency</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">startFileRecording</span><span class="p">(</span><span class="n">vm</span><span class="p">[</span><span class="s">&quot;output&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data recording started. press [Ctrl-C] to end recording.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">flag_loop</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">t_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\r&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%.3d samples.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">flush</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">t_stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span><span class="w"></span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">t_duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t_stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_start</span><span class="p">);</span><span class="w"></span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">t_duration</span><span class="p">.</span><span class="n">count</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">dt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_duration</span><span class="p">.</span><span class="n">count</span><span class="p">()));</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Stop data recording.</span>
+<span class="w">    </span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">stopFileRecording</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Data recording stopped.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">catch</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="o">&amp;</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;error: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">catch</span><span class="p">(...)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Exception of unknown type!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rtde_receive</span> <span class="kn">import</span> <span class="n">RTDEReceiveInterface</span> <span class="k">as</span> <span class="n">RTDEReceive</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parse command line parameters</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      args ([str]): command line parameters as list of strings</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      :obj:`argparse.Namespace`: command line parameters namespace</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Record data example&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-ip&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--robot_ip&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;ip&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;IP address of the UR robot&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;&lt;IP address of the UR robot&gt;&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;data output (.csv) file to write to (default is </span><span class="se">\&quot;</span><span class="s2">robot_data.csv</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;robot_data.csv&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;&lt;data output file&gt;&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--frequency&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;the frequency at which the data is recorded (default is 500Hz)&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">500.0</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;&lt;frequency&gt;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Main entry point allowing external calls</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      args ([str]): command line parameter list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">args</span><span class="o">.</span><span class="n">frequency</span>
+    <span class="n">rtde_r</span> <span class="o">=</span> <span class="n">RTDEReceive</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">frequency</span><span class="p">)</span>
+    <span class="n">rtde_r</span><span class="o">.</span><span class="n">startFileRecording</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data recording started, press [Ctrl-C] to end recording.&quot;</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:3d}</span><span class="s2"> samples.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+
+            <span class="k">if</span> <span class="n">duration</span> <span class="o">&lt;</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">duration</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">rtde_r</span><span class="o">.</span><span class="n">stopFileRecording</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Data recording stopped.&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</pre></div>
+</div>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/record_data_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">record_data_example.py</span></code>.</p>
+</div>
+<div class="section" id="move-asynchronous-example">
+<span id="id2"></span><h2>Move Asynchronous Example<a class="headerlink" href="examples.html#move-asynchronous-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will perform two asynchronous movements, first one by <strong>moveJ</strong>, followed by a movement with <strong>moveL</strong>.
+Both movements are stopped before reaching the targets with <strong>stopJ</strong> and <strong>stopL</strong> respectively.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_receive_interface.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEReceiveInterface</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">init_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getActualQ</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Target in the robot base</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">new_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_q</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">new_q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.2</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/**</span>
+<span class="cm">   * Move asynchronously in joint space to new_q, we specify asynchronous behavior by setting the async parameter to</span>
+<span class="cm">   * &#39;true&#39;. Try to set the async parameter to &#39;false&#39; to observe a default synchronous movement, which cannot be</span>
+<span class="cm">   * stopped by the stopJ function due to the blocking behaviour.</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">new_q</span><span class="p">,</span><span class="w"> </span><span class="mf">1.05</span><span class="p">,</span><span class="w"> </span><span class="mf">1.4</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">200</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Stop the movement before it reaches new_q</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopJ</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Target 10 cm up in the Z-Axis of the TCP</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getActualTCPPose</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.10</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/**</span>
+<span class="cm">   * Move asynchronously in cartesian space to target, we specify asynchronous behavior by setting the async parameter</span>
+<span class="cm">   * to &#39;true&#39;. Try to set the async parameter to &#39;false&#39; to observe a default synchronous movement, which cannot be</span>
+<span class="cm">   * stopped by the stopL function due to the blocking behaviour.</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveL</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">200</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Stop the movement before it reaches target</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopL</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Move to initial joint position with a regular moveJ</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">init_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Stop the RTDE control script</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+<span class="kn">import</span> <span class="nn">rtde_receive</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">rtde_r</span> <span class="o">=</span> <span class="n">rtde_receive</span><span class="o">.</span><span class="n">RTDEReceiveInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">init_q</span> <span class="o">=</span> <span class="n">rtde_r</span><span class="o">.</span><span class="n">getActualQ</span><span class="p">()</span>
+
+<span class="c1"># Target in the robot base</span>
+<span class="n">new_q</span> <span class="o">=</span> <span class="n">init_q</span><span class="p">[:]</span>
+<span class="n">new_q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.20</span>
+
+<span class="c1"># Move asynchronously in joint space to new_q, we specify asynchronous behavior by setting the async parameter to</span>
+<span class="c1"># &#39;True&#39;. Try to set the async parameter to &#39;False&#39; to observe a default synchronous movement, which cannot be stopped</span>
+<span class="c1"># by the stopJ function due to the blocking behaviour.</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">new_q</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1"># Stop the movement before it reaches new_q</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopJ</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Target in the Z-Axis of the TCP</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">rtde_r</span><span class="o">.</span><span class="n">getActualTCPPose</span><span class="p">()</span>
+<span class="n">target</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.10</span>
+
+<span class="c1"># Move asynchronously in cartesian space to target, we specify asynchronous behavior by setting the async parameter to</span>
+<span class="c1"># &#39;True&#39;. Try to set the async parameter to &#39;False&#39; to observe a default synchronous movement, which cannot be stopped</span>
+<span class="c1"># by the stopL function due to the blocking behaviour.</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveL</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="c1"># Stop the movement before it reaches target</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopL</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Move back to initial joint configuration</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">init_q</span><span class="p">)</span>
+
+<span class="c1"># Stop the RTDE control script</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/move_async_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">move_async_example.py</span></code>.</p>
+</div>
+<div class="section" id="move-until-contact">
+<h2>Move Until Contact<a class="headerlink" href="examples.html#move-until-contact" title="Permalink to this headline">¶</a></h2>
+<p>This example will move the robot down in the Z-axis with a speed of 100mm/s until contact is detected. The robot is
+automatically moved back to the initial point of contact. You can specify the speed vector as well as a direction
+to check for contacts in, see the API for further details.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/move_until_contact.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">move_until_contact.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Parameters</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.100</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveUntilContact</span><span class="p">(</span><span class="n">speed</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">speed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveUntilContact</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span>
+
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="forcemode-example">
+<h2>Forcemode Example<a class="headerlink" href="examples.html#forcemode-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will start moving the robot downwards with -10N in the z-axis for 2 seconds, followed by a move
+upwards with 10N in the z-axis for 2 seconds.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/forcemode_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">forcemode_example.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Parameters</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">task_frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">selection_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wrench_down</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wrench_up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">force_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="c1">// 2ms</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">joint_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-1.54</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.83</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.28</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.59</span><span class="p">,</span><span class="w"> </span><span class="mf">1.60</span><span class="p">,</span><span class="w"> </span><span class="mf">0.023</span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Move to initial joint position with a regular moveJ</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Execute 500Hz control loop for a total of 4 seconds, each cycle is ~2ms</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span><span class="w"> </span><span class="n">t_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">initPeriod</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// First we move the robot down for 2 seconds, then up for 2 seconds</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">forceMode</span><span class="p">(</span><span class="n">task_frame</span><span class="p">,</span><span class="w"> </span><span class="n">selection_vector</span><span class="p">,</span><span class="w"> </span><span class="n">wrench_up</span><span class="p">,</span><span class="w"> </span><span class="n">force_type</span><span class="p">,</span><span class="w"> </span><span class="n">limits</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">      </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">forceMode</span><span class="p">(</span><span class="n">task_frame</span><span class="p">,</span><span class="w"> </span><span class="n">selection_vector</span><span class="p">,</span><span class="w"> </span><span class="n">wrench_down</span><span class="p">,</span><span class="w"> </span><span class="n">force_type</span><span class="p">,</span><span class="w"> </span><span class="n">limits</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">forceModeStop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+
+<span class="n">task_frame</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">selection_vector</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">wrench_down</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">wrench_up</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">force_type</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">limits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span>  <span class="c1"># 2ms</span>
+<span class="n">joint_q</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.54</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.59</span><span class="p">,</span> <span class="mf">1.60</span><span class="p">,</span> <span class="mf">0.023</span><span class="p">]</span>
+
+<span class="c1"># Move to initial joint position with a regular moveJ</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">)</span>
+
+<span class="c1"># Execute 500Hz control loop for 4 seconds, each cycle is 2ms</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">t_start</span> <span class="o">=</span> <span class="n">rtde_c</span><span class="o">.</span><span class="n">initPeriod</span><span class="p">()</span>
+    <span class="c1"># First move the robot down for 2 seconds, then up for 2 seconds</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="n">rtde_c</span><span class="o">.</span><span class="n">forceMode</span><span class="p">(</span><span class="n">task_frame</span><span class="p">,</span> <span class="n">selection_vector</span><span class="p">,</span> <span class="n">wrench_up</span><span class="p">,</span> <span class="n">force_type</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rtde_c</span><span class="o">.</span><span class="n">forceMode</span><span class="p">(</span><span class="n">task_frame</span><span class="p">,</span> <span class="n">selection_vector</span><span class="p">,</span> <span class="n">wrench_down</span><span class="p">,</span> <span class="n">force_type</span><span class="p">,</span> <span class="n">limits</span><span class="p">)</span>
+    <span class="n">rtde_c</span><span class="o">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span>
+
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">forceModeStop</span><span class="p">()</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Intended movement:</p>
+<img alt="../_images/force_mode_example.gif" src="../_images/force_mode_example.gif" />
+</div>
+<div class="section" id="servoj-example">
+<h2>ServoJ Example<a class="headerlink" href="examples.html#servoj-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will use the <strong>servoJ</strong> command to move the robot, where incremental changes are made to the base and
+shoulder joint continuously in a 500Hz control loop for 2 seconds.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/servoj_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">servoj_example.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Parameters</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">acceleration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="c1">// 2ms</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">lookahead_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">gain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">joint_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-1.54</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.83</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.28</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.59</span><span class="p">,</span><span class="w"> </span><span class="mf">1.60</span><span class="p">,</span><span class="w"> </span><span class="mf">0.023</span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Move to initial joint position with a regular moveJ</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Execute 500Hz control loop for 2 seconds, each cycle is ~2ms</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span><span class="w"> </span><span class="n">t_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">initPeriod</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">servoJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">,</span><span class="w"> </span><span class="n">velocity</span><span class="p">,</span><span class="w"> </span><span class="n">acceleration</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">lookahead_time</span><span class="p">,</span><span class="w"> </span><span class="n">gain</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">joint_q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.001</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">joint_q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.001</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">servoStop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">velocity</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span>  <span class="c1"># 2ms</span>
+<span class="n">lookahead_time</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">gain</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">joint_q</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.54</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.59</span><span class="p">,</span> <span class="mf">1.60</span><span class="p">,</span> <span class="mf">0.023</span><span class="p">]</span>
+
+<span class="c1"># Move to initial joint position with a regular moveJ</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">)</span>
+
+<span class="c1"># Execute 500Hz control loop for 2 seconds, each cycle is 2ms</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">t_start</span> <span class="o">=</span> <span class="n">rtde_c</span><span class="o">.</span><span class="n">initPeriod</span><span class="p">()</span>
+    <span class="n">rtde_c</span><span class="o">.</span><span class="n">servoJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">lookahead_time</span><span class="p">,</span> <span class="n">gain</span><span class="p">)</span>
+    <span class="n">joint_q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.001</span>
+    <span class="n">joint_q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.001</span>
+    <span class="n">rtde_c</span><span class="o">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span>
+
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">servoStop</span><span class="p">()</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remember that to allow for a fast control rate when servoing, the joint positions must be close to each other e.g.
+(dense trajectory). If the robot is not reaching the target fast enough try to increase the acceleration or the
+gain parameter.</p>
+</div>
+<p>Intended movement:</p>
+<img alt="../_images/servoj_example.gif" src="../_images/servoj_example.gif" />
+</div>
+<div class="section" id="speedj-example">
+<h2>SpeedJ Example<a class="headerlink" href="examples.html#speedj-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will use the <strong>speedJ</strong> command to move the robot, where the first 2 joints are speeding continuously
+in a 500Hz control loop for 2 seconds.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/speedj_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">speedj_example.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Parameters</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">acceleration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="c1">// 2ms</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">joint_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-1.54</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.83</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.28</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.59</span><span class="p">,</span><span class="w"> </span><span class="mf">1.60</span><span class="p">,</span><span class="w"> </span><span class="mf">0.023</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">joint_speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Move to initial joint position with a regular moveJ</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Execute 500Hz control loop for 2 seconds, each cycle is ~2ms</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span><span class="w"> </span><span class="n">t_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">initPeriod</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">speedJ</span><span class="p">(</span><span class="n">joint_speed</span><span class="p">,</span><span class="w"> </span><span class="n">acceleration</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">joint_speed</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">joint_speed</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">speedStop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mi">500</span>  <span class="c1"># 2ms</span>
+<span class="n">joint_q</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.54</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.83</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.28</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.59</span><span class="p">,</span> <span class="mf">1.60</span><span class="p">,</span> <span class="mf">0.023</span><span class="p">]</span>
+<span class="n">joint_speed</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+<span class="c1"># Move to initial joint position with a regular moveJ</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveJ</span><span class="p">(</span><span class="n">joint_q</span><span class="p">)</span>
+
+<span class="c1"># Execute 500Hz control loop for 2 seconds, each cycle is 2ms</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">t_start</span> <span class="o">=</span> <span class="n">rtde_c</span><span class="o">.</span><span class="n">initPeriod</span><span class="p">()</span>
+    <span class="n">rtde_c</span><span class="o">.</span><span class="n">speedJ</span><span class="p">(</span><span class="n">joint_speed</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">joint_speed</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.0005</span>
+    <span class="n">joint_speed</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">0.0005</span>
+    <span class="n">rtde_c</span><span class="o">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span>
+
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">speedStop</span><span class="p">()</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Intended movement:</p>
+<img alt="../_images/speedj_example.gif" src="../_images/speedj_example.gif" />
+</div>
+<div class="section" id="movel-path-with-blending-example">
+<h2>MoveL Path With Blending Example<a class="headerlink" href="examples.html#movel-path-with-blending-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will use the <strong>moveL</strong> command with a path, where each joint pose in the path has a defined velocity,
+acceleration and blend. The joint poses in the path are defined by a 9-dimensional vector, where the first six
+values constitutes the joint pose, followed by the last three values <em>velocity</em>, <em>acceleration</em> and <em>blend</em>.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/movel_path_with_blend_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">movel_path_with_blend_example.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">velocity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">acceleration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">blend_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">blend_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.02</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">blend_3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">path_pose1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-0.143</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.435</span><span class="p">,</span><span class="w"> </span><span class="mf">0.20</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span><span class="w"> </span><span class="n">velocity</span><span class="p">,</span><span class="w"> </span><span class="n">acceleration</span><span class="p">,</span><span class="w"> </span><span class="n">blend_1</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">path_pose2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-0.143</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.51</span><span class="p">,</span><span class="w"> </span><span class="mf">0.21</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span><span class="w"> </span><span class="n">velocity</span><span class="p">,</span><span class="w"> </span><span class="n">acceleration</span><span class="p">,</span><span class="w"> </span><span class="n">blend_2</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">path_pose3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">-0.32</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.61</span><span class="p">,</span><span class="w"> </span><span class="mf">0.31</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.001</span><span class="p">,</span><span class="w"> </span><span class="mf">3.12</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span><span class="w"> </span><span class="n">velocity</span><span class="p">,</span><span class="w"> </span><span class="n">acceleration</span><span class="p">,</span><span class="w"> </span><span class="n">blend_3</span><span class="p">};</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">path</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">path</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">path_pose1</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">path</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">path_pose2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">path</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">path_pose3</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Send a linear path with blending in between - (currently uses separate script)</span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">moveL</span><span class="p">(</span><span class="n">path</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_control</span>
+
+<span class="n">rtde_c</span> <span class="o">=</span> <span class="n">rtde_control</span><span class="o">.</span><span class="n">RTDEControlInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+
+<span class="n">velocity</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">acceleration</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">blend_1</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">blend_2</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">blend_3</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">path_pose1</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.435</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">blend_1</span><span class="p">]</span>
+<span class="n">path_pose2</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.51</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">blend_2</span><span class="p">]</span>
+<span class="n">path_pose3</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.32</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.61</span><span class="p">,</span> <span class="mf">0.31</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">,</span> <span class="n">blend_3</span><span class="p">]</span>
+<span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_pose1</span><span class="p">,</span> <span class="n">path_pose2</span><span class="p">,</span> <span class="n">path_pose3</span><span class="p">]</span>
+
+<span class="c1"># Send a linear path with blending in between - (currently uses separate script)</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">moveL</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">rtde_c</span><span class="o">.</span><span class="n">stopScript</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Intended movement:</p>
+<img alt="../_images/movel_path_blend.gif" src="../_images/movel_path_blend.gif" />
+</div>
+<div class="section" id="io-example">
+<h2>IO Example<a class="headerlink" href="examples.html#io-example" title="Permalink to this headline">¶</a></h2>
+<p>This example will print out the state of a standard digital output, change the state of that output and print the
+state again. Furthermore it will set the current ratio of an analog output.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/io_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder. If you want to run the python example
+navigate to <code class="file docutils literal notranslate"><span class="pre">examples/py/</span></code> and run <code class="code bash docutils literal notranslate"><span class="pre">python3</span> <span class="pre">io_example.py</span></code>.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_io_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_receive_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEIOInterface</span><span class="w"> </span><span class="n">rtde_io</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEReceiveInterface</span><span class="w"> </span><span class="n">rtde_receive</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/** How-to set and get standard and tool digital outputs. Notice that we need the</span>
+<span class="cm">    * RTDEIOInterface for setting an output and RTDEReceiveInterface for getting the state</span>
+<span class="cm">    * of an output.</span>
+<span class="cm">    */</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Standard digital out (7) is HIGH&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Standard digital out (7) is LOW&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Tool digital out (16) is HIGH&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Tool digital out (16) is LOW&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">rtde_io</span><span class="p">.</span><span class="n">setStandardDigitalOut</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_io</span><span class="p">.</span><span class="n">setToolDigitalOut</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Standard digital out (7) is HIGH&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Standard digital out (7) is LOW&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rtde_receive</span><span class="p">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Tool digital out (16) is HIGH&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Tool digital out (16) is LOW&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// How to set a analog output with a specified current ratio</span>
+<span class="w">  </span><span class="n">rtde_io</span><span class="p">.</span><span class="n">setAnalogOutputCurrent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rtde_io</span>
+<span class="kn">import</span> <span class="nn">rtde_receive</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">rtde_io_</span> <span class="o">=</span> <span class="n">rtde_io</span><span class="o">.</span><span class="n">RTDEIOInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+<span class="n">rtde_receive_</span> <span class="o">=</span> <span class="n">rtde_receive</span><span class="o">.</span><span class="n">RTDEReceiveInterface</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">)</span>
+
+<span class="c1"># How-to set and get standard and tool digital outputs. Notice that we need the</span>
+<span class="c1"># RTDEIOInterface for setting an output and RTDEReceiveInterface for getting the state</span>
+<span class="c1"># of an output.</span>
+
+<span class="k">if</span> <span class="n">rtde_receive_</span><span class="o">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard digital out (7) is HIGH&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard digital out (7) is LOW&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">rtde_receive_</span><span class="o">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tool digital out (16) is HIGH&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tool digital out (16) is LOW&quot;</span><span class="p">)</span>
+
+<span class="n">rtde_io_</span><span class="o">.</span><span class="n">setStandardDigitalOut</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">rtde_io_</span><span class="o">.</span><span class="n">setToolDigitalOut</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">rtde_receive_</span><span class="o">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard digital out (7) is HIGH&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard digital out (7) is LOW&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">rtde_receive_</span><span class="o">.</span><span class="n">getDigitalOutState</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tool digital out (16) is HIGH&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tool digital out (16) is LOW&quot;</span><span class="p">)</span>
+
+<span class="c1"># How to set a analog output with a specified current ratio</span>
+<span class="n">rtde_io_</span><span class="o">.</span><span class="n">setAnalogOutputCurrent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="robotiq-gripper-example">
+<span id="id3"></span><h2>Robotiq Gripper Example<a class="headerlink" href="examples.html#robotiq-gripper-example" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates the use of the RobotiqGripper interface. See the API here: <a class="reference internal" href="../api/api.html#robotiq-gripper-api"><span class="std std-ref">Robotiq Gripper API</span></a></p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/robotiq_gripper_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/robotiq_gripper.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Print object detection status of gripper</span>
+<span class="cm"> */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">printStatus</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">Status</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">Status</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">RobotiqGripper</span><span class="o">::</span><span class="no">MOVING</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;moving&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">RobotiqGripper</span><span class="o">::</span><span class="no">STOPPED_OUTER_OBJECT</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;outer object detected&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">RobotiqGripper</span><span class="o">::</span><span class="no">STOPPED_INNER_OBJECT</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;inner object detected&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">RobotiqGripper</span><span class="o">::</span><span class="no">AT_DEST</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;at destination&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Gripper test&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">ur_rtde</span><span class="o">::</span><span class="n">RobotiqGripper</span><span class="w"> </span><span class="n">gripper</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">63352</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">connect</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Test emergency release functionality</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">gripper</span><span class="p">.</span><span class="n">isActive</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">gripper</span><span class="p">.</span><span class="n">emergencyRelease</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">OPEN</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Fault status: 0x&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">hex</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">faultStatus</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">dec</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;activating gripper&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">activate</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Test setting of position units and conversion of position values</span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">POSITION</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_DEVICE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;OpenPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getOpenPosition</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  ClosedPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getClosedPosition</span><span class="p">()</span><span class="w"></span>
+<span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">POSITION</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_NORMALIZED</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;OpenPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getOpenPosition</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  ClosedPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getClosedPosition</span><span class="p">()</span><span class="w"></span>
+<span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Test of move functionality with normalized values (0.0 - 1.0)</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">WAIT_FINISHED</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">WAIT_FINISHED</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// We preset force and and speed so we don&#39;t need to pass it to the following move functions</span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setForce</span><span class="p">(</span><span class="mf">0.0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setSpeed</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// We switch the position unit the mm and define the position range of our gripper</span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">POSITION</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_MM</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setPositionRange_mm</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;OpenPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getOpenPosition</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  ClosedPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getClosedPosition</span><span class="p">()</span><span class="w"></span>
+<span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">waitForMotionComplete</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">waitForMotionComplete</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;moving to open position&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">open</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">waitForMotionComplete</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Test async move - start move and then wait for completion</span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">close</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">START_MOVE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">waitForMotionComplete</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">WAIT_FINISHED</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">status</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">POSITION</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_DEVICE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">SPEED</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_DEVICE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">setUnit</span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">FORCE</span><span class="p">,</span><span class="w"> </span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">UNIT_DEVICE</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;OpenPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getOpenPosition</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  ClosedPosition: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">getClosedPosition</span><span class="p">()</span><span class="w"></span>
+<span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">RobotiqGripper</span><span class="o">::</span><span class="n">MOVING</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">gripper</span><span class="p">.</span><span class="n">objectDetectionStatus</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;waiting...&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="n">printStatus</span><span class="p">(</span><span class="n">gripper</span><span class="p">.</span><span class="n">objectDetectionStatus</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;disconnecting&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">gripper</span><span class="p">.</span><span class="n">disconnect</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jog-example">
+<h2>Jog Example<a class="headerlink" href="examples.html#jog-example" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how you can use the <strong>jogStart()</strong> function of the RTDEControlInterface to jog the robot in the
+tool frame, using the arrows on your keyboard.</p>
+<p>You can find the source code of this example under <code class="file docutils literal notranslate"><span class="pre">examples/cpp/jog_example.cpp</span></code>, if you compiled
+ur_rtde with examples you can run this example from the <em>bin</em> folder.</p>
+<p>C++:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ur_rtde/rtde_control_interface.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ncurses.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span><span class="cp"></span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">ur_rtde</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="o">::</span><span class="nn">chrono</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">RTDEControlInterface</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">(</span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Curses Initialisations</span>
+<span class="w">  </span><span class="n">initscr</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">raw</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">keypad</span><span class="p">(</span><span class="n">stdscr</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">noecho</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">timeout</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Parameters</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">speed_magnitude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.15</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">instructions</span><span class="p">(</span><span class="s">&quot;[ Use arrow keys to control the robot, to exit press &#39;q&#39; ]&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">getmaxyx</span><span class="p">(</span><span class="n">stdscr</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">mvprintw</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">col</span><span class="o">-</span><span class="n">strlen</span><span class="p">(</span><span class="n">instructions</span><span class="p">.</span><span class="n">c_str</span><span class="p">()))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">instructions</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getch</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">&#39;q&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">steady_clock</span><span class="o">::</span><span class="n">time_point</span><span class="w"> </span><span class="n">t_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">initPeriod</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getch</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">KEY_UP</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">speed_magnitude</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">KEY_DOWN</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">speed_magnitude</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">KEY_LEFT</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">speed_magnitude</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">case</span><span class="w"> </span><span class="no">KEY_RIGHT</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="o">-</span><span class="n">speed_magnitude</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">      </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+<span class="w">        </span><span class="n">speed_vector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStart</span><span class="p">(</span><span class="n">speed_vector</span><span class="p">,</span><span class="w"> </span><span class="n">RTDEControlInterface</span><span class="o">::</span><span class="n">FEATURE_TOOL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">waitPeriod</span><span class="p">(</span><span class="n">t_start</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">endwin</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">jogStop</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">rtde_control</span><span class="p">.</span><span class="n">stopScript</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example only works on Linux / UNIX at the moment, since it requires ncurses for registering key presses.
+It can fairly easy be adjusted to work for Windows, just use the <em>conio.h</em> header instead of ncurses.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../api/api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../installation/installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

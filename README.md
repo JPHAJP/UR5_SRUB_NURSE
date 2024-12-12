@@ -4,6 +4,12 @@ Repositorio para el trabajo con el robot UR5 utilizando una cámara de profundid
 
 ---
 
+## 🔗 **Documentación**
+Se puede revisar un reporte del proyecto y videos en la carpeta **Manual_and_docs**.
+-[Reporte e instructivo PDF]("Manual_and_docs\UR5 - Reporte de documentación.pdf")
+
+---
+
 ## ⚙️ **Sistema de Cambio Rápido de Herramental**
 
 Adaptado por **JPHA**  
@@ -14,6 +20,12 @@ Archivos principales para el cambio de herramienta:
 - **🔒 Pestillo**
 
 > **Nota**: Planos y archivos STEP en la carpeta **3D_Models**.
+
+---
+
+## 📚 **Conjunto de datos (Dataset) para instrumental quirúrgico**
+Puedes encontrar el dataset que se contruyo con roboflow en **kaggle** en la siguiente liga:
+-[Kaggle instrumentación](https://www.kaggle.com/datasets/jphajp/ur5e-srube-nurse-surgical-instruments/data)
 
 ---
 

@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+  <head>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Gestonurse is a robotic surgical nurse for handling surgical instruments in the operating room" />
+    <meta name="keywords" content="gestonurse,Purdue,Juan Wachs,Mithun Jacob, Yu-Ting Li" />
+    
+    <link rel="stylesheet" type="text/css" href="https://web.ics.purdue.edu/~jpwachs/gestonurse/gestonurse.css"/>
+
+
+    <script type="text/javascript" src="https://web.ics.purdue.edu/~jpwachs/gestonurse/js/prototype.js"></script>
+    <script type="text/javascript" src="https://web.ics.purdue.edu/~jpwachs/gestonurse/js/scriptaculous.js?load=effects,builder"></script>
+
+    <link rel="stylesheet" href="https://web.ics.purdue.edu/~jpwachs/gestonurse/lightbox/lightbox.css" type="text/css" media="screen" />
+
+    <script type="text/javascript" src="https://web.ics.purdue.edu/~jpwachs/gestonurse/lightbox/lightbox.js"></script>
+
+
+
+    <title>Gestonurse</title>
+  </head>
+
+<body style="background-image:url('https://web.ics.purdue.edu/~jpwachs/gestonurse/images/background3.jpg'); background-repeat:yes-repeat; background-attachment:fixed; background-color:black">
+<table width="1000" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tbody>	
+    <tr>
+      <td colspan="2">
+	<br/>
+	<img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/gestonurse.png"/>
+      </td>
+
+    </tr>
+    <tr>
+      <td width="550" valign="top">
+	<div class="ContentSmall" style = "color:white">				
+	  &nbsp; A robotic surgical nurse for handling surgical instruments in the operating room<br/>
+	  <br/>
+	</div>
+      </td>
+      <td width="300" valign="top" id="topLinks">
+	<div class="ContentSmall" align="right" style = "color:white">
+	  <a href="http://web.ics.purdue.edu/~jpwachs/" target="_blank" style = "color:white" >Juan Wachs,</a> Yu-Ting Li and Mithun Jacob
+	  <br/>
+
+	</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table width="1000" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tbody>	
+    <tr style="background-image:url('https://web.ics.purdue.edu/~jpwachs/gestonurse/images/pixel.png'); background-repeat:repeat">		    
+      <td width="150px" style="vertical-align:top; height: 2000px" class="ContentWhiteSmall" align="right">
+	<div id="links" style=" background-color:#383838; padding:6px; margin-top:170px; margin-left:0px">			    
+	  <a href="index.html#ABOUT" style="color:lightBlue">ABOUT</a><br/>
+
+	  <a href="index.html#PICTURES" style="color:lightBlue">PICTURES</a><br/>
+	  <a href="index.html#VIDEOS" style="color:lightBlue">VIDEOS</a><br/>
+	  <a href="index.html#PUBLICATIONS" style="color:lightBlue">PUBLICATIONS</a><br/>
+	  <a href="index.html#AWARDS" style="color:lightBlue">AWARDS</a><br/>
+	  <a href="index.html#PRESSCOVERAGE" style="color:lightBlue">PRESS COVERAGE</a><br/>
+	  <a href="index.html#CONTACTUS" style="color:lightBlue">CONTACT US</a>
+
+	</div>			    
+      </td>
+      <a name="ABOUT"></a>
+      <td width="650" style="vertical-align:top; padding:20px; height: 2000px;">
+	<div style="margin-left:8px" class="ContentSmall" align="justify">
+	  <div class="TextHeader">
+	    ABOUT
+	  </div>	
+	  <div class="ContentWhite">
+	   While surgeon–scrub nurse collaboration provides a fast, straightforward and inexpensive method of delivering surgical instruments to the surgeon; it often results in ‘‘mistakes’’ (e.g. missing information, ambiguity of instructions and delays). It has been shown that these errors can have a negative impact on the outcome of the surgery. These errors could potentially be reduced or eliminated by introducing robotics into the operating room. A robotic scrub nurse has the potential to reduce errors in the OR by automating the passing of surgical instruments which allows personnel to focus on more complicated tasks such as maintaining a sterile environment, preparing required surgical supplies and monitoring the state of the patient. This allows a possible reduction of errors due to communication failures. These failures can lead to wastage of resources, procedural errors, delays, distraction and inefficiency. A real-time robotic scrub nurse dedicated to passing surgical instruments to the surgeon by speech and/or gesture is presented. An advantage of gesture interaction is that it is not affected by ambient noise and does not require surgeon re-training since hand signals are used by surgeons to request surgical instruments as part of standard OR procedure.
+<br/>
+<br/>
+  
+	  
+	  	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/sketch.bmp" rel="lightbox" title="Sketch of full OR with Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/sketch.bmp"/>
+    </a>
+	
+	      <br/>
+	  <br/>
+A robotic scrub nurse capable of handling and passing surgical instruments, called Gestonurse, was tested during a mock surgical procedure at the Large Animal Hospital at Purdue University. This robot uses real-time hand tracking and recognition based on ﬁngertip detection and gesture inference. In an in situ experiment, the robot passed the surgical instruments to the main surgeon effectively and safely, without interfering with his focus of attention. In addition to allowing natural interaction with the surgeon, Gestonurse provided the following features: (a) ease of use—the robotic system allowed the main surgeon to use his hands which are the surgeon’s standard working tool, (b) natural interaction—nonverbal commands issued through hand signals are fast and intuitive, therefore the robot should interact quickly and still be reliable (currently, Gestonurse can process images in real-time, can recognize speech commands, and handle the surgical instruments to the main surgeon within 4 s), (c) an unencumbered interface—the proposed robotic system does not require the surgeon to wear markers nor to attach microphones, and (d) reliability— The results showed that fingertips were detected and gestures recognized with 99% and 97% accuracy on average, respectively. Also the robot can pick instruments when they are as close as 25 mm from each other.
+
+
+	
+	<br/>
+	<br/>
+	  <a name="PICTURES"></a>
+	  <br/>   			    
+	  <div class="TextHeader">PICTURES</div>
+	  <br/>	
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/12.jpg" rel="lightbox" title="Mithun Jacob receiving an instrument from Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/12.jpg" width="150px"/>
+    </a>				
+	  &nbsp;
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/2.jpg" rel="lightbox" title="In an OR at the School of Veterinary Medicine">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/2.jpg" width="150px"/>
+    </a>	
+    &nbsp;
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/3.jpg" rel="lightbox" title="Prof. Juan P. Wachs interacting with Gestonurse at a mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/3.jpg" width="150px"/>
+    </a>	
+    &nbsp;	
+    	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/4.jpg" rel="lightbox" title="Yu-Ting Li and Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/4.jpg" width="150px"/>
+    </a>			
+					
+<br/>
+<br/>	
+						
+
+
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/5.jpg" rel="lightbox" title="Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/5.jpg" width="150px"/>
+    </a>	
+    &nbsp;
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/6.jpg" rel="lightbox" title="The Gestonurse Team">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/6.jpg" width="150px"/>
+    </a>
+    &nbsp;		
+    	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/9.png" rel="lightbox" title="Mithun Jacob interacting with Gestonurse at a mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/9.png" width="150px"/>
+    </a>	
+
+        &nbsp;
+        	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/8.png" rel="lightbox" title="Mithun Jacob receiving an instrument from Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/8.png" width="150px"/>
+    </a>	
+<br/>   			    
+<br/>	
+			
+
+
+      	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/7.png" rel="lightbox" title="Increasing the opening of the incision during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/7.png" width="150px"/>
+    </a>	
+
+    	  &nbsp;	
+          	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/10.png" rel="lightbox" title="Performing a procedure during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/10.png" width="150px"/>
+    </a>						
+    &nbsp;
+
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/11.png" rel="lightbox" title="Performing a procedure during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/11.png" width="150px"/>
+    </a>	
+      &nbsp;	
+      	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/12.png" rel="lightbox" title="Mithun Jacob interacting with Gestonurse at a mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/12.png" width="150px"/>
+    </a>	
+					
+<br/>
+<br/>	
+	
+
+	
+    <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/13.png" rel="lightbox" title="Mithun Jacob receiving an instrument from Gestonurse">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/13.png" width="150px"/>
+    </a>				
+	  &nbsp;
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/14.png" rel="lightbox" title="Mithun Jacob interacting with Gestonurse at a mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/14.png" width="150px"/>
+    </a>	
+    &nbsp;
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/15.png" rel="lightbox" title="Performing a procedure during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/15.png" width="150px"/>
+    </a>
+    
+        &nbsp;	
+        	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/16.png" rel="lightbox" title="Performing a procedure during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/16.png" width="150px"/>
+    </a>
+    				
+<br/>
+<br/>	
+						
+
+
+	  <a href="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/17.png" rel="lightbox" title="Performing a procedure during mock surgery">
+	    <img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/17.png" width="150px"/>
+    </a>
+        &nbsp;	
+        
+
+        &nbsp;
+	
+  				
+<br/>
+<br/>
+<br/>					
+<br/>
+<br/>
+<br/>
+
+<a name="VIDEOS"></a>
+<br/>
+<div class="TextHeader">VIDEOS</div>
+<br/>						
+
+
+    <iframe width="560" height="315" src="http://www.youtube.com/embed/s8eTLT1QexM?rel=0" frameborder="0" allowfullscreen></iframe>											
+<br/>					
+<br/>
+<a name="PUBLICATIONS"></a>				
+<br/>
+<div class="TextHeader">PUBLICATIONS</div>	
+<ul>
+
+    <li>&quot;Gestonurse: A Multimodal Robotic Scrub Nurse&quot;, Mithun George Jacob, Yu-Ting Li, Juan P. Wachs, <em>7th ACM/IEEE International Conference on Human-Robot Interaction (HRI), March 5-8, 2012 (to appear)</em></li>
+	
+	<li>&quot;Does a robotic scrub nurse improve economy of movements?&quot;, Juan P. Wachs, Mithun George Jacob, Yu-Ting Li, A. George Akingba, <em>Proceedings of the SPIE Vol. 8316, 8316E(2012)</em><a href="http://spie.org/app/program/index.cfm?fuseaction=conferencedetail&conference=8316&load=1"> <em> Oral Presentation </em></a></li></li>
+	
+	<li>&quot;Gestonurse: a robotic surgical nurse for handling surgical instruments in the operating room&quot;, Mithun George Jacob, Yu-Ting Li, Juan P. Wachs, <em>Journal of Robotic Surgery (27 Nov 2011), Pgs. 1-11</em></li>
+	
+	<li>&quot;A Gesture Driven Robotic Scrub Nurse&quot;, Mithun George Jacob, Yu-Ting Li, Juan P. Wachs, <em>In Proceedings of the 2011 IEEE International Conference on Systems, Man, and Cybernetics </em>, ISBN: 978-1-4577-0651-6; pp. 2039-2044. <em>Oral Presentation</em> <a href="http://web.ics.purdue.edu/~jpwachs/papers/smc_v5.pdf">PDF</a></li>
+
+</ul>
+<a name="AWARDS"></a>				
+<br/>
+<div class="TextHeader">AWARDS</div>										
+<div>
+<ul>
+    <li>2011 IEEE International Conference on Systems, Man, and Cybernetics <a href="https://engineering.purdue.edu/IE/Spotlights/student-paper-selected-as-one-of-the-5-finalists-for-the-best-paper-student-award">finalists for the Best Student Paper Award </a></li> 
+    </ul>
+    </font>							
+</div>								
+		
+<a name="PRESSCOVERAGE"></a>
+<br/>
+<div class="TextHeader">SELECTED PRESS COVERAGE</div>	
+<ul>		
+
+    <li>
+    <a href="http://www.purdue.edu/newsroom/research/2011/110203WachsGestures.html" class="style4">&quot;Future surgeons may use robotic nurse, 'gesture recognition'&quot;</a> <em>Purdue Featured News </em>
+    </li>
+	
+	<li>
+    <a href="http://www.foxnews.com/scitech/2011/03/18/robotic-nurse-development-purdue/" class="style4">&quot;Robotic Nurse in Development at Purdue&quot;</a> <em>Fox News</em>
+    </li>
+
+	<li>
+    <a href="http://specials.forbes.com/article/0gPraHWavG8ar" class="style4">&quot;Future surgeons may use robotic nurse, 'gesture recognition'&quot; </a> <em>Forbes.com</em>
+    </li>
+	
+	<li>
+	<a href="http://www.theengineer.co.uk/news/camera-ensures-control-of-robotic-nurse-is-all-in-hand/1007322.article" class="style4">&quot;Camera ensures control of robotic nurse is all in hand&quot;</a><em> The Engineer.</em><br />
+    </li>	
+	
+	<li>
+    <a href="http://www.physorg.com/news/2011-02-future-surgeons-robotic-nurse-gesture.html" class="style4">&quot;Future surgeons may use robotic nurse, 'gesture recognition'&quot;</a> <em>PhysOrg.com</em>
+    </li>
+	
+	<li>
+    <a href="http://medgadget.com/2011/02/kinectpowered_purdue_robot_to_replace_scrub_nurses.html" class="style4">&quot;Kinect-Powered Surgical Robot to Replace Scrub Nurses?&quot;</a> <em>medGadget.com</em>
+    </li>
+	
+	<li>
+    <a href="http://www.mdnews.com/news/2011_03/robotic-nurses-may-help-future-surgeons" class="style4">&quot;Robotic Nurses May Help Future Surgeons&quot;</a> <em>MDNews.com</em>
+    </li>
+	
+    <li>
+	<a href="http://www.outpatientsurgery.net/news/2011/02/10-prototype-robotic-scrub-nurse-recognizes-surgeons-gestures" class="style4">&quot;Prototype Robotic Scrub Nurse Recognizes Surgeons' Gestures&quot;</a><em>Outpatient Surgery Magazine</em><br />
+    </li>
+	
+	<li>
+    <a href="http://www.infectioncontroltoday.com/news/2011/02/future-technology-in-the-or-could-decrease-surgery-times-risk-of-infection.aspx" class="style4">&quot;Future Technology in the OR Could Decrease Surgery Times, Risk of Infection&quot;</a> <em>Infection Control Today</em>.
+    </li>
+	
+	<li>
+	<a href="http://www.healthleadersmedia.com/content/TEC-262861/Robotic-Scrub-Nurses-Could-Boost-OR-Efficiencies.html" class="style4">&quot;Robotic Scrub Nurses Could Boost OR Efficiencies&quot;</a><em>Health Leaders Media</em><br />
+    </li>
+	
+	<li>
+	<a href="http://www.vision-systems.com/articles/2011/02/researchers-use-gesture-recognition-control-robotic-nurse.html" class="style4">&quot;Researchers use gesture recognition to control robotic nurse&quot;</a><em> Vision Systems Design</em><br />
+    </li>	
+
+	<li>
+    <a href="http://www.gizmag.com/gesture-controlled-computers-and-nurses/17808/" class="style4">&quot;Gesture-controlled computers and robotic nurses being developed for operating rooms&quot;</a> <em>gizmag.com</em>
+    </li>
+	
+
+
+</ul>				
+
+            <a name="CONTACTUS"></a>
+            <br/>
+            <div class="TextHeader">CONTACT US</div>	
+                <a style="color:white">Juan P. Wachs</a><br/>
+                <a href="mailto:jpwachs@purdue.edu" style="color:lightBlue">jpwachs (at) purdue (dot) edu</a> | <a href="http://web.ics.purdue.edu/~jpwachs/" target="_blank" style="color:lightBlue">Juan Wachs website</a><br/>
+                <a style="color:white">Yu-Ting Li</a><br/>
+                <a href="mailto:yutingli@purdue.edu" style="color:lightBlue">yutingli (at) purdue (dot) edu</a><br/>
+                <a style="color:white">Mithun George Jacob</a><br/>
+                <a href="mailto:mithunjacob@purdue.edu" style="color:lightBlue">mithunjacob (at) purdue (dot) edu</a><br/>
+
+        </div>
+    </td>
+</tr>		
+<tr>
+    <td align="left" style="color:black">
+        
+        <a href="http://www.purdue.edu" target="_blank" style="color:black"><img src="https://web.ics.purdue.edu/~jpwachs/gestonurse/images/purdue.png" alt="Purdue"/></a>
+        <br/>
+    </td>			
+    <td align="right" style="color:white">
+        <br/>
+
+        © 2012 <a href="http://web.ics.purdue.edu/~jpwachs/" target="_blank" style="color:white">Juan Wachs</a>
+        <br/>
+        <br/>
+        <p style="color:white">Website developed by <a href="mailto:ccange@purdue.edu" style="color:white">Chris Cange</a><br/>
+    </td>
+</tr>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2887252-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; ur_rtde 1.6.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples/examples.html" />
+    <link rel="prev" title="Guides" href="../guides/guides.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ur_rtde
+          
+
+          
+            
+            <img src="../_static/robots.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/guides.html">Guides</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="installation.html#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-install">Quick Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compatible-robots">Compatible Robots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#compatible-operating-systems">Compatible Operating Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#build-instructions">Build Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#linux-ubuntu-and-macos">Linux (Ubuntu) and macOS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#build">Build</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="installation.html#windows">Windows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#id1">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#visual-studio-build">Visual Studio Build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation.html#commandline-build">Commandline Build</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ur_rtde</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/installation/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="installation.html#installation" title="Permalink to this headline">¶</a></h1>
+<p>This section contains information on how to build and install the ur_rtde library.</p>
+<div class="section" id="quick-install">
+<h2>Quick Install<a class="headerlink" href="installation.html#quick-install" title="Permalink to this headline">¶</a></h2>
+<p>If you are on Linux (Ubuntu), you can install ur_rtde with:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:sdurobotics/ur-rtde
+sudo apt-get update
+sudo apt install librtde librtde-dev
+</pre></div>
+</div>
+<p>If you only want to the use the Python interface, you can install ur_rtde through pip:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install --user ur_rtde
+</pre></div>
+</div>
+<p>Notice! Make sure your pip version &gt;=19.3, otherwise the install might fail.</p>
+</div>
+<div class="section" id="compatible-robots">
+<h2>Compatible Robots<a class="headerlink" href="installation.html#compatible-robots" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>All CB-Series from CB3/CB3.1 software 3.3</p></li>
+<li><p>All e-Series</p></li>
+</ul>
+</div>
+<div class="section" id="compatible-operating-systems">
+<h2>Compatible Operating Systems<a class="headerlink" href="installation.html#compatible-operating-systems" title="Permalink to this headline">¶</a></h2>
+<p>Currently tested on:</p>
+<ul class="simple">
+<li><p>Ubuntu 16.04 (Xenial Xerus)</p></li>
+<li><p>Ubuntu 18.04 (Bionic Beaver)</p></li>
+<li><p>Ubuntu 20.04 (Focal Fossa)</p></li>
+<li><p>macOS 10.14 (Mojave)</p></li>
+<li><p>Windows 10 Pro x64</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The ur_rtde should be compatible with Windows 10. However it has currently only
+been tested without python bindings. pybind11 supports
+<em>Microsoft Visual Studio 2015 Update 3 or newer</em> on Windows.</p>
+</div>
+</div>
+<div class="section" id="build-instructions">
+<h2>Build Instructions<a class="headerlink" href="installation.html#build-instructions" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to build ur_rtde from source on different platforms. The dependencies of ur_rtde are:</p>
+<a class="reference external image-reference" href="https://www.boost.org/"><img alt="Boost" src="../_images/boost-logo.svg" width="60" /></a>
+<a class="reference external image-reference" href="https://github.com/pybind/pybind11"><img alt="pybind11" src="../_images/pybind11-logo.png" style="width: 100px;" /></a>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.boost.org/">Boost</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pybind/pybind11">pybind11</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The pybind11 dependency is optional and are only required if ur_rtde are to be used with Python. The ur_rtde library
+depends on Boost for networking and threading.</p>
+</div>
+<div class="section" id="linux-ubuntu-and-macos">
+<h3>Linux (Ubuntu) and macOS<a class="headerlink" href="installation.html#linux-ubuntu-and-macos" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="dependencies">
+<h4>Dependencies<a class="headerlink" href="installation.html#dependencies" title="Permalink to this headline">¶</a></h4>
+<p>You can install Boost on Ubuntu using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install libboost-all-dev
+</pre></div>
+</div>
+<p>On macOS you can install Boost with:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>brew install boost
+</pre></div>
+</div>
+<p><em>Optionally</em> if you want to use ur_rtde with Python make sure pybind11 is checked out from
+the submodule before attempting to build using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git submodule update --init --recursive
+</pre></div>
+</div>
+</div>
+<div class="section" id="build">
+<h4>Build<a class="headerlink" href="installation.html#build" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.com/sdurobotics/ur_rtde.git
+<span class="nb">cd</span> ur_rtde
+git submodule update --init --recursive
+mkdir build
+<span class="nb">cd</span> build
+cmake ..
+make
+sudo make install
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want Python 2.x support you must use <code class="code bash docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-DPYBIND11_PYTHON_VERSION</span><span class="operator"><span class="pre">=</span></span><span class="literal number"><span class="pre">2</span></span><span class="pre">.x</span> <span class="pre">..</span></code> in this step, since the
+default interpreter is Python3. If you do not want to use Python at all, please
+use <code class="code bash docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-DPYTHON_BINDINGS:BOOL</span><span class="operator"><span class="pre">=</span></span><span class="pre">OFF</span> <span class="pre">..</span></code></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In order to test the interface, download the most recent UR simulator for your robot from here
+<a class="reference external" href="https://www.universal-robots.com/download/">UR Download</a>. Once installed run the simulator with:
+<code class="code bash docutils literal notranslate"><span class="pre">./start-ursim.sh</span></code>, when the simulator is running, initialize the robot by first clicking the <strong>‘ON’</strong> button,
+and next clicking the <strong>‘START’</strong> button. You can now run the examples.</p>
+</div>
+</div>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="installation.html#windows" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Dependencies<a class="headerlink" href="installation.html#id1" title="Permalink to this headline">¶</a></h4>
+<p>Boost precompiled libraries can be found at:
+<a class="reference external" href="https://sourceforge.net/projects/boost/files/boost-binaries/">https://sourceforge.net/projects/boost/files/boost-binaries/</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using Microsoft Visual Studio make sure you download a version of
+Boost that matches your Microsoft Visual Studio version.</p>
+</div>
+<p>Depending on your setup it may be required to add the Boost library path
+to the system environment variables.</p>
+<p><em>Optionally</em> if you want to use ur_rtde with Python make sure pybind11 is checked out from
+the submodule before attempting to build using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git submodule update --init --recursive
+</pre></div>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.com/sdurobotics/ur_rtde.git
+</pre></div>
+</div>
+</div>
+<div class="section" id="visual-studio-build">
+<h4>Visual Studio Build<a class="headerlink" href="installation.html#visual-studio-build" title="Permalink to this headline">¶</a></h4>
+<p>If you are using Microsoft Visual Studio with CMake support (supported since 2017 version).
+You should be able to navigate to the folder you cloned the repository to and open the ur_rtde
+as a CMake project. See the image below.</p>
+<a class="reference external image-reference" href="https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=vs-2019"><img alt="Open CMake Project" src="../_images/open_cmake_project.png" /></a>
+<p>You can find more information about CMake projects in visual studio <a class="reference external" href="https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=vs-2019">Here</a>.</p>
+<p>Once you have loaded the project navigate to the CMake Settings through ‘Project-&gt;CMake Settings for ur_rtde’.
+Set the following CMake Command Arguments in order for the project to find Boost and disable the Python bindings:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>-DBOOST_ROOT<span class="o">=</span>&lt;YOUR_BOOST_ROOT&gt; -DBOOST_LIBRARYDIR<span class="o">=</span>&lt;YOUR_BOOST_LIBRARY_DIR&gt; -DPYTHON_BINDINGS:BOOL<span class="o">=</span>OFF
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Remember you can run the UR Simulator on Windows through the virtual machines provided by UR. In the VMware virtual
+machine you can set the network adapter to “Bridged” in the ‘Virtual Machine Settings’. If you then obtain the IP
+address of the robot using ifconfig, you can test the communication with your windows host running the ur_rtde program.</p>
+</div>
+</div>
+<div class="section" id="commandline-build">
+<h4>Commandline Build<a class="headerlink" href="installation.html#commandline-build" title="Permalink to this headline">¶</a></h4>
+<p>A quick way to compile the interface on Windows, is to do everything from the command line.
+The following commands can be executed from the command prompt after Boost has been installed.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://gitlab.com/sdurobotics/ur_rtde.git
+<span class="nb">cd</span> ur_rtde
+mkdir Build
+<span class="nb">cd</span> Build
+cmake -DBOOST_ROOT<span class="o">=</span><span class="s2">&quot;&lt;Path:\to\boost_&lt;version&gt;&gt;&quot;</span> -DBOOST_LIBRARYDIR<span class="o">=</span><span class="s2">&quot;&lt;Path:\to\boost_&lt;VERSION&gt;\&lt;COMPILER&gt;&gt;&quot;</span> -DPYTHON_BINDINGS<span class="o">=</span>OFF ..
+msbuild ur_rtde.sln /property:Configuration<span class="o">=</span>Release /maxcpucount:&lt;NUMBER_OF_CORES&gt;
+</pre></div>
+</div>
+<p>filling out the system specific variables the setup looks like this for a computer with 8 cores,
+using visual studio 2019 and boost 1.71.0.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake -DBOOST_ROOT<span class="o">=</span><span class="s2">&quot;C:\local\boost_1_71_0&quot;</span> -DBOOST_LIBRARYDIR<span class="o">=</span><span class="s2">&quot;C:\local\boost_1_71_0\lib64-msvc-14.2&quot;</span> -DPYTHON_BINDINGS<span class="o">=</span>OFF ..
+msbuild ur_rtde.sln /property:Configuration<span class="o">=</span>Release /maxcpucount:8
+</pre></div>
+</div>
+<p>The example above is the basic setup for compiling ur_rtde below you’ll find a list of other commands and what they do.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>-G “Visual Studio 15 2017 Win64”</dt><dd><ul>
+<li><p>This command forces the generator to vs 2017 64 bit. On some 64 bit systems when running cmake boost will
+look for 32bit libraries which are not there.</p></li>
+<li><p>The equivalent for Visual studio 2019 is: -G “Visual Studio 16 2019” -A x64</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>-DBUILD_STATIC=[ON|OFF]</dt><dd><ul>
+<li><p>The default value is “OFF”, which means that a dll library is built.
+This means, that when trying to link against this library runtime.
+The .dll file must either be moved to the same directory as .exe file.
+Or the system PATH variable must be set to include Build\&lt;config&gt;</p></li>
+<li><p>If it is set to ON the libraries will be build statically.
+This will make the compile time linking libraries a little longer and the output .exe or .lib a little larger.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>-DBoost_USE_STATIC_LIBS=[ON|OFF]</dt><dd><ul>
+<li><p>The default is OFF. If set to on it will link statically to Boost libraries.
+This will give the same benefits/drawbacks as -DBUILD_STATIC, just for the Boost libraries instead.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../examples/examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../guides/guides.html" class="btn btn-neutral float-left" title="Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

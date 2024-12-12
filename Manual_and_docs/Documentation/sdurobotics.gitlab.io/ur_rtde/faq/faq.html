@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ &mdash; ur_rtde 1.6.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Guides" href="../guides/guides.html" />
+    <link rel="prev" title="Introduction" href="../introduction/introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> ur_rtde
+          
+
+          
+            
+            <img src="../_static/robots.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="faq.html#">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/guides.html">Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ur_rtde</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/faq/faq.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="faq">
+<h1>FAQ<a class="headerlink" href="faq.html#faq" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Is ur_rtde realtime capable?</strong></p></li>
+</ul>
+<p>Yes! you can define real-time priorities when instantiating the RTDEControl and RTDEReceive interfaces see the
+<a class="reference internal" href="../guides/guides.html#realtime-setup-guide"><span class="std std-ref">Real-time Setup Guide</span></a></p>
+<ul class="simple">
+<li><p><strong>Can I use ur_rtde interface through MATLAB?</strong></p></li>
+</ul>
+<p>Yes! because ur_rtde have python bindings and MATLAB supports integration with Python,
+these can be called directly through MATLAB. Please see the section <a class="reference internal" href="../guides/guides.html#use-with-matlab"><span class="std std-ref">Use with MATLAB</span></a></p>
+<ul class="simple">
+<li><p><strong>How do I use my Robotiq gripper together with ur_rtde?</strong></p></li>
+</ul>
+<p>Currently 3 different ways of controlling a Robotiq gripper with ur_rtde exists. Please see the section
+<a class="reference internal" href="../guides/guides.html#use-with-robotiq-gripper"><span class="std std-ref">Use with Robotiq Gripper</span></a> for more information.</p>
+<ul class="simple">
+<li><p><strong>Can I pause the motion of the robot?</strong></p></li>
+</ul>
+<p>If you use ur_rtde together with the ExternalControl UR cap or a custom script on the controller, you can pause
+the motions using the teach pendant.</p>
+<p>When uploading the default rtde_control script, you cannot pause the motion of the move, servo and speed commands.
+However you can stop them. For the servo or speed movements you can stop the motion by using either servoStop()
+for a servo command and speedStop() for a speed command.</p>
+<p>For the move commands you need to set the async flag to true, in order to be able to stop them, using either
+stopJ() or stopL(). see <a class="reference internal" href="../examples/examples.html#move-asynchronous-example"><span class="std std-ref">Move Asynchronous Example</span></a>.</p>
+<ul class="simple">
+<li><p><strong>Can I set a custom reference frame for the robot, eg. wrt. a feature?</strong></p></li>
+</ul>
+<p>Currently it has not been implemented in the rtde_control script, but will be in an upcoming release. In the meantime please see
+<a class="reference external" href="https://www.universal-robots.com/how-tos-and-faqs/how-to/ur-how-tos/urscript-move-with-respect-to-a-custom-featureframe-20115/">Move with respect to a custom feature/frame</a>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../guides/guides.html" class="btn btn-neutral float-right" title="Guides" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../introduction/introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
