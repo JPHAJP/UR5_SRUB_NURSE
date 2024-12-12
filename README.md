@@ -22,8 +22,8 @@ El proyecto a participado en:
 - **Expo Univesidad Iberoameicana Puebla Otoño 2024** (2024).
 
 
-- [🔗 Articulo: Prototipo con reconocimiento de objetos para la asistencia en instrumentación quirúrgica](https://repositorio.iberopuebla.mx/handle/20.500.11777/5915)
-- [🔗 Articulo: IEEE Robotics](https://ieeexplore.ieee.org/document/10765997)
+- 🔗[ Articulo: Prototipo con reconocimiento de objetos para la asistencia en instrumentación quirúrgica](https://repositorio.iberopuebla.mx/handle/20.500.11777/5915)
+- 🔗[ Articulo: IEEE Robotics](https://ieeexplore.ieee.org/document/10765997)
 
 ---
 
