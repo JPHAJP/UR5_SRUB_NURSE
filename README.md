@@ -8,7 +8,7 @@ Repositorio para el trabajo con el robot UR5 utilizando una cámara de profundid
 ## 🔗 **Documentación**
 Se puede revisar un reporte del proyecto y videos en la carpeta **Manual_and_docs**.
 - [Reporte e instructivo PDF](Manual_and_docs/UR5%20-%20Reporte%20de%20documentación.pdf)
-- En este reporte se muestra una documentación de los antecedentes y justificación del proyecto, y la documentación técnica de como se elaboró todo el proyecto.
+> **Nota**: En este reporte se muestra una documentación de los antecedentes y justificación del proyecto, y la documentación técnica de como se elaboró todo el proyecto.
 
 ---
 
@@ -18,8 +18,10 @@ El proyecto a participado en:
 - **Expo Ingenierías Univeisdad Ibeoamericana CDMX** (2024).
 - **Expo Univesidad Iberoameicana Puebla Primavea 2024** (2024).
 - **XIV Congreso Nacional y IV Internacional de Tecnología aplicada a Ciencias de la Salud** (2024).
+- **Conference IEEE Robotics at Boca del Rio, Veracruz, Mexico** (2024).
 - **Expo Univesidad Iberoameicana Puebla Otoño 2024** (2024).
-- 
+
+
 - [🔗 Articulo: Prototipo con reconocimiento de objetos para la asistencia en instrumentación quirúrgica](https://repositorio.iberopuebla.mx/handle/20.500.11777/5915)
 - [🔗 Articulo: IEEE Robotics](https://ieeexplore.ieee.org/document/10765997)
 
