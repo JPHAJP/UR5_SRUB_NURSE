@@ -1,12 +1,26 @@
 # 🤖 UR5_SRUB_NURSE — S.I.L.V.I.A. | **Surgical Instrument Logistics Virtual Intelligent Assistant**
 
 Repositorio para el trabajo con el robot UR5 utilizando una cámara de profundidad para la detección de instrumental quirúrgico mediante inteligencia artificial.
+![Fotogafía del proyecto](Manual_and_docs\Fotogafías\PORTADA.png)
 
 ---
 
 ## 🔗 **Documentación**
 Se puede revisar un reporte del proyecto y videos en la carpeta **Manual_and_docs**.
--[Reporte e instructivo PDF]("Manual_and_docs\UR5 - Reporte de documentación.pdf")
+-[Reporte e instructivo PDF](Manual_and_docs/UR5%20-%20Reporte%20de%20documentación.pdf)
+
+---
+
+## 🔗 **Reconocimientos y articulos**
+El proyecto a participado en:
+-**Expo Univesidad Iberoameicana Puebla Otoño 2023** (2023).
+-**Expo Ingenierías Univeisdad Ibeoamericana CDMX** (2024).
+-**Expo Univesidad Iberoameicana Puebla Primavea 2024** (2024).
+-**XIV Congreso Nacional y IV Internacional de Tecnología aplicada a Ciencias de la Salud** (2024).
+-**Expo Univesidad Iberoameicana Puebla Otoño 2024** (2024).
+
+-[Articulo: Prototipo con reconocimiento de objetos para la asistencia en instrumentación quirúrgica](https://repositorio.iberopuebla.mx/handle/20.500.11777/5915)
+-[Articulo: IEEE Robotics](https://ieeexplore.ieee.org/document/10765997)
 
 ---
 
