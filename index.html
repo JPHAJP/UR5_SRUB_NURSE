@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UR5 SRUB NURSE - S.I.L.V.I.A.</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a237e; /* Azul rey */
+            --secondary-color: #ffffff; /* Blanco */
+            --accent-color: #304ffe; /* Azul acento */
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: #333;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .project-title {
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+        
+        .carousel-container {
+            max-width: 100%;
+            margin: 0 auto 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .carousel-item {
+            height: 50vh;
+            background-color: #000;
+        }
+        
+        .carousel-item img, 
+        .carousel-item video {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+        
+        .pdf-container {
+            width: 100%;
+            height: 600px;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        #pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin: 30px 0 20px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .social-link {
+            background-color: var(--accent-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary-color);
+            color: var(--primary-color) !important;
+        }
+        
+        .cc-license img {
+            vertical-align: middle;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 1.3rem;
+            }
+            
+            .carousel-item {
+                height: 40vh;
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="project-title">🤖 UR5_SRUB_NURSE — S.I.L.V.I.A. | <strong>Surgical Instrument Logistics Virtual Intelligent Assistant</strong></h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Carousel Section -->
+        <h2 class="section-title">Galería de Multimedia</h2>
+        <div class="carousel-container">
+            <div id="mediaCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Los elementos del carrusel se cargarán con JavaScript -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#mediaCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#mediaCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PDF Viewer Section -->
+        <h2 class="section-title">Documentación</h2>
+
+        <div class="col-md-12 d-flex align-items-stretch">
+            <div class="card col-md-12 d-flex align-items-stretch">
+                <div class="card-img">
+                    <iframe id="pdfViewer"
+                        src="Manual_and_docs/UR5 - Reporte de documentación.pdf"
+                        width="100%" height="800px">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container px-4 px-lg-5">
+            <ul class="list-inline mb-5">
+                <li class="list-inline-item">
+                    <a class="social-link text-white mr-3"
+                        href="https://mx.linkedin.com/in/jos%C3%A9-pablo-hern%C3%A1ndez-alonso-03a195256">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="social-link text-white mr-3"
+                        href="https://www.instagram.com/jose_pablo_ha?igsh=MTlvb2s1ejFuY210MQ%3D%3D&utm_source=qr">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item">
+                    <a class="social-link text-white" href="https://github.com/JPHAJP">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- <img src="Recursos/Imagenes/IM3.png" alt="University Logo" style="width:100px;"> -->
+            <p>Universidad Iberoamericana Puebla.</p>
+            <p class="cc-license">
+                <a property="dct:title" rel="cc:attributionURL" href="https://jphajp.github.io/Robotica/">Portafolio UR5e Srub Nurse</a> by 
+                <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/JPHAJP">José Pablo Hernández Alonso</a> 
+                is licensed under 
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+                    CC BY-NC-SA 4.0
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                        src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="">
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                        src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="">
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                        src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="">
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                        src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="">
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuración del carrusel
+            const carouselInner = document.querySelector('.carousel-inner');
+            
+            // Rutas a los videos e imágenes (simularemos estas rutas)
+            const videos = [
+                'Manual_and_docs/Videos/VID-20241212-WA0001.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0002.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0003.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0004.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0006.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0007.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0009.mp4'
+            ];
+            
+            // Simulamos que tenemos algunas fotos
+            const imagenes = [
+                'Manual_and_docs/Fotografias/33.jpg',
+                'Manual_and_docs/Fotografias/25.jpg', // Fixed comma to period
+                'Manual_and_docs/Fotografias/17.jpg',
+                'Manual_and_docs/Fotografias/14.jpg',
+                'Manual_and_docs/Fotografias/7.jpg',
+                'Manual_and_docs/Fotografias/6.jpg',
+                'Manual_and_docs/Fotografias/16.jpg'
+            ];
+            
+            // Combinamos videos e imágenes para el carrusel
+            const mediaItems = [...videos, ...imagenes];
+            
+            // Crear elementos del carrusel
+            mediaItems.forEach((item, index) => {
+                const isVideo = item.endsWith('.mp4');
+                
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                if (index === 0) carouselItem.classList.add('active');
+                
+                if (isVideo) {
+                    const video = document.createElement('video');
+                    video.className = 'd-block w-100';
+                    video.src = item;
+                    video.controls = true;
+                    video.muted = true;
+                    
+                    // Cuando termina el video, pasar al siguiente slide
+                    video.addEventListener('ended', () => {
+                        const carousel = bootstrap.Carousel.getInstance(document.getElementById('mediaCarousel'));
+                        carousel.next();
+                    });
+                    
+                    carouselItem.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.className = 'd-block w-100';
+                    img.src = item;
+                    img.alt = `Imagen ${index + 1}`;
+                    carouselItem.appendChild(img);
+                }
+                
+                carouselInner.appendChild(carouselItem);
+            });
+            
+            // Inicializar el carrusel con intervalo de 10 segundos para imágenes
+            const carousel = new bootstrap.Carousel(document.getElementById('mediaCarousel'), {
+                interval: 10000
+            });
+            
+            // Pausar el carrusel automático cuando se reproduce un video
+            document.querySelectorAll('.carousel-item video').forEach(video => {
+                video.addEventListener('play', () => {
+                    carousel.pause();
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
