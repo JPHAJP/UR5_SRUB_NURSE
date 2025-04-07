@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UR5 SRUB NURSE - S.I.L.V.I.A.</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -57,22 +59,7 @@
             width: 100%;
             object-fit: contain;
         }
-        
-        .pdf-container {
-            width: 100%;
-            height: 600px;
-            margin: 30px auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        #pdf-viewer {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
+          
         .section-title {
             color: var(--primary-color);
             border-left: 5px solid var(--accent-color);
@@ -110,6 +97,62 @@
             vertical-align: middle;
         }
         
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            object-fit: contain;
+        }
+        
+        .tech-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .tech-title {
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .workflow-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .workflow-container img {
+            max-width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .ai-workflow-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .ai-workflow-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .ai-workflow-item img {
+            max-width: 100px;
+            margin-bottom: 15px;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .project-title {
@@ -123,6 +166,11 @@
             .pdf-container {
                 height: 400px;
             }
+            
+            .tech-icon {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
@@ -130,32 +178,162 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <h1 class="project-title">🤖 UR5_SRUB_NURSE — S.I.L.V.I.A. | <strong>Surgical Instrument Logistics Virtual Intelligent Assistant</strong></h1>
+            <h1 class="project-title">🤖 UR5_SRUB_NURSE — S.I.L.V.I.A.<br><strong>Surgical Instrument Logistics Virtual Intelligent Assistant</strong></h1>
         </div>
     </header>
 
     <div class="container">
-        <!-- Carousel Section -->
+        <!-- Galería con pestañas para fotos y videos -->
         <h2 class="section-title">Galería de Multimedia</h2>
-        <div class="carousel-container">
-            <div id="mediaCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <!-- Los elementos del carrusel se cargarán con JavaScript -->
+        
+        <ul class="nav nav-pills mb-3" id="gallery-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="photos-tab" data-bs-toggle="pill" data-bs-target="#photos" type="button" role="tab" aria-controls="photos" aria-selected="true">Fotografías</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="videos-tab" data-bs-toggle="pill" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">Videos</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="gallery-tabContent">
+            <!-- Pestaña de Fotografías -->
+            <div class="tab-pane fade show active" id="photos" role="tabpanel" aria-labelledby="photos-tab">
+                <div class="carousel-container">
+                    <div id="photosCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- Las fotografías se cargarán con JavaScript -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#photosCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#photosCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#mediaCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Anterior</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#mediaCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Siguiente</span>
-                </button>
+            </div>
+            
+            <!-- Pestaña de Videos -->
+            <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+                <div class="carousel-container">
+                    <div id="videosCarousel" class="carousel slide" data-bs-interval="false">
+                        <div class="carousel-inner">
+                            <!-- Los videos se cargarán con JavaScript -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#videosCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#videosCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow del Proyecto -->
+        <h2 class="section-title">Workflow del Proyecto</h2>
+        <div class="workflow-container">
+            <img src="Manual_and_docs/Diagramas/workflow-proyecto.jpg" alt="Diagrama de workflow del proyecto" class="img-fluid">
+            <p class="mt-3">Diagrama que ilustra el flujo de trabajo y la arquitectura completa del proyecto S.I.L.V.I.A.</p>
+        </div>
+
+        <!-- Workflow de IAs -->
+        <h2 class="section-title">Inteligencia Artificial Aplicada</h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-3">
+                <div class="ai-workflow-item text-center">
+                    <img src="Manual_and_docs/Logos/whisper-logo.png" alt="Whisper OpenAI Logo" class="img-fluid">
+                    <h4>Whisper</h4>
+                    <p>Detección offline de voz para interacción con el asistente quirúrgico.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="ai-workflow-item text-center">
+                    <img src="Manual_and_docs/Logos/llama-logo.png" alt="Llama3.1 Logo" class="img-fluid">
+                    <h4>Llama3.1 con Ollama</h4>
+                    <p>LLM offline que actúa como asistente quirúrgico, procesando peticiones y coordinando acciones.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="ai-workflow-item text-center">
+                    <img src="Manual_and_docs/Logos/intel-logo.png" alt="Intel Depth Camera Logo" class="img-fluid">
+                    <h4>Sistema de Transformación de Coordenadas</h4>
+                    <p>Procesamiento dinámico para cámara de profundidad Intel, facilitando la ubicación espacial.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="ai-workflow-item text-center">
+                    <img src="Manual_and_docs/Logos/yolo-logo.png" alt="YOLOv8 Logo" class="img-fluid">
+                    <h4>YOLOv8</h4>
+                    <p>Detección de instrumental quirúrgico en tiempo real para identificación y seguimiento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tecnologías Utilizadas -->
+        <h2 class="section-title">Tecnologías Utilizadas</h2>
+        <div class="row">
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/ur-rtde-logo.png" alt="UR-RTDE Logo" class="tech-icon">
+                <p class="tech-title">UR-RTDE</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/ur-pipeline-logo.png" alt="UR-PIPELINE Logo" class="tech-icon">
+                <p class="tech-title">UR-PIPELINE</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/intel-d455-logo.png" alt="Intel D455 Depth Cam Logo" class="tech-icon">
+                <p class="tech-title">Intel D455</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/python-logo.png" alt="Python Logo" class="tech-icon">
+                <p class="tech-title">Python</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/flask-logo.png" alt="Flask Logo" class="tech-icon">
+                <p class="tech-title">Flask</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/ultralytics-logo.png" alt="Ultralytics Logo" class="tech-icon">
+                <p class="tech-title">Ultralytics</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/yolo-logo.png" alt="YOLOv8 Logo" class="tech-icon">
+                <p class="tech-title">YOLOv8</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/google-tts-logo.png" alt="Google TTS Logo" class="tech-icon">
+                <p class="tech-title">Google TTS</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/ollama-logo.png" alt="Ollama Logo" class="tech-icon">
+                <p class="tech-title">Ollama</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/llama-logo.png" alt="Llama3.1 Logo" class="tech-icon">
+                <p class="tech-title">Llama3.1</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/whisper-logo.png" alt="Whisper OpenAI Logo" class="tech-icon">
+                <p class="tech-title">Whisper OpenAI</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/opencv-logo.png" alt="OpenCV Logo" class="tech-icon">
+                <p class="tech-title">OpenCV</p>
+            </div>
+            <div class="col-4 col-md-2 tech-container">
+                <img src="Manual_and_docs/Logos/spatial-maths-logo.png" alt="Spatial Maths SE3 Logo" class="tech-icon">
+                <p class="tech-title">Spatial Maths SE3</p>
             </div>
         </div>
 
         <!-- PDF Viewer Section -->
         <h2 class="section-title">Documentación</h2>
-
         <div class="col-md-12 d-flex align-items-stretch">
             <div class="card col-md-12 d-flex align-items-stretch">
                 <div class="card-img">
@@ -216,10 +394,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Configuración del carrusel
-            const carouselInner = document.querySelector('.carousel-inner');
-            
-            // Rutas a los videos e imágenes (simularemos estas rutas)
+            // Rutas a los videos
             const videos = [
                 'Manual_and_docs/Videos/VID-20241212-WA0001.mp4',
                 'Manual_and_docs/Videos/VID-20241212-WA0002.mp4',
@@ -230,10 +405,10 @@
                 'Manual_and_docs/Videos/VID-20241212-WA0009.mp4'
             ];
             
-            // Simulamos que tenemos algunas fotos
+            // Rutas a las imágenes
             const imagenes = [
                 'Manual_and_docs/Fotografias/33.jpg',
-                'Manual_and_docs/Fotografias/25.jpg', // Fixed comma to period
+                'Manual_and_docs/Fotografias/25.jpg',
                 'Manual_and_docs/Fotografias/17.jpg',
                 'Manual_and_docs/Fotografias/14.jpg',
                 'Manual_and_docs/Fotografias/7.jpg',
@@ -241,54 +416,83 @@
                 'Manual_and_docs/Fotografias/16.jpg'
             ];
             
-            // Combinamos videos e imágenes para el carrusel
-            const mediaItems = [...videos, ...imagenes];
-            
-            // Crear elementos del carrusel
-            mediaItems.forEach((item, index) => {
-                const isVideo = item.endsWith('.mp4');
-                
+            // Cargar imágenes en el carrusel de fotos
+            const photosCarouselInner = document.querySelector('#photosCarousel .carousel-inner');
+            imagenes.forEach((imagen, index) => {
                 const carouselItem = document.createElement('div');
                 carouselItem.className = 'carousel-item';
                 if (index === 0) carouselItem.classList.add('active');
                 
-                if (isVideo) {
-                    const video = document.createElement('video');
-                    video.className = 'd-block w-100';
-                    video.src = item;
-                    video.controls = true;
-                    video.muted = true;
-                    
-                    // Cuando termina el video, pasar al siguiente slide
-                    video.addEventListener('ended', () => {
-                        const carousel = bootstrap.Carousel.getInstance(document.getElementById('mediaCarousel'));
-                        carousel.next();
-                    });
-                    
-                    carouselItem.appendChild(video);
-                } else {
-                    const img = document.createElement('img');
-                    img.className = 'd-block w-100';
-                    img.src = item;
-                    img.alt = `Imagen ${index + 1}`;
-                    carouselItem.appendChild(img);
-                }
+                const img = document.createElement('img');
+                img.className = 'd-block w-100';
+                img.src = imagen;
+                img.alt = `Imagen ${index + 1}`;
                 
-                carouselInner.appendChild(carouselItem);
+                carouselItem.appendChild(img);
+                photosCarouselInner.appendChild(carouselItem);
             });
             
-            // Inicializar el carrusel con intervalo de 10 segundos para imágenes
-            const carousel = new bootstrap.Carousel(document.getElementById('mediaCarousel'), {
-                interval: 10000
+            // Cargar videos en el carrusel de videos
+            const videosCarouselInner = document.querySelector('#videosCarousel .carousel-inner');
+            videos.forEach((video, index) => {
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                if (index === 0) carouselItem.classList.add('active');
+                
+                const videoElement = document.createElement('video');
+                videoElement.className = 'd-block w-100';
+                videoElement.src = video;
+                videoElement.controls = true;
+                videoElement.muted = true;
+                videoElement.autoplay = true;
+                videoElement.loop = false;
+                
+                carouselItem.appendChild(videoElement);
+                videosCarouselInner.appendChild(carouselItem);
             });
             
-            // Pausar el carrusel automático cuando se reproduce un video
-            document.querySelectorAll('.carousel-item video').forEach(video => {
-                video.addEventListener('play', () => {
-                    carousel.pause();
+            // Inicializar carrusel de fotos con intervalo de 5 segundos
+            const photosCarousel = new bootstrap.Carousel(document.getElementById('photosCarousel'), {
+                interval: 5000
+            });
+            
+            // Evitar que los controles del carrusel afecten los controles de video
+            document.querySelectorAll('#videosCarousel video').forEach(video => {
+                // Pausar todos los videos cuando cambia el slide
+                document.getElementById('videosCarousel').addEventListener('slide.bs.carousel', function () {
+                    video.pause();
+                });
+                
+                // Reproducir automáticamente el video cuando se muestra su slide
+                document.getElementById('videosCarousel').addEventListener('slid.bs.carousel', function (e) {
+                    const activeSlide = document.querySelector('#videosCarousel .carousel-item.active');
+                    if (activeSlide && activeSlide.contains(video)) {
+                        video.currentTime = 0;
+                        video.play();
+                    }
+                });
+                
+                // Prevenir que los clics en los controles de video afecten al carrusel
+                video.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                 });
             });
             
+            // Activar pestaña al hacer clic
+            const galleryTabs = document.querySelectorAll('#gallery-tab button');
+            galleryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Reiniciar videos al cambiar de pestaña
+                    if (this.id === 'videos-tab') {
+                        const activeVideo = document.querySelector('#videosCarousel .carousel-item.active video');
+                        if (activeVideo) {
+                            activeVideo.currentTime = 0;
+                            activeVideo.play();
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
