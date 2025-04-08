@@ -301,6 +301,48 @@
                 padding: 6px 15px;
                 font-size: 0.9rem;
             }
+
+            .participation-card {
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .participation-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .participation-img {
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 3px solid var(--accent-color);
+    }
+    
+    .participation-card .btn {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+    
+    .participation-card .btn:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+    
+    .participation-card .card-title {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+    
+    /* Ajuste responsivo */
+    @media (max-width: 768px) {
+        .participation-img {
+            height: 150px;
+        }
+    }
             
             #pdfViewer {
                 height: 500px;
@@ -515,6 +557,67 @@
                 <p class="tech-title">MySQL</p>
             </div>
         </div>
+
+        <!-- Participaciones destacadas -->
+<h2 class="section-title">Participaciones destacadas</h2>
+<div class="row g-4">
+    <!-- ExpoIbero Otoño 2023 -->
+    <div class="col-md-2 col-lg-3">
+        <a href="https://www.iberopuebla.mx/events/expoibero" class="text-decoration-none" target="_blank">
+            <div class="card h-100 participation-card">
+                <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img" alt="ExpoIbero Otoño 2023">
+                <div class="card-body text-center">
+                    <h5 class="card-title">ExpoIbero<br>Otoño 2023</h5>
+                    <p class="card-text">Presentación del prototipo inicial en la exposición de proyectos universitarios.</p>
+                    <span class="btn btn-primary">Ver más</span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    
+    <!-- CONITACS 2024 -->
+    <div class="col-md-2 col-lg-3">
+        <a href="https://conitacs.org/" class="text-decoration-none" target="_blank">
+            <div class="card h-100 participation-card">
+                <img src="Manual_and_docs/assets/Conitacs.jpg" class="card-img-top participation-img" alt="CONITACS 2024" style="margin-top: 10%;">
+                <div class="card-body text-center" style="margin-top: 12%;">
+                    <h5 class="card-title">CONITACS 2024</h5>
+                    <p class="card-text">Presentación en el Congreso Internacional de Tecnologías Avanzadas en Cirugía.</p>
+                    <span class="btn btn-primary">Ver más</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <!-- ExpoIbero Otoño 2024 -->
+    <div class="col-md-2 col-lg-3">
+        <a href="https://www.iberopuebla.mx/events/expoibero" class="text-decoration-none" target="_blank">
+            <div class="card h-100 participation-card">
+                <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img" alt="ExpoIbero Otoño 2024">
+                <div class="card-body text-center">
+                    <h5 class="card-title">ExpoIbero<br>Otoño 2024</h5>
+                    <p class="card-text">Exposición del sistema completo con todas las funcionalidades integradas.</p>
+                    <span class="btn btn-primary">Ver más</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <!-- IEEE International Conference -->
+    <div class="col-md-2 col-lg-3">
+        <a href="https://ieee.org/conferences/" class="text-decoration-none" target="_blank">
+            <div class="card h-100 participation-card">
+                <img src="Manual_and_docs/assets/IEEE.jpg" class="card-img-top participation-img" alt="IEEE ICEV 2024" style="margin-top: 20%;">
+                <div class="card-body text-center" style="margin-top: 32%;">
+                    <h5 class="card-title">IEEE ICEV 2024</h5>
+                    <p class="card-text">Presentación en la Conferencia Internacional de Ingeniería en Veracruz.</p>
+                    <span class="btn btn-primary">Ver más</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
 
         <!-- PDF Viewer Section -->
         <h2 class="section-title">Documentación</h2>
