@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UR5 SRUB NURSE - S.I.L.V.I.A.</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -14,17 +16,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <style>
         :root {
-            --primary-color: #1a237e; /* Azul rey */
-            --secondary-color: #ffffff; /* Blanco */
-            --accent-color: #304ffe; /* Azul acento */
+            --primary-color: #1a237e;
+            /* Azul rey */
+            --secondary-color: #ffffff;
+            /* Blanco */
+            --accent-color: #304ffe;
+            /* Azul acento */
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--secondary-color);
             color: #333;
         }
-        
+
         .header {
             background-color: var(--primary-color);
             color: var(--secondary-color);
@@ -33,26 +38,26 @@
             border-bottom: 5px solid var(--accent-color);
             margin-bottom: 20px;
         }
-        
+
         .project-title {
             font-weight: 700;
             font-size: 1.8rem;
             margin-bottom: 0;
         }
-        
+
         /* Contenedor principal con ancho del 80% */
         .main-container {
             width: 80%;
             margin: 0 auto;
             max-width: 1400px;
         }
-        
+
         /* Estilos mejorados para la galería */
         .gallery-section {
             margin-bottom: 60px;
             width: 100%;
         }
-        
+
         .gallery-title {
             color: var(--primary-color);
             margin-bottom: 25px;
@@ -60,7 +65,7 @@
             text-align: center;
             font-size: 1.5rem;
         }
-        
+
         /* Video principal - ajustado a máximo 600px */
         .video-container {
             width: 100%;
@@ -71,7 +76,7 @@
             position: relative;
             max-height: 600px;
         }
-        
+
         .video-container video {
             width: 100%;
             display: block;
@@ -79,7 +84,7 @@
             max-height: 600px;
             object-fit: contain;
         }
-        
+
         /* Control de navegación de videos separado de los controles nativos */
         .video-navigation {
             padding: 15px;
@@ -90,7 +95,7 @@
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
         }
-        
+
         .video-nav-btn {
             padding: 8px 20px;
             border: 2px solid var(--primary-color);
@@ -102,13 +107,13 @@
             font-weight: 600;
             min-width: 120px;
         }
-        
+
         .video-nav-btn:hover {
             background-color: var(--primary-color);
             color: white;
             transform: translateY(-2px);
         }
-        
+
         /* Indicador de video actual */
         .video-indicator {
             text-align: center;
@@ -117,7 +122,7 @@
             color: var(--primary-color);
             font-weight: 500;
         }
-        
+
         /* Carrusel de fotografías mejorado */
         .photos-carousel-container {
             margin-top: 40px;
@@ -127,34 +132,34 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             max-height: 600px;
         }
-        
+
         .carousel-inner {
             border-radius: 10px;
         }
-        
+
         .carousel-item {
             height: auto;
             max-height: 600px;
             background-color: #000;
         }
-        
+
         .carousel-item img {
             width: 100%;
             height: 100%;
             max-height: 600px;
             object-fit: contain;
         }
-        
+
         .carousel-control-prev,
         .carousel-control-next {
             width: 10%;
             opacity: 0.8;
         }
-        
+
         .carousel-indicators {
             margin-bottom: 1rem;
         }
-        
+
         /* Resto de estilos de la página */
         .section-title {
             color: var(--primary-color);
@@ -163,14 +168,14 @@
             margin: 30px 0 20px;
             font-weight: 600;
         }
-        
+
         .footer {
             background-color: var(--primary-color);
             color: var(--secondary-color);
             padding: 20px 0;
             margin-top: 40px;
         }
-        
+
         .social-link {
             background-color: var(--accent-color);
             display: inline-flex;
@@ -182,46 +187,46 @@
             margin: 0 10px;
             transition: all 0.3s ease;
         }
-        
+
         .social-link:hover {
             transform: scale(1.1);
             background-color: var(--secondary-color);
             color: var(--primary-color) !important;
         }
-        
+
         .cc-license img {
             vertical-align: middle;
         }
-        
+
         .tech-icon {
             width: 80px;
             height: 80px;
             margin: 10px;
             object-fit: contain;
         }
-        
+
         .tech-container {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         .tech-title {
             font-weight: 600;
             margin-top: 10px;
             font-size: 0.9rem;
         }
-        
+
         .workflow-container {
             margin: 30px 0;
             text-align: center;
         }
-        
+
         .workflow-container img {
             max-width: 100%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        
+
         .ai-workflow-item {
             padding: 20px;
             margin-bottom: 20px;
@@ -230,16 +235,16 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
-        
+
         .ai-workflow-item:hover {
             transform: translateY(-5px);
         }
-        
+
         .ai-workflow-item img {
             max-width: 100px;
             margin-bottom: 15px;
         }
-        
+
         .github-btn {
             background-color: var(--primary-color);
             color: white;
@@ -250,52 +255,54 @@
             margin-bottom: 30px;
             transition: all 0.3s ease;
         }
-        
+
         .github-btn:hover {
             background-color: var(--accent-color);
             transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             color: white;
         }
-        
+
         .github-btn i {
             margin-right: 8px;
         }
-        
+
         /* PDF viewer height */
         #pdfViewer {
             height: 800px;
             max-height: 80vh;
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .main-container {
                 width: 90%;
             }
-            
-            .carousel-item, .video-container video {
+
+            .carousel-item,
+            .video-container video {
                 max-height: 500px;
             }
         }
-        
+
         @media (max-width: 768px) {
             .main-container {
                 width: 95%;
             }
-            
+
             .project-title {
                 font-size: 1.3rem;
             }
-            
-            .carousel-item, .video-container video {
+
+            .carousel-item,
+            .video-container video {
                 max-height: 400px;
             }
-            
+
             .video-navigation {
                 flex-wrap: wrap;
             }
-            
+
             .video-nav-btn {
                 min-width: 100px;
                 padding: 6px 15px;
@@ -303,82 +310,126 @@
             }
 
             .participation-card {
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        border: none;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    
-    .participation-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    
-    .participation-img {
-        height: 180px;
-        object-fit: cover;
-        border-bottom: 3px solid var(--accent-color);
-    }
-    
-    .participation-card .btn {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        transition: all 0.3s ease;
-    }
-    
-    .participation-card .btn:hover {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
-    
-    .participation-card .card-title {
-        color: var(--primary-color);
-        font-weight: 600;
-    }
-    
-    /* Ajuste responsivo */
-    @media (max-width: 768px) {
-        .participation-img {
-            height: 150px;
-        }
-    }
-            
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border: none;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .participation-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .participation-img {
+                height: 180px;
+                object-fit: cover;
+                border-bottom: 3px solid var(--accent-color);
+            }
+
+            .participation-card .btn {
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+                transition: all 0.3s ease;
+            }
+
+            .participation-card .btn:hover {
+                background-color: var(--accent-color);
+                border-color: var(--accent-color);
+            }
+
+            .participation-card .card-title {
+                color: var(--primary-color);
+                font-weight: 600;
+            }
+
+            /* Ajuste responsivo */
+            @media (max-width: 768px) {
+                .participation-img {
+                    height: 150px;
+                }
+            }
+
             #pdfViewer {
                 height: 500px;
             }
-            
+
             .tech-icon {
                 width: 60px;
                 height: 60px;
             }
         }
+
+        .pdf-container {
+            width: 100%;
+            height: 800px;
+            max-height: 80vh;
+            overflow: auto;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+
+        .pdf-controls {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #pdfCanvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #pageInfo {
+            margin: 0 10px;
+        }
+
+        /* Estilos responsivos para móvil */
+        @media (max-width: 768px) {
+            .pdf-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pdf-container {
+                height: 500px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <h1 class="project-title">🤖 UR5_SRUB_NURSE — S.I.L.V.I.A.<br><strong>Surgical Instrument Logistics Virtual Intelligent Assistant</strong></h1>
+            <h1 class="project-title">🤖 UR5_SRUB_NURSE — S.I.L.V.I.A.<br><strong>Surgical Instrument Logistics Virtual
+                    Intelligent Assistant</strong></h1>
         </div>
     </header>
 
     <div class="main-container">
         <!-- Sección de Galería de Videos - Contenido Principal -->
         <h2 class="section-title">Galería Multimedia</h2>
-        
+
         <!-- Video Principal -->
         <div class="gallery-section">
             <h3 class="gallery-title">Videos</h3>
-            
+
             <div class="video-container">
                 <video id="mainVideo" controls autoplay loop></video>
             </div>
-            
+
             <div class="video-indicator">
                 <span id="videoCount">Video 1 de 7</span>
             </div>
-            
+
             <!-- Navegación separada de los controles del video -->
             <div class="video-navigation">
                 <button class="video-nav-btn" id="prevVideoBtn">
@@ -389,7 +440,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Fotografías como carrusel secundario -->
         <div class="gallery-section">
             <h3 class="gallery-title">Fotografías</h3>
@@ -401,11 +452,13 @@
                     <div class="carousel-inner">
                         <!-- Las fotografías se cargarán con JavaScript -->
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#photosCarousel" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#photosCarousel"
+                        data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Anterior</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#photosCarousel" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#photosCarousel"
+                        data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Siguiente</span>
                     </button>
@@ -416,11 +469,14 @@
         <!-- Workflow del Proyecto -->
         <h2 class="section-title">Workflow del Proyecto</h2>
         <div class="workflow-container">
-            <img src="Manual_and_docs/assets/Ur5_workflow.png" alt="Diagrama de workflow del proyecto" class="img-fluid">
-            <p class="mt-3">Diagrama que ilustra el flujo de trabajo y la arquitectura completa del proyecto S.I.L.V.I.A.</p>
+            <img src="Manual_and_docs/assets/Ur5_workflow.png" alt="Diagrama de workflow del proyecto"
+                class="img-fluid">
+            <p class="mt-3">Diagrama que ilustra el flujo de trabajo y la arquitectura completa del proyecto
+                S.I.L.V.I.A.</p>
         </div>
         <div class="workflow-container">
-            <img src="Manual_and_docs/assets/Roboflow_workflow.png" alt="Diagrama de workflow del proyecto" class="img-fluid">
+            <img src="Manual_and_docs/assets/Roboflow_workflow.png" alt="Diagrama de workflow del proyecto"
+                class="img-fluid">
             <p class="mt-3">Diagrama que muestra como se contruye IA basada en visión por computadora. (Roboflow)</p>
         </div>
 
@@ -438,7 +494,8 @@
                 <div class="ai-workflow-item text-center">
                     <img src="Manual_and_docs/assets/llama3.1.jpg" alt="Llama3.1 Logo" class="img-fluid">
                     <h4>Llama3.1 con Ollama</h4>
-                    <p>LLM offline que actúa como asistente quirúrgico, procesando peticiones y coordinando acciones.</p>
+                    <p>LLM offline que actúa como asistente quirúrgico, procesando peticiones y coordinando acciones.
+                    </p>
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
@@ -559,81 +616,115 @@
         </div>
 
         <!-- Participaciones destacadas -->
-<h2 class="section-title">Participaciones destacadas</h2>
-<div class="row g-4">
-    <!-- ExpoIbero Otoño 2023 -->
-    <div class="col-md-2 col-lg-3">
-        <a href="https://repositorio.iberopuebla.mx/bitstream/handle/20.500.11777/5915/Prototipo%20con%20reconocimiento%20de%20objetos%20para%20la%20asistencia%20en%20instrumentaci%C3%B3n%20quir%C3%BArgica_modalidad%20prototipo_articuloPDF_final.pdf?sequence=1&isAllowed=y" class="text-decoration-none" target="_blank">
-            <div class="card h-100 participation-card">
-                <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img" alt="ExpoIbero Otoño 2023">
-                <div class="card-body text-center">
-                    <h5 class="card-title">ExpoIbero<br>Otoño 2023</h5>
-                    <p class="card-text">Presentación del prototipo inicial en la exposición de proyectos universitarios.</p>
-                    <span class="btn btn-primary">Ver más</span>
-                </div>
+        <h2 class="section-title">Participaciones destacadas</h2>
+        <div class="row g-4">
+            <!-- ExpoIbero Otoño 2023 -->
+            <div class="col-md-2 col-lg-3">
+                <a href="https://repositorio.iberopuebla.mx/bitstream/handle/20.500.11777/5915/Prototipo%20con%20reconocimiento%20de%20objetos%20para%20la%20asistencia%20en%20instrumentaci%C3%B3n%20quir%C3%BArgica_modalidad%20prototipo_articuloPDF_final.pdf?sequence=1&isAllowed=y"
+                    class="text-decoration-none" target="_blank">
+                    <div class="card h-100 participation-card">
+                        <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img"
+                            alt="ExpoIbero Otoño 2023">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">ExpoIbero<br>Otoño 2023</h5>
+                            <p class="card-text">Presentación del prototipo inicial en la exposición de proyectos
+                                universitarios.</p>
+                            <span class="btn btn-primary">Ver más</span>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
 
-    
-    <!-- CONITACS 2024 -->
-    <div class="col-md-2 col-lg-3">
-        <a href="https://www-optica.inaoep.mx/~tecnologia_salud/2024/" class="text-decoration-none" target="_blank">
-            <div class="card h-100 participation-card">
-                <img src="Manual_and_docs/assets/Conitacs.jpg" class="card-img-top participation-img" alt="CONITACS 2024" style="margin-top: 10%;">
-                <div class="card-body text-center" style="margin-top: 12%;">
-                    <h5 class="card-title">CONITACS 2024</h5>
-                    <p class="card-text">Presentación en el Congreso Internacional de Tecnologías Avanzadas en Cirugía.</p>
-                    <span class="btn btn-primary">Ver más</span>
-                </div>
+
+            <!-- CONITACS 2024 -->
+            <div class="col-md-2 col-lg-3">
+                <a href="https://www-optica.inaoep.mx/~tecnologia_salud/2024/" class="text-decoration-none"
+                    target="_blank">
+                    <div class="card h-100 participation-card">
+                        <img src="Manual_and_docs/assets/Conitacs.jpg" class="card-img-top participation-img"
+                            alt="CONITACS 2024" style="margin-top: 10%;">
+                        <div class="card-body text-center" style="margin-top: 12%;">
+                            <h5 class="card-title">CONITACS 2024</h5>
+                            <p class="card-text">Presentación en el Congreso Internacional de Tecnologías Avanzadas en
+                                Cirugía.</p>
+                            <span class="btn btn-primary">Ver más</span>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-    
-    <!-- ExpoIbero Otoño 2024 -->
-    <div class="col-md-2 col-lg-3">
-        <a href="https://repositorio.iberopuebla.mx/bitstream/handle/20.500.11777/5915/Prototipo%20con%20reconocimiento%20de%20objetos%20para%20la%20asistencia%20en%20instrumentaci%C3%B3n%20quir%C3%BArgica_modalidad%20prototipo_articuloPDF_final.pdf?sequence=1&isAllowed=y" class="text-decoration-none" target="_blank">
-            <div class="card h-100 participation-card">
-                <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img" alt="ExpoIbero Otoño 2024">
-                <div class="card-body text-center">
-                    <h5 class="card-title">ExpoIbero<br>Otoño 2024</h5>
-                    <p class="card-text">Exposición del sistema completo con todas las funcionalidades integradas.</p>
-                    <span class="btn btn-primary">Ver más</span>
-                </div>
+
+            <!-- ExpoIbero Otoño 2024 -->
+            <div class="col-md-2 col-lg-3">
+                <a href="https://repositorio.iberopuebla.mx/bitstream/handle/20.500.11777/5915/Prototipo%20con%20reconocimiento%20de%20objetos%20para%20la%20asistencia%20en%20instrumentaci%C3%B3n%20quir%C3%BArgica_modalidad%20prototipo_articuloPDF_final.pdf?sequence=1&isAllowed=y"
+                    class="text-decoration-none" target="_blank">
+                    <div class="card h-100 participation-card">
+                        <img src="Manual_and_docs/assets/ibero.jpg" class="card-img-top participation-img"
+                            alt="ExpoIbero Otoño 2024">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">ExpoIbero<br>Otoño 2024</h5>
+                            <p class="card-text">Exposición del sistema completo con todas las funcionalidades
+                                integradas.</p>
+                            <span class="btn btn-primary">Ver más</span>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-    
-    <!-- IEEE International Conference -->
-    <div class="col-md-2 col-lg-3">
-        <a href="https://ieeexplore.ieee.org/document/10765997" class="text-decoration-none" target="_blank">
-            <div class="card h-100 participation-card">
-                <img src="Manual_and_docs/assets/IEEE.jpg" class="card-img-top participation-img" alt="IEEE ICEV 2024" style="margin-top: 20%;">
-                <div class="card-body text-center" style="margin-top: 32%;">
-                    <h5 class="card-title">IEEE ICEV 2024</h5>
-                    <p class="card-text">Presentación en la Conferencia Internacional de Ingeniería en Veracruz.</p>
-                    <span class="btn btn-primary">Ver más</span>
-                </div>
+
+            <!-- IEEE International Conference -->
+            <div class="col-md-2 col-lg-3">
+                <a href="https://ieeexplore.ieee.org/document/10765997" class="text-decoration-none" target="_blank">
+                    <div class="card h-100 participation-card">
+                        <img src="Manual_and_docs/assets/IEEE.jpg" class="card-img-top participation-img"
+                            alt="IEEE ICEV 2024" style="margin-top: 20%;">
+                        <div class="card-body text-center" style="margin-top: 32%;">
+                            <h5 class="card-title">IEEE ICEV 2024</h5>
+                            <p class="card-text">Presentación en la Conferencia Internacional de Ingeniería en Veracruz.
+                            </p>
+                            <span class="btn btn-primary">Ver más</span>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-</div>
+        </div>
 
         <!-- PDF Viewer Section -->
         <h2 class="section-title">Documentación</h2>
         <!-- GitHub Documentation Button -->
         <div class="text-center mb-4">
-            <a href="https://github.com/JPHAJP/UR5_SRUB_NURSE/tree/main/Manual_and_docs" class="github-btn" target="_blank">
+            <a href="https://github.com/JPHAJP/UR5_SRUB_NURSE/tree/main/Manual_and_docs" class="github-btn"
+                target="_blank">
                 <i class="fab fa-github"></i> Ver documentación completa en GitHub
             </a>
         </div>
+        <div class="text-center mb-4">
+            <a href="Manual_and_docs/UR5 - Reporte de documentación.pdf" class="github-btn"
+                target="_blank">
+                <i class="fab fa-github"></i> Descargar PDF
+            </a>
+        </div>
+
         <div class="col-md-12 d-flex align-items-stretch">
             <div class="card col-md-12 d-flex align-items-stretch">
                 <div class="card-img">
-                    <iframe id="pdfViewer"
-                        src="Manual_and_docs/UR5 - Reporte de documentación.pdf"
-                        width="100%" height="800px">
-                    </iframe>
+                    <div id="pdfContainer" class="pdf-container">
+                        <!-- Controles personalizados -->
+                        <div class="pdf-controls">
+                            <button id="prevPage" class="btn btn-sm btn-outline-secondary">Anterior</button>
+                            <span id="pageInfo">Página <span id="pageNum">1</span> de <span
+                                    id="pageCount">?</span></span>
+                            <button id="nextPage" class="btn btn-sm btn-outline-secondary">Siguiente</button>
+                            <button id="zoomIn" class="btn btn-sm btn-outline-secondary">Zoom +</button>
+                            <button id="zoomOut" class="btn btn-sm btn-outline-secondary">Zoom -</button>
+                        </div>
+                        <!-- Canvas donde se renderizará el PDF -->
+                        <canvas id="pdfCanvas"></canvas>
+                        <!-- Mensaje para fallback -->
+                        <div id="pdfFallback" style="display: none;">
+                            <p>Tu navegador no puede mostrar el PDF. <a id="pdfDownload"
+                                    href="Manual_and_docs/UR5 - Reporte de documentación.pdf" download>Descargar PDF</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -663,18 +754,21 @@
             </ul>
             <p>Universidad Iberoamericana Puebla.</p>
             <p class="cc-license">
-                <a property="dct:title" rel="cc:attributionURL" href="https://jphajp.github.io/Robotica/">Portafolio UR5e Srub Nurse</a> by 
-                <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/JPHAJP">José Pablo Hernández Alonso</a> 
-                is licensed under 
-                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">
+                <a property="dct:title" rel="cc:attributionURL" href="https://jphajp.github.io/Robotica/">Portafolio
+                    UR5e Srub Nurse</a> by
+                <a rel="cc:attributionURL dct:creator" property="cc:attributionName"
+                    href="https://github.com/JPHAJP">José Pablo Hernández Alonso</a>
+                is licensed under
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank"
+                    rel="license noopener noreferrer" style="display:inline-block;">
                     CC BY-NC-SA 4.0
-                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
                         src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="">
-                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
                         src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="">
-                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
                         src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="">
-                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" 
+                    <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;"
                         src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="">
                 </a>
             </p>
@@ -683,126 +777,231 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Rutas a los videos
+            const videos = [
+                'Manual_and_docs/Videos/VID-20241212-WA0001.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0002.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0003.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0004.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0006.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0007.mp4',
+                'Manual_and_docs/Videos/VID-20241212-WA0009.mp4'
+            ];
+
+            // Rutas a las imágenes
+            const imagenes = [
+                'Manual_and_docs/Fotografias/33.jpg',
+                'Manual_and_docs/Fotografias/25.jpg',
+                'Manual_and_docs/Fotografias/17.jpg',
+                'Manual_and_docs/Fotografias/14.jpg',
+                'Manual_and_docs/Fotografias/7.jpg',
+                'Manual_and_docs/Fotografias/6.jpg',
+                'Manual_and_docs/Fotografias/16.jpg'
+            ];
+
+            // Referencias a elementos del DOM
+            const mainVideo = document.getElementById('mainVideo');
+            const videoCount = document.getElementById('videoCount');
+            const prevVideoBtn = document.getElementById('prevVideoBtn');
+            const nextVideoBtn = document.getElementById('nextVideoBtn');
+
+            // Índice actual del video
+            let currentVideoIndex = 0;
+
+            // Función para cargar el video según el índice
+            function loadVideo(index) {
+                if (index < 0) {
+                    index = videos.length - 1;
+                } else if (index >= videos.length) {
+                    index = 0;
+                }
+
+                currentVideoIndex = index;
+
+                // Guardar el tiempo actual si está reproduciéndose
+                const wasPlaying = !mainVideo.paused;
+
+                // Cambiar la fuente del video
+                mainVideo.src = videos[index];
+                mainVideo.load();
+
+                // Configurar para no reproducir en bucle individual
+                mainVideo.loop = false;
+
+                // Si estaba reproduciéndose, continuar reproducción
+                if (wasPlaying) {
+                    mainVideo.play().catch(e => console.error("Error al reproducir el video:", e));
+                } else {
+                    mainVideo.play().catch(e => console.error("Error al reproducir el video:", e));
+                }
+
+                // Actualizar información del video
+                videoCount.textContent = `Video ${index + 1} de ${videos.length}`;
+            }
+
+            // Evento de botón anterior
+            prevVideoBtn.addEventListener('click', function () {
+                loadVideo(currentVideoIndex - 1);
+            });
+
+            // Evento de botón siguiente
+            nextVideoBtn.addEventListener('click', function () {
+                loadVideo(currentVideoIndex + 1);
+            });
+
+            // Manejar el evento de finalización de video para la reproducción secuencial
+            mainVideo.addEventListener('ended', function () {
+                // Cuando termine un video, pasar al siguiente
+                loadVideo(currentVideoIndex + 1);
+            });
+
+            // Cargar el primer video al iniciar
+            loadVideo(0);
+
+            // Cargar imágenes en el carrusel de fotos
+            const photosCarouselInner = document.querySelector('#photosCarousel .carousel-inner');
+            const photosCarouselIndicators = document.querySelector('#photosCarousel .carousel-indicators');
+
+            imagenes.forEach((imagen, index) => {
+                // Crear indicador
+                const indicator = document.createElement('button');
+                indicator.type = 'button';
+                indicator.setAttribute('data-bs-target', '#photosCarousel');
+                indicator.setAttribute('data-bs-slide-to', index);
+                if (index === 0) indicator.classList.add('active');
+                indicator.setAttribute('aria-label', `Slide ${index + 1}`);
+                photosCarouselIndicators.appendChild(indicator);
+
+                // Crear item del carrusel
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                if (index === 0) carouselItem.classList.add('active');
+
+                const img = document.createElement('img');
+                img.className = 'd-block w-100';
+                img.src = imagen;
+                img.alt = `Fotografía ${index + 1}`;
+
+                carouselItem.appendChild(img);
+                photosCarouselInner.appendChild(carouselItem);
+            });
+
+            // Inicializar el carrusel de Bootstrap
+            const photosCarousel = new bootstrap.Carousel(document.getElementById('photosCarousel'), {
+                interval: 5000,
+                wrap: true
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    // Rutas a los videos
-    const videos = [
-        'Manual_and_docs/Videos/VID-20241212-WA0001.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0002.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0003.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0004.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0006.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0007.mp4',
-        'Manual_and_docs/Videos/VID-20241212-WA0009.mp4'
-    ];
-    
-    // Rutas a las imágenes
-    const imagenes = [
-        'Manual_and_docs/Fotografias/33.jpg',
-        'Manual_and_docs/Fotografias/25.jpg',
-        'Manual_and_docs/Fotografias/17.jpg',
-        'Manual_and_docs/Fotografias/14.jpg',
-        'Manual_and_docs/Fotografias/7.jpg',
-        'Manual_and_docs/Fotografias/6.jpg',
-        'Manual_and_docs/Fotografias/16.jpg'
-    ];
-    
-    // Referencias a elementos del DOM
-    const mainVideo = document.getElementById('mainVideo');
-    const videoCount = document.getElementById('videoCount');
-    const prevVideoBtn = document.getElementById('prevVideoBtn');
-    const nextVideoBtn = document.getElementById('nextVideoBtn');
-    
-    // Índice actual del video
-    let currentVideoIndex = 0;
-    
-    // Función para cargar el video según el índice
-    function loadVideo(index) {
-        if (index < 0) {
-            index = videos.length - 1;
-        } else if (index >= videos.length) {
-            index = 0;
-        }
-        
-        currentVideoIndex = index;
-        
-        // Guardar el tiempo actual si está reproduciéndose
-        const wasPlaying = !mainVideo.paused;
-        
-        // Cambiar la fuente del video
-        mainVideo.src = videos[index];
-        mainVideo.load();
-        
-        // Configurar para no reproducir en bucle individual
-        mainVideo.loop = false;
-        
-        // Si estaba reproduciéndose, continuar reproducción
-        if (wasPlaying) {
-            mainVideo.play().catch(e => console.error("Error al reproducir el video:", e));
-        } else {
-            mainVideo.play().catch(e => console.error("Error al reproducir el video:", e));
-        }
-        
-        // Actualizar información del video
-        videoCount.textContent = `Video ${index + 1} de ${videos.length}`;
-    }
-    
-    // Evento de botón anterior
-    prevVideoBtn.addEventListener('click', function() {
-        loadVideo(currentVideoIndex - 1);
-    });
-    
-    // Evento de botón siguiente
-    nextVideoBtn.addEventListener('click', function() {
-        loadVideo(currentVideoIndex + 1);
-    });
-    
-    // Manejar el evento de finalización de video para la reproducción secuencial
-    mainVideo.addEventListener('ended', function() {
-        // Cuando termine un video, pasar al siguiente
-        loadVideo(currentVideoIndex + 1);
-    });
-    
-    // Cargar el primer video al iniciar
-    loadVideo(0);
-    
-    // Cargar imágenes en el carrusel de fotos
-    const photosCarouselInner = document.querySelector('#photosCarousel .carousel-inner');
-    const photosCarouselIndicators = document.querySelector('#photosCarousel .carousel-indicators');
-    
-    imagenes.forEach((imagen, index) => {
-        // Crear indicador
-        const indicator = document.createElement('button');
-        indicator.type = 'button';
-        indicator.setAttribute('data-bs-target', '#photosCarousel');
-        indicator.setAttribute('data-bs-slide-to', index);
-        if (index === 0) indicator.classList.add('active');
-        indicator.setAttribute('aria-label', `Slide ${index + 1}`);
-        photosCarouselIndicators.appendChild(indicator);
-        
-        // Crear item del carrusel
-        const carouselItem = document.createElement('div');
-        carouselItem.className = 'carousel-item';
-        if (index === 0) carouselItem.classList.add('active');
-        
-        const img = document.createElement('img');
-        img.className = 'd-block w-100';
-        img.src = imagen;
-        img.alt = `Fotografía ${index + 1}`;
-        
-        carouselItem.appendChild(img);
-        photosCarouselInner.appendChild(carouselItem);
-    });
-    
-    // Inicializar el carrusel de Bootstrap
-    const photosCarousel = new bootstrap.Carousel(document.getElementById('photosCarousel'), {
-        interval: 5000,
-        wrap: true
-    });
-});
-    </script>
+            // Configura el worker para PDF.js
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+            
+            const url = 'Manual_and_docs/UR5 - Reporte de documentación.pdf';
+            let pdfDoc = null;
+            let pageNum = 1;
+            let pageRendering = false;
+            let pageNumPending = null;
+            let scale = 1.0;
+            const canvas = document.getElementById('pdfCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Función para renderizar una página
+            function renderPage(num) {
+                pageRendering = true;
+                
+                pdfDoc.getPage(num).then(function(page) {
+                    const viewport = page.getViewport({ scale: scale });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    const renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    
+                    const renderTask = page.render(renderContext);
+                    
+                    renderTask.promise.then(function() {
+                        pageRendering = false;
+                        
+                        if (pageNumPending !== null) {
+                            renderPage(pageNumPending);
+                            pageNumPending = null;
+                        }
+                    });
+                });
+                
+                document.getElementById('pageNum').textContent = num;
+            }
+            
+            // Función para cambiar de página
+            function queueRenderPage(num) {
+                if (pageRendering) {
+                    pageNumPending = num;
+                } else {
+                    renderPage(num);
+                }
+            }
+            
+            // Ir a la página anterior
+            function onPrevPage() {
+                if (pageNum <= 1) {
+                    return;
+                }
+                pageNum--;
+                queueRenderPage(pageNum);
+            }
+            
+            // Ir a la página siguiente
+            function onNextPage() {
+                if (pageNum >= pdfDoc.numPages) {
+                    return;
+                }
+                pageNum++;
+                queueRenderPage(pageNum);
+            }
+            
+            // Zoom in
+            function onZoomIn() {
+                scale += 0.25;
+                queueRenderPage(pageNum);
+            }
+            
+            // Zoom out
+            function onZoomOut() {
+                if (scale <= 0.5) return;
+                scale -= 0.25;
+                queueRenderPage(pageNum);
+            }
+            
+            // Asignar eventos a botones
+            document.getElementById('prevPage').addEventListener('click', onPrevPage);
+            document.getElementById('nextPage').addEventListener('click', onNextPage);
+            document.getElementById('zoomIn').addEventListener('click', onZoomIn);
+            document.getElementById('zoomOut').addEventListener('click', onZoomOut);
+            
+            // Cargar el PDF
+            pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                document.getElementById('pageCount').textContent = pdfDoc.numPages;
+                renderPage(pageNum);
+            }).catch(function(error) {
+                // Si hay error, mostrar el fallback
+                console.error('Error al cargar el PDF:', error);
+                document.getElementById('pdfCanvas').style.display = 'none';
+                document.getElementById('pdfFallback').style.display = 'block';
+                document.getElementById('pdfDownload').href = url;
+            });
+        });
+        </script>
 </body>
+
 </html>
 <!--
     Este código HTML es una plantilla para un portafolio de un proyecto de robótica.
