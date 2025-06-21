@@ -14,12 +14,12 @@ Se puede revisar un reporte del proyecto y videos en la carpeta **Manual_and_doc
 
 ## 🔗 **Reconocimientos y articulos**
 El proyecto a participado en:
-- **Expo Univesidad Iberoameicana Puebla Otoño 2023** (2023).
-- **Expo Ingenierías Univeisdad Ibeoamericana CDMX** (2024).
-- **Expo Univesidad Iberoameicana Puebla Primavea 2024** (2024).
+- **Expo Universidad Iberoamericana Puebla Otoño 2023** (2023).
+- **Expo Ingenierías Universidad Iberoamericana CDMX** (2024).
+- **Expo Universidad Iberoamericana Puebla Primavera 2024** (2024).
 - **XIV Congreso Nacional y IV Internacional de Tecnología aplicada a Ciencias de la Salud** (2024).
 - **Conference IEEE Robotics at Boca del Rio, Veracruz, Mexico** (2024).
-- **Expo Univesidad Iberoameicana Puebla Otoño 2024** (2024).
+- **Expo Universidad Iberoamericana Puebla Otoño 2024** (2024).
 
 
 - 🔗[ Articulo: Prototipo con reconocimiento de objetos para la asistencia en instrumentación quirúrgica](https://repositorio.iberopuebla.mx/handle/20.500.11777/5915)
