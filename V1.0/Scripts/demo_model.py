@@ -222,7 +222,7 @@ def move_robot(xtransfn, ytransfn, ofzn, control, receive):
         Verifica si un punto está dentro del alcance del UR5-e.
         
         Parámetro:
-        point (tuple): Una tupla con las coordenadas (x, y, z) del punto en milímetros.
+        point (tuple): Una tupla con las coordenadas (x, y, z) del punto en metros.
         
         Retorna:
         bool: True si el punto está dentro del alcance, False de lo contrario.
