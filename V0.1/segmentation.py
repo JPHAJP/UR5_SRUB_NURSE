@@ -77,9 +77,9 @@ def extendLine(xif, yif, mf, imgf, bf):
     y2 = yif[3]
     ext_length = 1000
     x1_ext = int(x1 - ext_length)
-    y1_ext = int(mf[3] * x1_ext + b[3])
+    y1_ext = int(mf[3] * x1_ext + bf[3])
     x2_ext = int(x2 + ext_length)
-    y2_ext = int(mf[3] * x2_ext + b[3]) 
+    y2_ext = int(mf[3] * x2_ext + bf[3])
 
     #Dibujar la línea especial extendida
     cv2.line(imgf, (x1_ext, y1_ext), (x2_ext, y2_ext), (0, 0, 0), 5)
@@ -116,9 +116,9 @@ def intersection(m1, b1, m2, b2):
     y2 = yif[3]
     ext_length = 1000
     x1_ext = int(x1 - ext_length)
-    y1_ext = int(m[3] * x1_ext + b[3])
+    y1_ext = int(m[3] * x1_ext + bf[3])
     x2_ext = int(x2 + ext_length)
-    y2_ext = int(m[3] * x2_ext + b[3])
+    y2_ext = int(m[3] * x2_ext + bf[3])
 
     #Dibujar la línea especial extendida
     cv2.line(imgf, (x1_ext, y1_ext), (x2_ext, y2_ext), (0, 0, 0), 5)
