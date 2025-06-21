@@ -77,6 +77,15 @@ Para que todo funcione correctamente, instala los siguientes paquetes:
 sudo apt-get install portaudio19-dev
 ```
 
+## ✅ **Tests**
+
+Para verificar el correcto funcionamiento de las funciones básicas se incluye una suite de
+pruebas con `pytest`. Desde la raíz del proyecto ejecuta:
+
+```bash
+pytest
+```
+
 ---
 
 ## 🔗 **Referencias adicionales**
