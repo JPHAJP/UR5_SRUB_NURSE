@@ -117,8 +117,9 @@ def robot_and_camara(distance, object_points, receive):
     angle_3 = np.rad2deg(joint_positions[5])
 
     # Cálculo de H_cam y V_cam
-    H_cam = distance * np.tan(23) 
-    V_cam = np.abs(distance * np.tan(83.96))
+    # 23 y 83.96 se expresan en grados y deben convertirse a radianes
+    H_cam = distance * np.tan(np.radians(23))
+    V_cam = np.abs(distance * np.tan(np.radians(83.96)))
 
     # Obtener el origen del frame de la cámara
     ofxr, ofyr, thetar = frameOriginCoordinates(xr, yr, H_cam, V_cam, angle_3)
