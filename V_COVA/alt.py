@@ -229,7 +229,7 @@ class ActivacionVoz(threading.Thread):
     def extract_command_number(self, response):
         match = re.search(r"ejecutando comando\s*(\d+)", response.lower())
         if match:
-            self.queue.put(int(match.group(1)))
+            self.command_queue.put(int(match.group(1)))
             return int(match.group(1))
         return None
     
