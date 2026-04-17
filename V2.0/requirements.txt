@@ -1,0 +1,9 @@
+Flask>=3.0
+Flask-SocketIO>=5.4
+mediapipe>=0.10
+numpy>=1.26
+opencv-python>=4.10
+pytest>=8.0
+requests>=2.32
+simple-websocket>=1.0
+ultralytics>=8.2

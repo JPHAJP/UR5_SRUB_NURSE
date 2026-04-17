@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILVIA V2.0</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <main class="shell">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">UR5 Surgical Nurse</p>
+                <h1>SILVIA V2.0</h1>
+                <p class="hero-copy">
+                    Control web unificado para robot, camara, seguridad, voz continua y modos de trabajo.
+                </p>
+            </div>
+            <div class="hero-actions">
+                <button class="primary" id="greet-btn">Saludar</button>
+                <button class="secondary" id="voice-toggle-btn">Activar Voz</button>
+                <button class="secondary" id="reset-conversation-btn">Nueva Conversacion</button>
+            </div>
+        </section>
+
+        <section class="grid grid-top">
+            <article class="panel status-panel">
+                <div class="panel-header">
+                    <h2>Estado y Safety</h2>
+                    <span id="mode-pill" class="pill">idle</span>
+                </div>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <span class="label">Robot</span>
+                        <strong id="robot-connection">Desconocido</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Safety</span>
+                        <strong id="safety-message">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Vision</span>
+                        <strong id="vision-message">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Voz</span>
+                        <strong id="voice-status">Inactiva</strong>
+                    </div>
+                </div>
+                <div class="status-actions">
+                    <button class="secondary" id="mode-hand-btn">Seguir Mano</button>
+                    <button class="secondary" id="mode-object-btn">Recoger Objetos</button>
+                    <button class="secondary" id="mode-idle-btn">Idle</button>
+                    <button class="danger" id="cancel-btn">Cancelar</button>
+                    <button class="secondary" id="home-btn">Home</button>
+                    <button class="secondary" id="release-btn">Liberar Objeto</button>
+                    <button class="secondary" id="reset-safety-btn">Liberar Bloqueo</button>
+                </div>
+                <div class="robot-readout">
+                    <h3>TCP Actual</h3>
+                    <pre id="robot-pose">Sin datos</pre>
+                </div>
+            </article>
+
+            <article class="panel feed-panel">
+                <div class="panel-header">
+                    <h2>Feed de Camara</h2>
+                    <span class="subtle">Modelo actual: {{ settings.vision_model_name }}</span>
+                </div>
+                <div class="video-frame">
+                    <img id="camera-feed" src="{{ url_for('web.video_feed') }}" alt="Feed de camara">
+                </div>
+                <div class="feed-footnote">
+                    <span>Wake word: <strong>{{ settings.wake_word }}</strong></span>
+                    <span>Resolucion: <strong>{{ settings.camera.width }}x{{ settings.camera.height }}</strong></span>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid grid-bottom">
+            <article class="panel conversation-panel">
+                <div class="panel-header">
+                    <h2>Conversacion SILVIA</h2>
+                    <span class="subtle" id="conversation-id">Sin sesion</span>
+                </div>
+                <div id="conversation-log" class="conversation-log"></div>
+                <form id="chat-form" class="chat-form">
+                    <input type="text" id="chat-input" placeholder="Escribe una instruccion o una pregunta...">
+                    <button class="primary" type="submit">Enviar</button>
+                </form>
+            </article>
+
+            <article class="panel events-panel">
+                <div class="panel-header">
+                    <h2>Eventos</h2>
+                    <span class="subtle">Robot y sistema</span>
+                </div>
+                <div id="events-log" class="events-log"></div>
+            </article>
+        </section>
+    </main>
+
+    <audio id="voice-output" autoplay></audio>
+    <script>
+        window.SILVIA_SETTINGS = {{ settings | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
