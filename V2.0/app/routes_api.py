@@ -89,3 +89,55 @@ def magnet_control():
     action = "magnet_on" if bool(payload.get("enabled")) else "magnet_off"
     result = _services()["dispatch_action"](action, payload, "api")
     return jsonify(result), 200 if result["ok"] else 400
+
+
+@api_blueprint.get("/vision/depth")
+def get_depth_diagnostics():
+    return jsonify(_services()["vision"].get_depth_diagnostics())
+
+
+@api_blueprint.get("/calibration/depth")
+def get_depth_calibration():
+    services = _services()
+    robot_pose_mm = services["gateway"].current_pose_mm()
+    return jsonify(services["vision"].get_depth_calibration_summary(robot_pose_mm=robot_pose_mm))
+
+
+@api_blueprint.post("/calibration/depth")
+def set_depth_calibration():
+    payload = request.get_json(silent=True) or {}
+    gain = payload.get("gain")
+    offset_mm = payload.get("offset_mm")
+    result = _services()["vision"].set_depth_compensation(gain=gain, offset_mm=offset_mm)
+    return jsonify({"ok": True, "depth_compensation": result})
+
+
+@api_blueprint.post("/calibration/depth/sample")
+def capture_depth_calibration_sample():
+    services = _services()
+    try:
+        sample = services["vision"].capture_depth_calibration_sample(services["gateway"].current_pose_mm())
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
+    return jsonify({"ok": True, "sample": sample})
+
+
+@api_blueprint.post("/calibration/depth/fit")
+def fit_depth_calibration():
+    result = _services()["vision"].fit_depth_calibration()
+    return jsonify({"ok": True, "depth_compensation": result})
+
+
+@api_blueprint.post("/calibration/depth/save")
+def save_depth_calibration():
+    result = _services()["vision"].save_calibration_to_disk()
+    return jsonify({"ok": True, "calibration": result})
+
+
+@api_blueprint.post("/calibration/camera-transform")
+def set_camera_transform():
+    payload = request.get_json(silent=True) or {}
+    translation_mm = payload.get("translation_mm", [0.0, 0.0, 0.0])
+    rotation_rpy_deg = payload.get("rotation_rpy_deg", [0.0, 0.0, 0.0])
+    result = _services()["vision"].set_camera_transform(translation_mm, rotation_rpy_deg)
+    return jsonify({"ok": True, "camera_to_robot": result})

@@ -1,0 +1,53 @@
+#  @file      angstrong-camera.rules
+#  @brief     create udev rules for angstrong camera
+#
+#  Copyright (c) 2022 Angstrong Tech.Co.,Ltd
+#
+#  @author    Angstrong SDK develop Team
+#  @date      2022/05/25
+#  @version   1.0
+#
+#
+
+# NUWA CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2dbb", ATTRS{idProduct}=="0300", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0c45", ATTRS{idProduct}=="636b", MODE="0666"
+
+# NUWA USB COMMUNICATION PORT
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5722", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5723", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="5724", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="5723", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="5724", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="5725", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="5727", MODE="0666"
+
+# VEGA CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="6789", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="6789", MODE="0666"
+
+# HP60C CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="6723", MODE="0666"
+
+# KUNLUN CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0c45", ATTRS{idProduct}=="636d", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="7723", MODE="0666"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="8723", MODE="0666"
+
+# CHANG-A CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="2789", MODE="0666"
+
+# CHANGJIANG-B CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="278a", MODE="0666"
+
+# TANGGULA CAMERA VIDEO
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="6724", MODE="0666"
+
+# TANGGULA-A CAMERA
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="278b", MODE="0666"
+
+# O2 CAMERA
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="0016", MODE="0666"
+
+# TANGGULA-B CAMERA
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="3482", ATTRS{idProduct}=="278c", MODE="0666"

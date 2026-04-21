@@ -14,6 +14,31 @@ DEFAULT_CALIBRATION = CameraCalibration.from_dict(
             "height": 720,
             "fps": 30,
         },
+        "backend": "hp60c_ros2",
+        "topics": {
+            "rgb": "/ascamera/camera_publisher/rgb0/image",
+            "depth": "/ascamera/camera_publisher/depth0/image_raw",
+            "rgb_camera_info": "/ascamera/camera_publisher/rgb0/camera_info",
+            "depth_camera_info": "/ascamera/camera_publisher/depth0/camera_info",
+        },
+        "intrinsics": {
+            "rgb": {},
+            "depth": {},
+        },
+        "camera_to_robot": {
+            "translation_mm": [0.0, 0.0, 0.0],
+            "rotation_rpy_deg": [0.0, 0.0, 0.0],
+            "matrix_4x4": [],
+            "configured": False,
+        },
+        "depth_compensation": {
+            "gain": 1.0,
+            "offset_mm": 0.0,
+            "last_error_abs_mm": 0.0,
+            "last_error_mean_mm": 0.0,
+            "configured": False,
+            "samples": [],
+        },
         "hand_follow": {
             "plane_z_mm": 350.0,
             "image_points": [],

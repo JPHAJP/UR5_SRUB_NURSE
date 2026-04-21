@@ -1,0 +1,4 @@
+source;share/ascamera/local_setup.bash
+source;share/ascamera/local_setup.dsv
+source;share/ascamera/local_setup.sh
+source;share/ascamera/local_setup.zsh

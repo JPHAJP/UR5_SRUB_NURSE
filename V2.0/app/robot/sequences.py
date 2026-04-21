@@ -12,13 +12,14 @@ def build_greet_sequence(greet_sequence_deg: Sequence[Sequence[float]]) -> List[
 
 def build_pick_waypoints(
     target_xy_mm: Sequence[float],
-    plane_z_mm: float,
+    target_z_mm: float,
     approach_lift_mm: float,
 ) -> Dict[str, List[float]]:
     x_mm, y_mm = float(target_xy_mm[0]), float(target_xy_mm[1])
-    approach = [x_mm, y_mm, plane_z_mm + approach_lift_mm]
-    pick = [x_mm, y_mm, plane_z_mm]
-    retreat = [x_mm, y_mm, plane_z_mm + approach_lift_mm]
+    z_mm = float(target_z_mm)
+    approach = [x_mm, y_mm, z_mm + approach_lift_mm]
+    pick = [x_mm, y_mm, z_mm]
+    retreat = [x_mm, y_mm, z_mm + approach_lift_mm]
     return {
         "approach": approach,
         "pick": pick,

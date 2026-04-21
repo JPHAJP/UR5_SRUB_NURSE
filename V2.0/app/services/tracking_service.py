@@ -106,7 +106,7 @@ class TrackingService:
 
         error_x = target_xyz[0] - current_pose[0]
         error_y = target_xyz[1] - current_pose[1]
-        error_z = self.config.hand_plane_z_mm - current_pose[2]
+        error_z = target_xyz[2] - current_pose[2]
 
         raw_velocity = [
             velocity_from_error_mm(error_x, self.config.max_track_speed_xy_mm_s, self.config.hand_deadzone_mm),
@@ -136,7 +136,7 @@ class TrackingService:
             return
 
         self.state.add_event("robot_log", f"Recogiendo {target['label']}.", {"target": target})
-        waypoints = build_pick_waypoints(target_xyz[:2], self.config.object_plane_z_mm, self.config.pick_approach_lift_mm)
+        waypoints = build_pick_waypoints(target_xyz[:2], target_xyz[2], self.config.pick_approach_lift_mm)
 
         self.gateway.move_linear_mm(waypoints["approach"])
         time.sleep(0.8)

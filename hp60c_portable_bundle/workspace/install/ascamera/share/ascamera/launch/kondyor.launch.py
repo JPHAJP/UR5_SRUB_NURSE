@@ -1,0 +1,1 @@
+/home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/launch/kondyor.launch.py

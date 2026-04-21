@@ -12,8 +12,12 @@ Aplicacion Flask modular para controlar el UR5 desde una interfaz web moderna, c
 - Vision unificada:
   - YOLO con el modelo actual configurable por `VISION_MODEL_PATH`
   - Umbral configurable por `VISION_CONFIDENCE_THRESHOLD` (default `0.50`)
+  - Backend principal HP60C V2 por ROS 2 Jazzy
+  - Subscripciones a RGB, depth y `camera_info`
+  - Promedio central `3x3` al `10%` para diagnostico de profundidad
+  - Compensacion de profundidad `gain + offset` calibrable contra la altura real del UR5
   - La mano/guante tambien se sigue con YOLO usando la clase del modelo
-  - Captura de camara e inferencia corren en hilos separados
+  - Captura ROS2 e inferencia corren en hilos separados
 - Voz con OpenAI:
   - STT: `gpt-4o-mini-transcribe`
   - TTS: `gpt-4o-mini-tts`
@@ -34,29 +38,46 @@ V2.0/
   tests/
 ```
 
+## Dependencias ROS2 para HP60C
+
+- `rclpy`, `cv_bridge` y los mensajes ROS no se instalan con `pip`.
+- Deben venir del entorno ROS 2 Jazzy del sistema y de la workspace de `ascamera`.
+- La app espera que el nodo HP60C ya este arrancado y publicando:
+  - `/ascamera/camera_publisher/rgb0/image`
+  - `/ascamera/camera_publisher/depth0/image_raw`
+  - `/ascamera/camera_publisher/rgb0/camera_info`
+  - `/ascamera/camera_publisher/depth0/camera_info`
+
 ## Flujo recomendado
 
 1. Copia `V2.0/.env.example` a `V2.0/.env` o usa la raiz `.env`.
-2. Ajusta `VISION_MODEL_PATH`, `UR5_HOST` y parametros de camara.
-3. Corre la calibracion:
+2. Ajusta `VISION_MODEL_PATH`, `UR5_HOST` y los topics ROS si cambiaste el namespace.
+3. Arranca la HP60C V2 desde el bundle o tu entorno ROS 2.
+4. Si necesitas una calibracion planar legacy, corre la demo:
 
 ```bash
 python3 V2.0/demo/webcam_calibrator.py
 ```
 
-4. Instala dependencias:
+5. Instala dependencias Python:
 
 ```bash
 pip install -r V2.0/requirements.txt
 ```
 
-5. Arranca la app:
+Si `cv_bridge` falla con un mensaje sobre NumPy 1.x vs 2.x, fuerza el entorno a `numpy<2`:
+
+```bash
+pip install --upgrade "numpy<2" -r V2.0/requirements.txt
+```
+
+6. Arranca la app:
 
 ```bash
 python3 V2.0/run.py
 ```
 
-6. Abre la app:
+7. Abre la app:
 
 - En la misma maquina: `http://localhost:5050`
 - Desde otro equipo en la red: `http://<IP-LAN-DEL-SERVIDOR>:5050`
@@ -112,3 +133,5 @@ export FLASK_PORT=5051
 - El modelo por defecto apunta a `V_COVA/Dashboard/V6_best.pt`.
 - El electroiman usa `DO0` por defecto.
 - Si el robot entra en fault de safety, la app bloquea los modos automaticos hasta que un operador lo libere manualmente.
+- El dashboard principal muestra solo RGB; la profundidad se usa internamente para coordenadas y calibracion.
+- La tarjeta `Profundidad HP60C` permite capturar muestras robot-vs-camara, ajustar `gain/offset` y guardar la calibracion persistente.

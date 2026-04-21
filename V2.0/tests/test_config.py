@@ -60,3 +60,11 @@ def test_loads_vision_confidence_threshold(monkeypatch):
     config = AppConfig.load()
 
     assert config.vision_confidence_threshold == 0.5
+
+
+def test_hp60c_auto_launch_enabled_by_default(monkeypatch):
+    monkeypatch.delenv("ROS_AUTO_LAUNCH_CAMERA", raising=False)
+
+    config = AppConfig.load()
+
+    assert config.ros_auto_launch_camera is True

@@ -1,0 +1,8 @@
+source;share/ascamera/hook/cmake_prefix_path.ps1
+source;share/ascamera/hook/cmake_prefix_path.dsv
+source;share/ascamera/hook/cmake_prefix_path.sh
+source;share/ascamera/local_setup.bash
+source;share/ascamera/local_setup.dsv
+source;share/ascamera/local_setup.ps1
+source;share/ascamera/local_setup.sh
+source;share/ascamera/local_setup.zsh

@@ -1,0 +1,192 @@
+[0.007s] Invoking command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera
+[0.139s] -- The C compiler identification is GNU 13.3.0
+[0.230s] -- The CXX compiler identification is GNU 13.3.0
+[0.250s] -- Detecting C compiler ABI info
+[0.328s] -- Detecting C compiler ABI info - done
+[0.335s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.336s] -- Detecting C compile features
+[0.336s] -- Detecting C compile features - done
+[0.344s] -- Detecting CXX compiler ABI info
+[0.427s] -- Detecting CXX compiler ABI info - done
+[0.434s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.434s] -- Detecting CXX compile features
+[0.434s] -- Detecting CXX compile features - done
+[0.438s] [0mdefault compiler:x86_64-linux-gnu-g++[0m
+[0.441s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.532s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.594s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.620s] -- Found rclcpp: 28.1.18 (/opt/ros/jazzy/share/rclcpp/cmake)
+[0.659s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[0.669s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[0.683s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.698s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.766s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[0.768s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[0.830s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[0.845s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[0.862s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.927s] -- Found std_msgs: 5.3.7 (/opt/ros/jazzy/share/std_msgs/cmake)
+[0.939s] -- Found sensor_msgs: 5.3.7 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+[0.973s] -- Found pcl_conversions: 2.6.4 (/opt/ros/jazzy/share/pcl_conversions/cmake)
+[1.035s] [33mCMake Warning (dev) at /usr/lib/x86_64-linux-gnu/cmake/pcl/Modules/FindFLANN.cmake:45 (find_package):
+[1.035s]   Policy CMP0144 is not set: find_package uses upper-case <PACKAGENAME>_ROOT
+[1.035s]   variables.  Run "cmake --help-policy CMP0144" for policy details.  Use the
+[1.035s]   cmake_policy command to set the policy and suppress this warning.
+[1.035s] 
+[1.035s]   CMake variable FLANN_ROOT is set to:
+[1.035s] 
+[1.035s]     /usr
+[1.035s] 
+[1.035s]   For compatibility, find_package is ignoring the variable, but code in a
+[1.035s]   .cmake module might still use it.
+[1.035s] Call Stack (most recent call first):
+[1.036s]   /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:261 (find_package)
+[1.036s]   /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:306 (find_flann)
+[1.036s]   /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)
+[1.036s]   /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.036s]   /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)
+[1.036s]   CMakeLists.txt:39 (find_package)
+[1.036s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.036s] [0m
+[1.036s] -- Found flann version 1.9.2
+[1.271s] -- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+[1.271s] -- Found OpenMP: TRUE (found version "4.5") found components: CXX 
+[2.346s] -- Checking for module 'libusb-1.0'
+[2.354s] --   Found libusb-1.0, version 1.0.27
+[2.376s] -- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  
+[2.376s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[2.412s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[2.414s] -- Could NOT find Pcap (missing: PCAP_LIBRARIES PCAP_INCLUDE_DIRS) 
+[2.424s] -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  
+[2.437s] -- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.43") 
+[2.737s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[2.744s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[3.026s] -- Found Qhull version 8.0.2
+[3.351s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[3.681s] -- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  
+[3.682s] -- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  
+[3.682s] -- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  
+[3.684s] -- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  
+[3.684s] -- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  
+[3.685s] -- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  
+[3.686s] -- Found PCL_2D: /usr/include/pcl-1.14  
+[3.686s] -- Found PCL_GEOMETRY: /usr/include/pcl-1.14  
+[3.687s] -- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  
+[3.688s] -- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  
+[3.689s] -- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  
+[3.690s] -- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  
+[3.691s] -- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  
+[3.692s] -- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  
+[3.693s] -- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  
+[3.694s] -- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  
+[3.695s] -- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  
+[3.696s] -- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  
+[3.697s] -- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  
+[3.697s] -- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  
+[3.698s] -- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.14  
+[3.698s] -- Found PCL_MODELER: /usr/include/pcl-1.14  
+[3.699s] -- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.14  
+[3.701s] -- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  
+[3.702s] -- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  
+[3.703s] [33mCMake Warning (dev) at CMakeLists.txt:40 (find_package):
+[3.703s]   Policy CMP0074 is not set: find_package uses <PackageName>_ROOT variables.
+[3.704s]   Run "cmake --help-policy CMP0074" for policy details.  Use the cmake_policy
+[3.704s]   command to set the policy and suppress this warning.
+[3.704s] 
+[3.704s]   CMake variable PCL_ROOT is set to:
+[3.704s] 
+[3.704s]     /usr
+[3.704s] 
+[3.704s]   For compatibility, CMake is ignoring the variable.
+[3.704s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.704s] [0m
+[3.713s] -- Found tf2: 0.36.20 (/opt/ros/jazzy/share/tf2/cmake)
+[3.719s] -- Found tf2_ros: 0.36.20 (/opt/ros/jazzy/share/tf2_ros/cmake)
+[3.844s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[3.934s] -- Added test 'copyright' to check source files copyright and LICENSE
+[3.938s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.938s] -- Configured cppcheck include dirs: /home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/include;/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/libs/include;$<BUILD_INTERFACE:/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/include>
+[3.938s] -- Configured cppcheck exclude dirs and/or files: 
+[3.940s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.941s] -- Configured cpplint exclude dirs and/or files: 
+[3.941s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.941s] -- Configured 'flake8' exclude dirs and/or files: 
+[3.942s] -- Added test 'lint_cmake' to check CMake code style
+[3.943s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.945s] -- Added test 'uncrustify' to check C / C++ code style
+[3.945s] -- Configured uncrustify additional arguments: 
+[3.946s] -- Added test 'xmllint' to check XML markup files
+[3.947s] -- Configuring done (3.9s)
+[4.014s] -- Generating done (0.1s)
+[4.023s] -- Build files have been written to: /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera
+[4.047s] Invoked command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera' returned '0': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera
+[4.048s] Invoking command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera -- -j8 -l8
+[4.088s] [ 33%] [32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/CameraPublisher.cpp.o[0m
+[4.088s] [ 33%] [32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/TfTreeFrameIdInfo.cpp.o[0m
+[4.088s] [ 50%] [32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/ascamera_node.cpp.o[0m
+[4.089s] [ 83%] [32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/CameraSrv.cpp.o[0m
+[4.089s] [ 83%] [32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/Camera.cpp.o[0m
+[9.344s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KirInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[9.345s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1000:102:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ktime[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[9.345s]  1000 |                                       AS_CAM_Parameter_s &stParameter, [01;35m[Kbuiltin_interfaces::msg::Time time[m[K)
+[9.345s]       |                                                                        [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~[m[K
+[9.345s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KpeakInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[9.345s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1033:104:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ktime[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[9.345s]  1033 |                                         AS_CAM_Parameter_s &stParameter, [01;35m[Kbuiltin_interfaces::msg::Time time[m[K)
+[9.345s]       |                                                                          [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~[m[K
+[9.345s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KdepthMergeInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[9.346s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1081:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KstParameter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[9.346s]  1081 |         [01;35m[KAS_CAM_Parameter_s &stParameter[m[K, builtin_interfaces::msg::Time time)
+[9.346s]       |         [01;35m[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+[9.346s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KpointcloudMergePublisher[m[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&)[m[K’:
+[9.346s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1119:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KstParameter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[9.346s]  1119 |         [01;35m[KAS_CAM_Parameter_s &stParameter[m[K)
+[9.346s]       |         [01;35m[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+[9.400s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:[m[K In member function ‘[01m[Kint CameraSrv::[01;32m[KgetConfigFile[m[K(AS_CAM_PTR, std::string&, AS_SDK_CAM_MODEL_E)[m[K’:
+[9.401s] [01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:296:41:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KpCamera[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[9.401s]   296 | int CameraSrv::getConfigFile([01;35m[KAS_CAM_PTR pCamera[m[K, std::string &configfile, AS_SDK_CAM_MODEL_E cam_type)
+[9.401s]       |                              [01;35m[K~~~~~~~~~~~^~~~~~~[m[K
+[19.351s] [100%] [32m[1mLinking CXX executable ascamera_node[0m
+[19.855s] [100%] Built target ascamera_node
+[19.868s] Invoked command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera' returned '0': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera -- -j8 -l8
+[19.880s] Invoking command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera
+[19.886s] -- Install configuration: ""
+[19.887s] -- Execute custom install script
+[19.887s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/lib/ascamera/ascamera_node
+[19.893s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/ascamera.launch.py
+[19.899s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/changA.launch.py
+[19.905s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/hp60c.launch.py
+[19.912s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/hp60cn.launch.py
+[19.919s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kondyor.launch.py
+[19.925s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kunlun_a.launch.py
+[19.932s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kunlun_c.launch.py
+[19.939s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/nuwa.launch.py
+[19.945s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/changA_v1_03_20230628Encrypt.json
+[19.953s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/changjiangB_v1_00_20240815Encrypt.json
+[19.959s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[19.969s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/hp60cn_v2_00_20230704_configEncrypt.json
+[19.980s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/kondyor_v1_03_20230628Encrypt.json
+[19.986s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/kunlun_v1_03_20240326Encrypt.json
+[19.993s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/nuwa_v4_01_20231103_configEncrypt.json
+[20.000s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/readme.md
+[20.006s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/taishan_v3_01_20240813_configEncrypt_g_48_640x480.json
+[20.013s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggulaA_v1_04__20240821-ir1280x800-outdoor-Encrypt.json
+[20.020s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggulaB_v1_00_20241012Encrypt.json
+[20.027s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggula_v2_00_20240218_configEncrypt.json
+[20.034s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/vega_v2_01_20240716_configEncrypt.json
+[20.040s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/package_run_dependencies/ascamera
+[20.047s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/parent_prefix_path/ascamera
+[20.053s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/ament_prefix_path.sh
+[20.060s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/ament_prefix_path.dsv
+[20.070s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/path.sh
+[20.080s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/path.dsv
+[20.086s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.bash
+[20.093s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.sh
+[20.099s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.zsh
+[20.106s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.dsv
+[20.113s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/package.dsv
+[20.119s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/packages/ascamera
+[20.126s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/cmake/ascameraConfig.cmake
+[20.132s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/cmake/ascameraConfig-version.cmake
+[20.139s] -- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/package.xml
+[20.147s] Invoked command in '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera' returned '0': CMAKE_PREFIX_PATH=/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera

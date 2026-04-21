@@ -69,15 +69,27 @@
 
             <article class="panel feed-panel">
                 <div class="panel-header">
-                    <h2>Feed de Camara</h2>
+                    <h2>Vision HP60C</h2>
                     <span class="subtle">Modelo actual: {{ settings.vision_model_name }}</span>
                 </div>
-                <div class="video-frame">
-                    <img id="camera-feed" src="{{ url_for('web.video_feed') }}" alt="Feed de camara">
+                <div class="feed-grid">
+                    <div class="video-card">
+                        <span class="label">RGB + YOLO</span>
+                        <div class="video-frame">
+                            <img id="camera-feed" src="{{ url_for('web.video_feed') }}" alt="Feed de camara">
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <span class="label">Depth HP60C</span>
+                        <div class="video-frame">
+                            <img id="depth-feed" src="{{ url_for('web.video_feed_depth') }}" alt="Feed de profundidad">
+                        </div>
+                    </div>
                 </div>
                 <div class="feed-footnote">
                     <span>Wake word: <strong>{{ settings.wake_word }}</strong></span>
-                    <span>Resolucion: <strong>{{ settings.camera.width }}x{{ settings.camera.height }}</strong></span>
+                    <span>Resolucion RGB: <strong>{{ settings.camera.width }}x{{ settings.camera.height }}</strong></span>
+                    <span>Autoarranque HP60C: <strong>{{ "Si" if settings.camera.auto_launch else "No" }}</strong></span>
                 </div>
             </article>
         </section>
@@ -122,6 +134,97 @@
                         </div>
                         <div class="signal-message" id="safety-event-message">Sin eventos</div>
                     </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid grid-depth">
+            <article class="panel depth-panel">
+                <div class="panel-header">
+                    <h2>Profundidad HP60C</h2>
+                    <span class="subtle" id="depth-backend">Backend: {{ settings.camera.backend }}</span>
+                </div>
+
+                <div class="depth-summary-grid">
+                    <div class="status-card">
+                        <span class="label">Distancia media al centro</span>
+                        <strong id="depth-center-distance">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Profundidad</span>
+                        <strong id="depth-stream-status">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Intrinsecos</span>
+                        <strong id="depth-intrinsics-status">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Error camara vs robot</span>
+                        <strong id="depth-robot-error">Sin datos</strong>
+                    </div>
+                </div>
+
+                <div class="status-actions">
+                    <button class="secondary" id="capture-depth-sample-btn">Capturar Muestra</button>
+                    <button class="secondary" id="fit-depth-btn">Ajustar Gain/Offset</button>
+                    <button class="secondary" id="save-depth-calibration-btn">Guardar Calibracion</button>
+                </div>
+
+                <div class="depth-tools-grid">
+                    <section class="depth-tool-card">
+                        <h3>Compensacion de Profundidad</h3>
+                        <div class="inline-form">
+                            <label>
+                                Gain
+                                <input type="number" id="depth-gain-input" step="0.0001">
+                            </label>
+                            <label>
+                                Offset mm
+                                <input type="number" id="depth-offset-input" step="0.1">
+                            </label>
+                            <button class="secondary" id="apply-depth-comp-btn">Aplicar</button>
+                        </div>
+                        <pre id="depth-comp-summary">Sin calibracion todavia.</pre>
+                    </section>
+
+                    <section class="depth-tool-card">
+                        <h3>Transformacion Camara a Robot</h3>
+                        <div class="inline-form transform-form">
+                            <label>X mm<input type="number" id="transform-x-input" step="0.1"></label>
+                            <label>Y mm<input type="number" id="transform-y-input" step="0.1"></label>
+                            <label>Z mm<input type="number" id="transform-z-input" step="0.1"></label>
+                            <label>Roll<input type="number" id="transform-roll-input" step="0.1"></label>
+                            <label>Pitch<input type="number" id="transform-pitch-input" step="0.1"></label>
+                            <label>Yaw<input type="number" id="transform-yaw-input" step="0.1"></label>
+                            <button class="secondary" id="apply-camera-transform-btn">Aplicar Transformacion</button>
+                        </div>
+                        <pre id="camera-transform-summary">Sin transformacion configurada.</pre>
+                    </section>
+                </div>
+
+                <div class="depth-grid-wrap">
+                    <h3>9 Puntos del Centro</h3>
+                    <div class="table-wrap">
+                        <table class="depth-table">
+                            <thead>
+                                <tr>
+                                    <th>Punto</th>
+                                    <th>Pixel</th>
+                                    <th>Profundidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="depth-grid-body">
+                                <tr>
+                                    <td colspan="3">Esperando profundidad...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="diagnostic-result">
+                    <span class="label">Estado de calibracion</span>
+                    <pre id="depth-calibration-status">Esperando informacion de la HP60C.</pre>
                 </div>
             </article>
         </section>

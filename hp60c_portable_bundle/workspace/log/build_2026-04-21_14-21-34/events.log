@@ -1,0 +1,401 @@
+[0.000000] (-) TimerEvent: {}
+[0.000187] (ascamera) JobQueued: {'identifier': 'ascamera', 'dependencies': OrderedDict()}
+[0.000347] (ascamera) JobStarted: {'identifier': 'ascamera'}
+[0.005840] (ascamera) JobProgress: {'identifier': 'ascamera', 'progress': 'cmake'}
+[0.006258] (ascamera) Command: {'cmd': ['/usr/bin/cmake', '/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera'], 'cwd': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': 'false', 'USER': 'jpha', 'LC_TIME': 'es_MX.UTF-8', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib:/usr/local/cuda-11.8/lib64:/usr/local/cuda-11.8/lib64', 'POWERLINE_COMMAND': 'oh-my-posh', 'HOME': '/home/jpha', 'OLDPWD': '/home/jpha/Desktop/hp60c_portable_bundle', 'DESKTOP_SESSION': 'ubuntu', 'NVM_BIN': '/home/jpha/.nvm/versions/node/v22.12.0/bin', 'NVM_INC': '/home/jpha/.nvm/versions/node/v22.12.0/include/node', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'es_MX.UTF-8', 'DBUS_STARTER_BUS_TYPE': 'session', 'SYSTEMD_EXEC_PID': '3476', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'COLORTERM': 'truecolor', 'NVM_DIR': '/home/jpha/.nvm', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'jpha', 'POSH_SESSION_ID': '16486717-c3f6-4833-91f2-cf8ae69d91fb', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-gnome\\x2dsession\\x2dmanager.slice/gnome-session-manager@ubuntu.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'jpha', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'POSH_SHELL_VERSION': '5.2.21(1)-release', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/bin:/home/jpha/.nvm/versions/node/v22.12.0/bin:/home/jpha/.npm-global/bin:/usr/local/cuda-11.8/bin:/usr/local/cuda-11.8/bin:/home/jpha/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/JP-LAPTOP:@/tmp/.ICE-unix/3476,unix/JP-LAPTOP:/tmp/.ICE-unix/3476', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'es_MX.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/8bdbb759_9307_430b_aa99_9c1c2b196c25', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'es_MX.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.111', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'es_MX.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'es_MX.UTF-8', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'es_MX.UTF-8', 'OSTYPE': 'linux-gnu', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'POSH_THEME': '/home/jpha/.poshthemes/night-owl.omp.json', 'PWD': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'NVM_CD_FLAGS': '', 'DBUS_STARTER_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/jpha/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'es_MX.UTF-8', 'LC_PAPER': 'es_MX.UTF-8', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy'}), 'shell': False}
+[0.099946] (-) TimerEvent: {}
+[0.139714] (ascamera) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.200051] (-) TimerEvent: {}
+[0.230008] (ascamera) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.250517] (ascamera) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.300253] (-) TimerEvent: {}
+[0.328434] (ascamera) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.335657] (ascamera) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.336147] (ascamera) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.336597] (ascamera) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.344099] (ascamera) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.400384] (-) TimerEvent: {}
+[0.427088] (ascamera) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.434406] (ascamera) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.434554] (ascamera) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.434892] (ascamera) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.438220] (ascamera) StderrLine: {'line': b'\x1b[0mdefault compiler:x86_64-linux-gnu-g++\x1b[0m\n'}
+[0.441917] (ascamera) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)\n'}
+[0.500501] (-) TimerEvent: {}
+[0.532255] (ascamera) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[0.594421] (ascamera) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.600616] (-) TimerEvent: {}
+[0.620185] (ascamera) StdoutLine: {'line': b'-- Found rclcpp: 28.1.18 (/opt/ros/jazzy/share/rclcpp/cmake)\n'}
+[0.659066] (ascamera) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)\n'}
+[0.669259] (ascamera) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)\n'}
+[0.683522] (ascamera) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.698214] (ascamera) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.700688] (-) TimerEvent: {}
+[0.766073] (ascamera) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)\n'}
+[0.768261] (ascamera) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.800792] (-) TimerEvent: {}
+[0.830443] (ascamera) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[0.845296] (ascamera) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") \n'}
+[0.861985] (ascamera) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.900902] (-) TimerEvent: {}
+[0.926975] (ascamera) StdoutLine: {'line': b'-- Found std_msgs: 5.3.7 (/opt/ros/jazzy/share/std_msgs/cmake)\n'}
+[0.938995] (ascamera) StdoutLine: {'line': b'-- Found sensor_msgs: 5.3.7 (/opt/ros/jazzy/share/sensor_msgs/cmake)\n'}
+[0.973285] (ascamera) StdoutLine: {'line': b'-- Found pcl_conversions: 2.6.4 (/opt/ros/jazzy/share/pcl_conversions/cmake)\n'}
+[1.001006] (-) TimerEvent: {}
+[1.035164] (ascamera) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at /usr/lib/x86_64-linux-gnu/cmake/pcl/Modules/FindFLANN.cmake:45 (find_package):\n'}
+[1.035330] (ascamera) StderrLine: {'line': b'  Policy CMP0144 is not set: find_package uses upper-case <PACKAGENAME>_ROOT\n'}
+[1.035400] (ascamera) StderrLine: {'line': b'  variables.  Run "cmake --help-policy CMP0144" for policy details.  Use the\n'}
+[1.035450] (ascamera) StderrLine: {'line': b'  cmake_policy command to set the policy and suppress this warning.\n'}
+[1.035507] (ascamera) StderrLine: {'line': b'\n'}
+[1.035566] (ascamera) StderrLine: {'line': b'  CMake variable FLANN_ROOT is set to:\n'}
+[1.035611] (ascamera) StderrLine: {'line': b'\n'}
+[1.035680] (ascamera) StderrLine: {'line': b'    /usr\n'}
+[1.035758] (ascamera) StderrLine: {'line': b'\n'}
+[1.035823] (ascamera) StderrLine: {'line': b'  For compatibility, find_package is ignoring the variable, but code in a\n'}
+[1.035901] (ascamera) StderrLine: {'line': b'  .cmake module might still use it.\n'}
+[1.035962] (ascamera) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[1.036005] (ascamera) StderrLine: {'line': b'  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:261 (find_package)\n'}
+[1.036074] (ascamera) StderrLine: {'line': b'  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:306 (find_flann)\n'}
+[1.036150] (ascamera) StderrLine: {'line': b'  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)\n'}
+[1.036230] (ascamera) StderrLine: {'line': b'  /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)\n'}
+[1.036313] (ascamera) StderrLine: {'line': b'  /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)\n'}
+[1.036396] (ascamera) StderrLine: {'line': b'  CMakeLists.txt:39 (find_package)\n'}
+[1.036476] (ascamera) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[1.036553] (ascamera) StderrLine: {'line': b'\x1b[0m\n'}
+[1.036843] (ascamera) StdoutLine: {'line': b'-- Found flann version 1.9.2\n'}
+[1.101122] (-) TimerEvent: {}
+[1.201363] (-) TimerEvent: {}
+[1.271081] (ascamera) StdoutLine: {'line': b'-- Found OpenMP_CXX: -fopenmp (found version "4.5") \n'}
+[1.271865] (ascamera) StdoutLine: {'line': b'-- Found OpenMP: TRUE (found version "4.5") found components: CXX \n'}
+[1.301461] (-) TimerEvent: {}
+[1.401707] (-) TimerEvent: {}
+[1.501944] (-) TimerEvent: {}
+[1.602321] (-) TimerEvent: {}
+[1.702560] (-) TimerEvent: {}
+[1.802799] (-) TimerEvent: {}
+[1.903079] (-) TimerEvent: {}
+[2.003383] (-) TimerEvent: {}
+[2.103671] (-) TimerEvent: {}
+[2.203959] (-) TimerEvent: {}
+[2.304295] (-) TimerEvent: {}
+[2.346425] (ascamera) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[2.354892] (ascamera) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.27\n'}
+[2.375889] (ascamera) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[2.376772] (ascamera) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.404378] (-) TimerEvent: {}
+[2.412193] (ascamera) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.414608] (ascamera) StdoutLine: {'line': b'-- Could NOT find Pcap (missing: PCAP_LIBRARIES PCAP_INCLUDE_DIRS) \n'}
+[2.423976] (ascamera) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.3")  \n'}
+[2.436944] (ascamera) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.43") \n'}
+[2.504473] (-) TimerEvent: {}
+[2.604724] (-) TimerEvent: {}
+[2.705041] (-) TimerEvent: {}
+[2.737674] (ascamera) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.743998] (ascamera) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.805138] (-) TimerEvent: {}
+[2.905387] (-) TimerEvent: {}
+[3.005614] (-) TimerEvent: {}
+[3.025887] (ascamera) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[3.105713] (-) TimerEvent: {}
+[3.205978] (-) TimerEvent: {}
+[3.306230] (-) TimerEvent: {}
+[3.351186] (ascamera) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[3.406348] (-) TimerEvent: {}
+[3.506696] (-) TimerEvent: {}
+[3.607151] (-) TimerEvent: {}
+[3.681002] (ascamera) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[3.682033] (ascamera) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[3.682972] (ascamera) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[3.684002] (ascamera) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[3.684905] (ascamera) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[3.685781] (ascamera) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[3.686182] (ascamera) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.14  \n'}
+[3.686494] (ascamera) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.14  \n'}
+[3.687461] (ascamera) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[3.688471] (ascamera) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[3.689251] (ascamera) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[3.690212] (ascamera) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[3.691259] (ascamera) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[3.692117] (ascamera) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[3.693061] (ascamera) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[3.693989] (ascamera) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[3.695017] (ascamera) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[3.695964] (ascamera) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[3.697005] (ascamera) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[3.697867] (ascamera) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[3.698565] (ascamera) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.14  \n'}
+[3.698873] (ascamera) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.14  \n'}
+[3.699888] (ascamera) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.14  \n'}
+[3.701039] (ascamera) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[3.702113] (ascamera) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[3.703875] (ascamera) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at CMakeLists.txt:40 (find_package):\n'}
+[3.703999] (ascamera) StderrLine: {'line': b'  Policy CMP0074 is not set: find_package uses <PackageName>_ROOT variables.\n'}
+[3.704053] (ascamera) StderrLine: {'line': b'  Run "cmake --help-policy CMP0074" for policy details.  Use the cmake_policy\n'}
+[3.704102] (ascamera) StderrLine: {'line': b'  command to set the policy and suppress this warning.\n'}
+[3.704149] (ascamera) StderrLine: {'line': b'\n'}
+[3.704197] (ascamera) StderrLine: {'line': b'  CMake variable PCL_ROOT is set to:\n'}
+[3.704244] (ascamera) StderrLine: {'line': b'\n'}
+[3.704290] (ascamera) StderrLine: {'line': b'    /usr\n'}
+[3.704345] (ascamera) StderrLine: {'line': b'\n'}
+[3.704393] (ascamera) StderrLine: {'line': b'  For compatibility, CMake is ignoring the variable.\n'}
+[3.704439] (ascamera) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[3.704485] (ascamera) StderrLine: {'line': b'\x1b[0m\n'}
+[3.707266] (-) TimerEvent: {}
+[3.713072] (ascamera) StdoutLine: {'line': b'-- Found tf2: 0.36.20 (/opt/ros/jazzy/share/tf2/cmake)\n'}
+[3.719110] (ascamera) StdoutLine: {'line': b'-- Found tf2_ros: 0.36.20 (/opt/ros/jazzy/share/tf2_ros/cmake)\n'}
+[3.807401] (-) TimerEvent: {}
+[3.844508] (ascamera) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)\n'}
+[3.907505] (-) TimerEvent: {}
+[3.934580] (ascamera) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[3.938209] (ascamera) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[3.938603] (ascamera) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/include;/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/libs/include;$<BUILD_INTERFACE:/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/include>\n'}
+[3.938666] (ascamera) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[3.940941] (ascamera) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[3.941075] (ascamera) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[3.941802] (ascamera) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[3.941940] (ascamera) StdoutLine: {'line': b"-- Configured 'flake8' exclude dirs and/or files: \n"}
+[3.942652] (ascamera) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[3.943405] (ascamera) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[3.945529] (ascamera) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[3.945631] (ascamera) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[3.946424] (ascamera) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[3.947919] (ascamera) StdoutLine: {'line': b'-- Configuring done (3.9s)\n'}
+[4.007606] (-) TimerEvent: {}
+[4.014496] (ascamera) StdoutLine: {'line': b'-- Generating done (0.1s)\n'}
+[4.023421] (ascamera) StdoutLine: {'line': b'-- Build files have been written to: /home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera\n'}
+[4.047050] (ascamera) CommandEnded: {'returncode': 0}
+[4.048478] (ascamera) JobProgress: {'identifier': 'ascamera', 'progress': 'build'}
+[4.048498] (ascamera) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', '--', '-j8', '-l8'], 'cwd': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': 'false', 'USER': 'jpha', 'LC_TIME': 'es_MX.UTF-8', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib:/usr/local/cuda-11.8/lib64:/usr/local/cuda-11.8/lib64', 'POWERLINE_COMMAND': 'oh-my-posh', 'HOME': '/home/jpha', 'OLDPWD': '/home/jpha/Desktop/hp60c_portable_bundle', 'DESKTOP_SESSION': 'ubuntu', 'NVM_BIN': '/home/jpha/.nvm/versions/node/v22.12.0/bin', 'NVM_INC': '/home/jpha/.nvm/versions/node/v22.12.0/include/node', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'es_MX.UTF-8', 'DBUS_STARTER_BUS_TYPE': 'session', 'SYSTEMD_EXEC_PID': '3476', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'COLORTERM': 'truecolor', 'NVM_DIR': '/home/jpha/.nvm', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'jpha', 'POSH_SESSION_ID': '16486717-c3f6-4833-91f2-cf8ae69d91fb', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-gnome\\x2dsession\\x2dmanager.slice/gnome-session-manager@ubuntu.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'jpha', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'POSH_SHELL_VERSION': '5.2.21(1)-release', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/bin:/home/jpha/.nvm/versions/node/v22.12.0/bin:/home/jpha/.npm-global/bin:/usr/local/cuda-11.8/bin:/usr/local/cuda-11.8/bin:/home/jpha/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/JP-LAPTOP:@/tmp/.ICE-unix/3476,unix/JP-LAPTOP:/tmp/.ICE-unix/3476', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'es_MX.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/8bdbb759_9307_430b_aa99_9c1c2b196c25', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'es_MX.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.111', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'es_MX.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'es_MX.UTF-8', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'es_MX.UTF-8', 'OSTYPE': 'linux-gnu', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'POSH_THEME': '/home/jpha/.poshthemes/night-owl.omp.json', 'PWD': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'NVM_CD_FLAGS': '', 'DBUS_STARTER_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/jpha/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'es_MX.UTF-8', 'LC_PAPER': 'es_MX.UTF-8', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy'}), 'shell': False}
+[4.088485] (ascamera) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/CameraPublisher.cpp.o\x1b[0m\n'}
+[4.088748] (ascamera) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/TfTreeFrameIdInfo.cpp.o\x1b[0m\n'}
+[4.088848] (ascamera) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/ascamera_node.cpp.o\x1b[0m\n'}
+[4.089023] (ascamera) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/CameraSrv.cpp.o\x1b[0m\n'}
+[4.089189] (ascamera) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/ascamera_node.dir/src/Camera.cpp.o\x1b[0m\n'}
+[4.107722] (-) TimerEvent: {}
+[4.208030] (-) TimerEvent: {}
+[4.308281] (-) TimerEvent: {}
+[4.408573] (-) TimerEvent: {}
+[4.508883] (-) TimerEvent: {}
+[4.609260] (-) TimerEvent: {}
+[4.709620] (-) TimerEvent: {}
+[4.809964] (-) TimerEvent: {}
+[4.910360] (-) TimerEvent: {}
+[5.010645] (-) TimerEvent: {}
+[5.110972] (-) TimerEvent: {}
+[5.211318] (-) TimerEvent: {}
+[5.311656] (-) TimerEvent: {}
+[5.411985] (-) TimerEvent: {}
+[5.512317] (-) TimerEvent: {}
+[5.612648] (-) TimerEvent: {}
+[5.713403] (-) TimerEvent: {}
+[5.814103] (-) TimerEvent: {}
+[5.915569] (-) TimerEvent: {}
+[6.015945] (-) TimerEvent: {}
+[6.116276] (-) TimerEvent: {}
+[6.216628] (-) TimerEvent: {}
+[6.316954] (-) TimerEvent: {}
+[6.417292] (-) TimerEvent: {}
+[6.517674] (-) TimerEvent: {}
+[6.618026] (-) TimerEvent: {}
+[6.718396] (-) TimerEvent: {}
+[6.818726] (-) TimerEvent: {}
+[6.919063] (-) TimerEvent: {}
+[7.019399] (-) TimerEvent: {}
+[7.119740] (-) TimerEvent: {}
+[7.220084] (-) TimerEvent: {}
+[7.320473] (-) TimerEvent: {}
+[7.421436] (-) TimerEvent: {}
+[7.521863] (-) TimerEvent: {}
+[7.622233] (-) TimerEvent: {}
+[7.722589] (-) TimerEvent: {}
+[7.822929] (-) TimerEvent: {}
+[7.923258] (-) TimerEvent: {}
+[8.023624] (-) TimerEvent: {}
+[8.124007] (-) TimerEvent: {}
+[8.224377] (-) TimerEvent: {}
+[8.324773] (-) TimerEvent: {}
+[8.425193] (-) TimerEvent: {}
+[8.525527] (-) TimerEvent: {}
+[8.625868] (-) TimerEvent: {}
+[8.726223] (-) TimerEvent: {}
+[8.826581] (-) TimerEvent: {}
+[8.926944] (-) TimerEvent: {}
+[9.027213] (-) TimerEvent: {}
+[9.127526] (-) TimerEvent: {}
+[9.227819] (-) TimerEvent: {}
+[9.328141] (-) TimerEvent: {}
+[9.338195] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid CameraPublisher::\x1b[01;32m\x1b[KirInfoPublisher\x1b[m\x1b[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[9.345191] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1000:102:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Ktime\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[9.345378] (ascamera) StderrLine: {'line': b' 1000 |                                       AS_CAM_Parameter_s &stParameter, \x1b[01;35m\x1b[Kbuiltin_interfaces::msg::Time time\x1b[m\x1b[K)\n'}
+[9.345482] (ascamera) StderrLine: {'line': b'      |                                                                        \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\x1b[m\x1b[K\n'}
+[9.345580] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid CameraPublisher::\x1b[01;32m\x1b[KpeakInfoPublisher\x1b[m\x1b[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[9.345675] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1033:104:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Ktime\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[9.345759] (ascamera) StderrLine: {'line': b' 1033 |                                         AS_CAM_Parameter_s &stParameter, \x1b[01;35m\x1b[Kbuiltin_interfaces::msg::Time time\x1b[m\x1b[K)\n'}
+[9.345852] (ascamera) StderrLine: {'line': b'      |                                                                          \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~\x1b[m\x1b[K\n'}
+[9.345945] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid CameraPublisher::\x1b[01;32m\x1b[KdepthMergeInfoPublisher\x1b[m\x1b[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[9.346038] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1081:29:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[KstParameter\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[9.346146] (ascamera) StderrLine: {'line': b' 1081 |         \x1b[01;35m\x1b[KAS_CAM_Parameter_s &stParameter\x1b[m\x1b[K, builtin_interfaces::msg::Time time)\n'}
+[9.346238] (ascamera) StderrLine: {'line': b'      |         \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[9.346359] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid CameraPublisher::\x1b[01;32m\x1b[KpointcloudMergePublisher\x1b[m\x1b[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[9.346477] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1119:29:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[KstParameter\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[9.346576] (ascamera) StderrLine: {'line': b' 1119 |         \x1b[01;35m\x1b[KAS_CAM_Parameter_s &stParameter\x1b[m\x1b[K)\n'}
+[9.346667] (ascamera) StderrLine: {'line': b'      |         \x1b[01;35m\x1b[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[9.400669] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kint CameraSrv::\x1b[01;32m\x1b[KgetConfigFile\x1b[m\x1b[K(AS_CAM_PTR, std::string&, AS_SDK_CAM_MODEL_E)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[9.400949] (ascamera) StderrLine: {'line': b'\x1b[01m\x1b[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:296:41:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[KpCamera\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter\x07-Wunused-parameter\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[9.401064] (ascamera) StderrLine: {'line': b'  296 | int CameraSrv::getConfigFile(\x1b[01;35m\x1b[KAS_CAM_PTR pCamera\x1b[m\x1b[K, std::string &configfile, AS_SDK_CAM_MODEL_E cam_type)\n'}
+[9.401155] (ascamera) StderrLine: {'line': b'      |                              \x1b[01;35m\x1b[K~~~~~~~~~~~^~~~~~~\x1b[m\x1b[K\n'}
+[9.428252] (-) TimerEvent: {}
+[9.528660] (-) TimerEvent: {}
+[9.628948] (-) TimerEvent: {}
+[9.729277] (-) TimerEvent: {}
+[9.829644] (-) TimerEvent: {}
+[9.929926] (-) TimerEvent: {}
+[10.030283] (-) TimerEvent: {}
+[10.130616] (-) TimerEvent: {}
+[10.230958] (-) TimerEvent: {}
+[10.331276] (-) TimerEvent: {}
+[10.431621] (-) TimerEvent: {}
+[10.531929] (-) TimerEvent: {}
+[10.632248] (-) TimerEvent: {}
+[10.732594] (-) TimerEvent: {}
+[10.832921] (-) TimerEvent: {}
+[10.933338] (-) TimerEvent: {}
+[11.033600] (-) TimerEvent: {}
+[11.133950] (-) TimerEvent: {}
+[11.234303] (-) TimerEvent: {}
+[11.334642] (-) TimerEvent: {}
+[11.434930] (-) TimerEvent: {}
+[11.535278] (-) TimerEvent: {}
+[11.635534] (-) TimerEvent: {}
+[11.735814] (-) TimerEvent: {}
+[11.836114] (-) TimerEvent: {}
+[11.936457] (-) TimerEvent: {}
+[12.036777] (-) TimerEvent: {}
+[12.137103] (-) TimerEvent: {}
+[12.237490] (-) TimerEvent: {}
+[12.338396] (-) TimerEvent: {}
+[12.438714] (-) TimerEvent: {}
+[12.539014] (-) TimerEvent: {}
+[12.639401] (-) TimerEvent: {}
+[12.739690] (-) TimerEvent: {}
+[12.840038] (-) TimerEvent: {}
+[12.940433] (-) TimerEvent: {}
+[13.040798] (-) TimerEvent: {}
+[13.141132] (-) TimerEvent: {}
+[13.241478] (-) TimerEvent: {}
+[13.341788] (-) TimerEvent: {}
+[13.442152] (-) TimerEvent: {}
+[13.542538] (-) TimerEvent: {}
+[13.642897] (-) TimerEvent: {}
+[13.743233] (-) TimerEvent: {}
+[13.843563] (-) TimerEvent: {}
+[13.943883] (-) TimerEvent: {}
+[14.044219] (-) TimerEvent: {}
+[14.144593] (-) TimerEvent: {}
+[14.244934] (-) TimerEvent: {}
+[14.345207] (-) TimerEvent: {}
+[14.445576] (-) TimerEvent: {}
+[14.545844] (-) TimerEvent: {}
+[14.646182] (-) TimerEvent: {}
+[14.746523] (-) TimerEvent: {}
+[14.846855] (-) TimerEvent: {}
+[14.947183] (-) TimerEvent: {}
+[15.047559] (-) TimerEvent: {}
+[15.147843] (-) TimerEvent: {}
+[15.248187] (-) TimerEvent: {}
+[15.348545] (-) TimerEvent: {}
+[15.448817] (-) TimerEvent: {}
+[15.549086] (-) TimerEvent: {}
+[15.649386] (-) TimerEvent: {}
+[15.749685] (-) TimerEvent: {}
+[15.849974] (-) TimerEvent: {}
+[15.950273] (-) TimerEvent: {}
+[16.050617] (-) TimerEvent: {}
+[16.150964] (-) TimerEvent: {}
+[16.251267] (-) TimerEvent: {}
+[16.351585] (-) TimerEvent: {}
+[16.451947] (-) TimerEvent: {}
+[16.552319] (-) TimerEvent: {}
+[16.652660] (-) TimerEvent: {}
+[16.753013] (-) TimerEvent: {}
+[16.853264] (-) TimerEvent: {}
+[16.953620] (-) TimerEvent: {}
+[17.053948] (-) TimerEvent: {}
+[17.154225] (-) TimerEvent: {}
+[17.254588] (-) TimerEvent: {}
+[17.354936] (-) TimerEvent: {}
+[17.455282] (-) TimerEvent: {}
+[17.555632] (-) TimerEvent: {}
+[17.655955] (-) TimerEvent: {}
+[17.756287] (-) TimerEvent: {}
+[17.856563] (-) TimerEvent: {}
+[17.956903] (-) TimerEvent: {}
+[18.057239] (-) TimerEvent: {}
+[18.157587] (-) TimerEvent: {}
+[18.257931] (-) TimerEvent: {}
+[18.358272] (-) TimerEvent: {}
+[18.458637] (-) TimerEvent: {}
+[18.558907] (-) TimerEvent: {}
+[18.659249] (-) TimerEvent: {}
+[18.759615] (-) TimerEvent: {}
+[18.859954] (-) TimerEvent: {}
+[18.960316] (-) TimerEvent: {}
+[19.060654] (-) TimerEvent: {}
+[19.160993] (-) TimerEvent: {}
+[19.261253] (-) TimerEvent: {}
+[19.351534] (ascamera) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable ascamera_node\x1b[0m\n'}
+[19.361354] (-) TimerEvent: {}
+[19.461571] (-) TimerEvent: {}
+[19.561916] (-) TimerEvent: {}
+[19.662250] (-) TimerEvent: {}
+[19.762555] (-) TimerEvent: {}
+[19.854968] (ascamera) StdoutLine: {'line': b'[100%] Built target ascamera_node\n'}
+[19.862644] (-) TimerEvent: {}
+[19.868298] (ascamera) CommandEnded: {'returncode': 0}
+[19.870328] (ascamera) JobProgress: {'identifier': 'ascamera', 'progress': 'install'}
+[19.879854] (ascamera) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera'], 'cwd': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': 'false', 'USER': 'jpha', 'LC_TIME': 'es_MX.UTF-8', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib:/usr/local/cuda-11.8/lib64:/usr/local/cuda-11.8/lib64', 'POWERLINE_COMMAND': 'oh-my-posh', 'HOME': '/home/jpha', 'OLDPWD': '/home/jpha/Desktop/hp60c_portable_bundle', 'DESKTOP_SESSION': 'ubuntu', 'NVM_BIN': '/home/jpha/.nvm/versions/node/v22.12.0/bin', 'NVM_INC': '/home/jpha/.nvm/versions/node/v22.12.0/include/node', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'es_MX.UTF-8', 'DBUS_STARTER_BUS_TYPE': 'session', 'SYSTEMD_EXEC_PID': '3476', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'COLORTERM': 'truecolor', 'NVM_DIR': '/home/jpha/.nvm', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'jpha', 'POSH_SESSION_ID': '16486717-c3f6-4833-91f2-cf8ae69d91fb', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/app.slice/app-gnome\\x2dsession\\x2dmanager.slice/gnome-session-manager@ubuntu.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'jpha', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'POSH_SHELL_VERSION': '5.2.21(1)-release', 'WINDOWPATH': '2', 'PATH': '/opt/ros/jazzy/bin:/home/jpha/.nvm/versions/node/v22.12.0/bin:/home/jpha/.npm-global/bin:/usr/local/cuda-11.8/bin:/usr/local/cuda-11.8/bin:/home/jpha/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/JP-LAPTOP:@/tmp/.ICE-unix/3476,unix/JP-LAPTOP:/tmp/.ICE-unix/3476', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'es_MX.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/8bdbb759_9307_430b_aa99_9c1c2b196c25', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'es_MX.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.111', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'es_MX.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'es_MX.UTF-8', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'es_MX.UTF-8', 'OSTYPE': 'linux-gnu', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'POSH_THEME': '/home/jpha/.poshthemes/night-owl.omp.json', 'PWD': '/home/jpha/Desktop/hp60c_portable_bundle/workspace/build/ascamera', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'NVM_CD_FLAGS': '', 'DBUS_STARTER_ADDRESS': 'unix:path=/run/user/1000/bus,guid=6354427b024098a2a22c10be69e7dbfe', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/jpha/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'es_MX.UTF-8', 'LC_PAPER': 'es_MX.UTF-8', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy'}), 'shell': False}
+[19.886288] (ascamera) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[19.886984] (ascamera) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[19.887172] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/lib/ascamera/ascamera_node\n'}
+[19.893588] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/ascamera.launch.py\n'}
+[19.899653] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/changA.launch.py\n'}
+[19.905688] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/hp60c.launch.py\n'}
+[19.912636] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/hp60cn.launch.py\n'}
+[19.919372] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kondyor.launch.py\n'}
+[19.925502] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kunlun_a.launch.py\n'}
+[19.932101] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/kunlun_c.launch.py\n'}
+[19.938899] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/launch/nuwa.launch.py\n'}
+[19.945797] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/changA_v1_03_20230628Encrypt.json\n'}
+[19.953134] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/changjiangB_v1_00_20240815Encrypt.json\n'}
+[19.959764] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json\n'}
+[19.963539] (-) TimerEvent: {}
+[19.969377] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/hp60cn_v2_00_20230704_configEncrypt.json\n'}
+[19.980186] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/kondyor_v1_03_20230628Encrypt.json\n'}
+[19.986830] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/kunlun_v1_03_20240326Encrypt.json\n'}
+[19.993461] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/nuwa_v4_01_20231103_configEncrypt.json\n'}
+[20.000496] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/readme.md\n'}
+[20.006883] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/taishan_v3_01_20240813_configEncrypt_g_48_640x480.json\n'}
+[20.013493] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggulaA_v1_04__20240821-ir1280x800-outdoor-Encrypt.json\n'}
+[20.020088] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggulaB_v1_00_20241012Encrypt.json\n'}
+[20.027519] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/tanggula_v2_00_20240218_configEncrypt.json\n'}
+[20.033964] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/configurationfiles/vega_v2_01_20240716_configEncrypt.json\n'}
+[20.040647] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/package_run_dependencies/ascamera\n'}
+[20.047317] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/parent_prefix_path/ascamera\n'}
+[20.053523] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/ament_prefix_path.sh\n'}
+[20.060352] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/ament_prefix_path.dsv\n'}
+[20.063630] (-) TimerEvent: {}
+[20.069818] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/path.sh\n'}
+[20.079980] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/environment/path.dsv\n'}
+[20.086817] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.bash\n'}
+[20.093372] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.sh\n'}
+[20.099829] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.zsh\n'}
+[20.106755] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/local_setup.dsv\n'}
+[20.113266] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/package.dsv\n'}
+[20.119771] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ament_index/resource_index/packages/ascamera\n'}
+[20.126347] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/cmake/ascameraConfig.cmake\n'}
+[20.132885] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/cmake/ascameraConfig-version.cmake\n'}
+[20.139527] (ascamera) StdoutLine: {'line': b'-- Symlinking: /home/jpha/Desktop/hp60c_portable_bundle/workspace/install/ascamera/share/ascamera/package.xml\n'}
+[20.147296] (ascamera) CommandEnded: {'returncode': 0}
+[20.163964] (-) TimerEvent: {}
+[20.174596] (ascamera) JobEnded: {'identifier': 'ascamera', 'rc': 0}
+[20.175902] (-) EventReactorShutdown: {}

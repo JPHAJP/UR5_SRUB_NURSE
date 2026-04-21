@@ -11,3 +11,5 @@ __pycache__
 .vscode
 *.env
 V2.0/.tools/
+.venv/
+

@@ -1,0 +1,53 @@
+[0mdefault compiler:x86_64-linux-gnu-g++[0m
+[33mCMake Warning (dev) at /usr/lib/x86_64-linux-gnu/cmake/pcl/Modules/FindFLANN.cmake:45 (find_package):
+  Policy CMP0144 is not set: find_package uses upper-case <PACKAGENAME>_ROOT
+  variables.  Run "cmake --help-policy CMP0144" for policy details.  Use the
+  cmake_policy command to set the policy and suppress this warning.
+
+  CMake variable FLANN_ROOT is set to:
+
+    /usr
+
+  For compatibility, find_package is ignoring the variable, but code in a
+  .cmake module might still use it.
+Call Stack (most recent call first):
+  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:261 (find_package)
+  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:306 (find_flann)
+  /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)
+  /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)
+  CMakeLists.txt:39 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+[0m
+[33mCMake Warning (dev) at CMakeLists.txt:40 (find_package):
+  Policy CMP0074 is not set: find_package uses <PackageName>_ROOT variables.
+  Run "cmake --help-policy CMP0074" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  CMake variable PCL_ROOT is set to:
+
+    /usr
+
+  For compatibility, CMake is ignoring the variable.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+[0m
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KirInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1000:102:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ktime[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+ 1000 |                                       AS_CAM_Parameter_s &stParameter, [01;35m[Kbuiltin_interfaces::msg::Time time[m[K)
+      |                                                                        [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~[m[K
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KpeakInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_Data_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1033:104:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ktime[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+ 1033 |                                         AS_CAM_Parameter_s &stParameter, [01;35m[Kbuiltin_interfaces::msg::Time time[m[K)
+      |                                                                          [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~[m[K
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KdepthMergeInfoPublisher[m[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&, builtin_interfaces::msg::Time)[m[K’:
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1081:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KstParameter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+ 1081 |         [01;35m[KAS_CAM_Parameter_s &stParameter[m[K, builtin_interfaces::msg::Time time)
+      |         [01;35m[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:[m[K In member function ‘[01m[Kvoid CameraPublisher::[01;32m[KpointcloudMergePublisher[m[K(AS_CAM_PTR, const AS_SDK_MERGE_s*, AS_CAM_Parameter_s&)[m[K’:
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraPublisher.cpp:1119:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KstParameter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+ 1119 |         [01;35m[KAS_CAM_Parameter_s &stParameter[m[K)
+      |         [01;35m[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:[m[K In member function ‘[01m[Kint CameraSrv::[01;32m[KgetConfigFile[m[K(AS_CAM_PTR, std::string&, AS_SDK_CAM_MODEL_E)[m[K’:
+[01m[K/home/jpha/Desktop/hp60c_portable_bundle/workspace/src/ascamera/src/CameraSrv.cpp:296:41:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KpCamera[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  296 | int CameraSrv::getConfigFile([01;35m[KAS_CAM_PTR pCamera[m[K, std::string &configfile, AS_SDK_CAM_MODEL_E cam_type)
+      |                              [01;35m[K~~~~~~~~~~~^~~~~~~[m[K

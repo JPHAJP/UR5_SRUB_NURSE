@@ -1,0 +1,1 @@
+/home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/build/ascamera/ament_cmake_environment_hooks/local_setup.zsh

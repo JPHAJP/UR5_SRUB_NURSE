@@ -130,6 +130,10 @@ body {
     margin-top: 24px;
 }
 
+.grid-depth {
+    margin-top: 24px;
+}
+
 .panel {
     padding: 22px;
 }
@@ -195,6 +199,18 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.video-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .feed-footnote {
@@ -367,6 +383,95 @@ button:disabled {
     white-space: pre-wrap;
 }
 
+.depth-summary-grid,
+.depth-tools-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.depth-summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 18px;
+}
+
+.depth-tools-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 18px 0;
+}
+
+.depth-tool-card {
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(245, 249, 252, 0.92);
+    border: 1px solid rgba(14, 55, 92, 0.08);
+}
+
+.depth-tool-card h3,
+.depth-grid-wrap h3 {
+    margin-bottom: 14px;
+}
+
+.inline-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.inline-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--muted);
+    min-width: 120px;
+}
+
+.inline-form input {
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(14, 55, 92, 0.1);
+}
+
+.transform-form label {
+    min-width: 92px;
+}
+
+.depth-tool-card pre,
+.depth-calibration-status pre {
+    margin: 14px 0 0;
+    min-height: 84px;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(15, 33, 51, 0.04);
+    color: var(--text);
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+.depth-grid-wrap {
+    margin-top: 16px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.depth-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.depth-table th,
+.depth-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(14, 55, 92, 0.08);
+    text-align: left;
+}
+
+.depth-table th {
+    color: var(--accent-strong);
+}
+
 @media (max-width: 1080px) {
     .grid-top,
     .grid-bottom,
@@ -374,6 +479,12 @@ button:disabled {
         grid-template-columns: 1fr;
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .feed-grid,
+    .depth-summary-grid,
+    .depth-tools-grid {
+        grid-template-columns: 1fr;
     }
 }
 

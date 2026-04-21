@@ -15,6 +15,24 @@ def index():
 def video_feed():
     vision = current_app.extensions["silvia_services"]["vision"]
     return Response(
-        vision.mjpeg_stream(),
+        vision.mjpeg_stream("annotated"),
+        mimetype="multipart/x-mixed-replace; boundary=frame",
+    )
+
+
+@web_blueprint.get("/video_feed/rgb")
+def video_feed_rgb():
+    vision = current_app.extensions["silvia_services"]["vision"]
+    return Response(
+        vision.mjpeg_stream("rgb"),
+        mimetype="multipart/x-mixed-replace; boundary=frame",
+    )
+
+
+@web_blueprint.get("/video_feed/depth")
+def video_feed_depth():
+    vision = current_app.extensions["silvia_services"]["vision"]
+    return Response(
+        vision.mjpeg_stream("depth"),
         mimetype="multipart/x-mixed-replace; boundary=frame",
     )

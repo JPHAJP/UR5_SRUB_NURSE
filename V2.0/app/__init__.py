@@ -5,6 +5,7 @@ import logging
 from typing import Any, Dict
 
 from .config import AppConfig
+from .runtime_env import bootstrap_runtime_environment
 
 try:  # pragma: no cover - dependency fallback for local test environments
     from flask import Flask
@@ -32,6 +33,8 @@ socketio = SocketIO(async_mode="threading", cors_allowed_origins="*")
 
 
 def create_app() -> Flask:
+    bootstrap_runtime_environment()
+
     from .routes_api import api_blueprint
     from .routes_realtime import realtime_blueprint
     from .routes_web import web_blueprint

@@ -45,6 +45,15 @@ def _parse_int(name: str, default: int) -> int:
         return default
 
 
+def _parse_bool(name: str, default: bool) -> bool:
+    raw = str(os.getenv(name, str(default))).strip().lower()
+    if raw in {"1", "true", "yes", "on"}:
+        return True
+    if raw in {"0", "false", "no", "off"}:
+        return False
+    return default
+
+
 def _parse_joint_list(name: str, default: List[float]) -> List[float]:
     raw = os.getenv(name)
     if not raw:
@@ -94,6 +103,25 @@ class AppConfig:
     voice_chunk_ms: int
     vision_model_path: Path
     vision_confidence_threshold: float
+    vision_backend: str
+    depth_sampling_ratio: float
+    ros_rgb_topic: str
+    ros_depth_topic: str
+    ros_rgb_camera_info_topic: str
+    ros_depth_camera_info_topic: str
+    ros_auto_launch_camera: bool
+    ros_camera_namespace: str
+    ros_workspace_dir: Path
+    ros_workspace_setup_file: Path
+    ros_ascamera_config_path: Path
+    ros_camera_wait_timeout_s: float
+    ros_camera_boot_delay_s: float
+    ros_camera_rgb_width: int
+    ros_camera_rgb_height: int
+    ros_camera_depth_width: int
+    ros_camera_depth_height: int
+    ros_camera_fps: int
+    v4l2_device: str
     hand_landmarker_model_path: Path
     hand_landmarker_model_url: str
     camera_index: int
@@ -193,6 +221,46 @@ class AppConfig:
                 )
             ),
             vision_confidence_threshold=_parse_float("VISION_CONFIDENCE_THRESHOLD", 0.5),
+            vision_backend=os.getenv("VISION_BACKEND", "hp60c_ros2").strip().lower() or "hp60c_ros2",
+            depth_sampling_ratio=_parse_float("DEPTH_SAMPLING_RATIO", 0.10),
+            ros_rgb_topic=os.getenv("ROS_RGB_TOPIC", "/ascamera/camera_publisher/rgb0/image"),
+            ros_depth_topic=os.getenv("ROS_DEPTH_TOPIC", "/ascamera/camera_publisher/depth0/image_raw"),
+            ros_rgb_camera_info_topic=os.getenv(
+                "ROS_RGB_CAMERA_INFO_TOPIC",
+                "/ascamera/camera_publisher/rgb0/camera_info",
+            ),
+            ros_depth_camera_info_topic=os.getenv(
+                "ROS_DEPTH_CAMERA_INFO_TOPIC",
+                "/ascamera/camera_publisher/depth0/camera_info",
+            ),
+            ros_auto_launch_camera=_parse_bool("ROS_AUTO_LAUNCH_CAMERA", True),
+            ros_camera_namespace=os.getenv("ROS_CAMERA_NAMESPACE", "/ascamera").strip() or "/ascamera",
+            ros_workspace_dir=Path(
+                os.getenv(
+                    "ROS_WORKSPACE_DIR",
+                    str(repo_dir / "hp60c_portable_bundle" / "workspace"),
+                )
+            ),
+            ros_workspace_setup_file=Path(
+                os.getenv(
+                    "ROS_WORKSPACE_SETUP_FILE",
+                    str(repo_dir / "hp60c_portable_bundle" / "workspace" / "install" / "setup.bash"),
+                )
+            ),
+            ros_ascamera_config_path=Path(
+                os.getenv(
+                    "ROS_ASCAMERA_CONFIG_PATH",
+                    str(repo_dir / "hp60c_portable_bundle" / "workspace" / "src" / "ascamera" / "configurationfiles"),
+                )
+            ),
+            ros_camera_wait_timeout_s=_parse_float("ROS_CAMERA_WAIT_TIMEOUT_S", 2.5),
+            ros_camera_boot_delay_s=_parse_float("ROS_CAMERA_BOOT_DELAY_S", 2.0),
+            ros_camera_rgb_width=_parse_int("ROS_CAMERA_RGB_WIDTH", 640),
+            ros_camera_rgb_height=_parse_int("ROS_CAMERA_RGB_HEIGHT", 480),
+            ros_camera_depth_width=_parse_int("ROS_CAMERA_DEPTH_WIDTH", 640),
+            ros_camera_depth_height=_parse_int("ROS_CAMERA_DEPTH_HEIGHT", 480),
+            ros_camera_fps=_parse_int("ROS_CAMERA_NODE_FPS", 15),
+            v4l2_device=os.getenv("V4L2_DEVICE", "/dev/video2").strip() or "/dev/video2",
             hand_landmarker_model_path=Path(
                 os.getenv(
                     "HAND_LANDMARKER_MODEL_PATH",
@@ -265,10 +333,23 @@ class AppConfig:
             "vision_model_name": self.vision_model_path.name,
             "vision_confidence_threshold": self.vision_confidence_threshold,
             "camera": {
+                "backend": self.vision_backend,
                 "index": self.camera_index,
                 "width": self.camera_width,
                 "height": self.camera_height,
                 "fps": self.camera_fps,
+                "depth_sampling_ratio": self.depth_sampling_ratio,
+                "topics": {
+                    "rgb": self.ros_rgb_topic,
+                    "depth": self.ros_depth_topic,
+                    "rgb_camera_info": self.ros_rgb_camera_info_topic,
+                    "depth_camera_info": self.ros_depth_camera_info_topic,
+                },
+                "auto_launch": self.ros_auto_launch_camera,
+                "namespace": self.ros_camera_namespace,
+                "workspace": str(self.ros_workspace_dir),
+                "ascamera_config_path": str(self.ros_ascamera_config_path),
+                "v4l2_device": self.v4l2_device,
             },
             "models": {
                 "text": self.openai_text_model,
