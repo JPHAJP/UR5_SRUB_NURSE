@@ -18,10 +18,15 @@ class ConversationService:
     def set_action_handler(self, handler: Callable[[str, Dict[str, Any] | None, str], Dict[str, Any]]) -> None:
         self.action_handler = handler
 
-    def handle_user_text(self, text: str, source: str = "text") -> Dict[str, Any]:
+    def handle_user_text(
+        self,
+        text: str,
+        source: str = "text",
+        display_text: str | None = None,
+    ) -> Dict[str, Any]:
         clean_text = (text or "").strip()
         if not clean_text:
-            return {"ok": False, "reply": "No recibi ningun mensaje.", "action": "none"}
+            return {"ok": False, "reply": "No recibi ninguna instruccion. Estoy lista para ayudarte.", "action": "none"}
 
         decision = self.router.route(clean_text)
 
@@ -31,9 +36,19 @@ class ConversationService:
             self.state.add_message("assistant", decision.assistant_text, source)
             return {"ok": True, "reply": decision.assistant_text, "action": decision.action}
 
-        self.state.add_message("user", clean_text, source)
+        if decision.action == "voice_exit":
+            self.state.add_message("user", clean_text, source, display_text=display_text or clean_text)
+            self.state.add_message("assistant", decision.assistant_text, source)
+            return {"ok": True, "reply": decision.assistant_text, "action": decision.action}
+
+        display_user_text = (display_text or clean_text).strip()
+        self.state.add_message("user", clean_text, source, display_text=display_user_text)
 
         if decision.action == "chat":
+            if decision.assistant_text:
+                reply = decision.assistant_text
+                self.state.add_message("assistant", reply, source)
+                return {"ok": True, "reply": reply, "action": "chat"}
             reply = self._generate_chat_reply(clean_text)
             self.state.add_message("assistant", reply, source)
             return {"ok": True, "reply": reply, "action": "chat"}
@@ -54,8 +69,9 @@ class ConversationService:
     def _generate_chat_reply(self, latest_user_text: str) -> str:
         if not self.config.openai_api_key:
             return (
-                "Puedo ayudarte con modos, saludo, seguimiento de mano, recoger objetos "
-                "y control seguro del UR5. Configura OPENAI_API_KEY para conversacion extendida."
+                "Puedo ayudarte de forma amable con instrumental quirurgico, modos del robot, "
+                "seguimiento de mano, recogida de objetos y control seguro del UR5. "
+                "Configura OPENAI_API_KEY para conversacion extendida."
             )
 
         try:
@@ -78,8 +94,8 @@ class ConversationService:
         except Exception as error:  # pragma: no cover - network fallback
             logger.warning("Fallo respuesta OpenAI: %s", error)
             return (
-                "Ahora mismo no pude contactar a OpenAI, pero sigo lista para ejecutar "
-                "comandos de control y mostrar el estado del sistema."
+                "Ahora mismo no pude contactar a OpenAI, pero sigo lista para ayudarte con "
+                "comandos del robot y con el estado del sistema."
             )
 
     def _build_chat_messages(self, latest_user_text: str) -> List[Dict[str, str]]:
@@ -88,10 +104,12 @@ class ConversationService:
             {
                 "role": "system",
                 "content": (
-                    "Eres SILVIA, una asistente de instrumentacion quirurgica basada en UR5. "
-                    "Responde en espanol, con tono profesional y breve. "
-                    "No inventes movimientos del robot: si un movimiento no fue solicitado, "
-                    "solo conversa y aclara limites de seguridad."
+                    "Eres SILVIA, una asistente quirurgica robotica basada en UR5e. "
+                    "Habla siempre en espanol con tono amable, sereno, profesional y breve. "
+                    "Acompanas al equipo quirurgico con apoyo en instrumental y control seguro del robot. "
+                    "Si preguntan por inventario o capacidades, menciona bisturi, pinzas, tijeras curvas, "
+                    "tijeras rectas, entrega a mano, volver a casa y cancelar. "
+                    "No inventes movimientos ni confirmes acciones no solicitadas o no ejecutadas."
                 ),
             }
         ]

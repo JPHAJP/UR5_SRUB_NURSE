@@ -39,7 +39,9 @@ def reset_conversation():
 def send_message():
     payload = request.get_json(silent=True) or {}
     text = payload.get("text", "")
-    result = _services()["conversation"].handle_user_text(text, source="text")
+    services = _services()
+    result = services["conversation"].handle_user_text(text, source="text")
+    result["audio_base64"] = services["voice"].speech_base64(result.get("reply", ""))
     return jsonify(result), 200 if result.get("ok") else 400
 
 
@@ -56,6 +58,22 @@ def process_voice_chunk():
     if "audio" not in request.files:
         return jsonify({"ok": False, "message": "Falta archivo de audio."}), 400
     result = _services()["voice"].process_browser_audio(request.files["audio"])
+    return jsonify(result), 200 if result.get("ok", False) else 400
+
+
+@api_blueprint.post("/voice/transcribe-test")
+def transcribe_voice_test():
+    if "audio" not in request.files:
+        return jsonify({"ok": False, "message": "Falta archivo de audio."}), 400
+    result = _services()["voice"].transcribe_browser_audio(request.files["audio"])
+    return jsonify(result), 200 if result.get("ok", False) else 400
+
+
+@api_blueprint.post("/voice/push-to-talk")
+def process_push_to_talk():
+    if "audio" not in request.files:
+        return jsonify({"ok": False, "message": "Falta archivo de audio."}), 400
+    result = _services()["voice"].process_push_to_talk_audio(request.files["audio"])
     return jsonify(result), 200 if result.get("ok", False) else 400
 
 

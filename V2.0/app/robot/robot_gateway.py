@@ -3,10 +3,8 @@ from __future__ import annotations
 import logging
 import math
 import threading
-import time
 from typing import Dict, List, Tuple
 
-from .motion_profiles import clamp
 from .sequences import DEFAULT_ORIENTATION, build_greet_sequence
 from .ur_dashboard_client import URDashboardClient
 from .ur_script_client import URScriptClient
@@ -76,10 +74,58 @@ class RobotGateway:
             return True, "Comando URScript enviado."
         return False, "No se pudo enviar el comando al robot."
 
-    def move_joints_deg(self, joints_deg: List[float], speed: float = 1.5, acceleration: float = 2.5) -> Tuple[bool, str]:
+    @staticmethod
+    def _build_movej_command_deg(
+        joints_deg: List[float],
+        speed: float,
+        acceleration: float,
+        blend_radius: float = 0.0,
+    ) -> str:
         joints_rad = [math.radians(value) for value in joints_deg]
         joint_values = ", ".join(f"{value:.5f}" for value in joints_rad)
-        return self.send_urscript(f"movej([{joint_values}], a = {acceleration}, v = {speed})")
+        return (
+            f"movej([{joint_values}], a = {acceleration}, v = {speed}, "
+            f"t = 0, r = {max(0.0, blend_radius)})"
+        )
+
+    @classmethod
+    def _build_joint_path_program_deg(
+        cls,
+        path_deg: List[List[float]],
+        speed: float,
+        acceleration: float,
+        blend_radius: float = 0.0,
+        program_name: str = "joint_path",
+    ) -> str:
+        if not path_deg:
+            return ""
+
+        commands = []
+        last_index = len(path_deg) - 1
+        for index, joints_deg in enumerate(path_deg):
+            step_blend = blend_radius if index < last_index else 0.0
+            commands.append(
+                f"  {cls._build_movej_command_deg(joints_deg, speed, acceleration, step_blend)}"
+            )
+
+        return "\n".join(
+            [
+                f"def {program_name}():",
+                *commands,
+                "end",
+                f"{program_name}()",
+            ]
+        )
+
+    def move_joints_deg(
+        self,
+        joints_deg: List[float],
+        speed: float = 1.5,
+        acceleration: float = 2.5,
+        blend_radius: float = 0.0,
+    ) -> Tuple[bool, str]:
+        command = self._build_movej_command_deg(joints_deg, speed, acceleration, blend_radius)
+        return self.send_urscript(command)
 
     def move_linear_mm(
         self,
@@ -133,13 +179,22 @@ class RobotGateway:
 
     def greet(self) -> Tuple[bool, str]:
         sequence = build_greet_sequence(self.config.greet_sequence_deg)
-        ok_all = True
-        for step in sequence:
-            ok, _ = self.move_joints_deg(step)
-            ok_all = ok_all and ok
-            time.sleep(1.2)
-        self.go_home()
-        return ok_all, "Secuencia de saludo ejecutada."
+        if not sequence:
+            return False, "No hay una secuencia de saludo configurada."
+
+        full_path = [list(step) for step in sequence]
+        home_joints = list(self.config.home_joints_deg)
+        if full_path[-1] != home_joints:
+            full_path.append(home_joints)
+
+        command = self._build_joint_path_program_deg(
+            path_deg=full_path,
+            speed=self.config.greet_speed_rad_s,
+            acceleration=self.config.greet_acceleration_rad_s2,
+            blend_radius=self.config.greet_blend_radius_m,
+            program_name="greet_sequence",
+        )
+        return self.send_urscript(command)
 
     def disconnect(self) -> None:
         with self._lock:

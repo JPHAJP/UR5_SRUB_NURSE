@@ -31,3 +31,17 @@ def test_route_new_conversation():
     router = CommandRouter(AppConfig.load())
     decision = router.route("Nueva conversacion")
     assert decision.action == "new_conversation"
+
+
+def test_route_inventory_question_returns_direct_help():
+    router = CommandRouter(AppConfig.load())
+    decision = router.route("¿Qué instrumentos tienes?")
+    assert decision.action == "chat"
+    assert "bisturi" in decision.assistant_text.lower()
+
+
+def test_route_ambiguous_scissors_requests_clarification():
+    router = CommandRouter(AppConfig.load())
+    decision = router.route("Pásame las tijeras")
+    assert decision.action == "chat"
+    assert "curvas o rectas" in decision.assistant_text.lower()

@@ -9,6 +9,7 @@ from typing import Any, Dict
 OBJECT_ALIASES = {
     "bisturi": "Bisturi",
     "bisturí": "Bisturi",
+    "visturi": "Bisturi",
     "pinzas": "Pinzas",
     "pinza": "Pinzas",
     "tijeras curvas": "Tijeras_curvas",
@@ -17,6 +18,7 @@ OBJECT_ALIASES = {
     "tijeras rectas": "Tijeras_rectas",
     "tijeras recta": "Tijeras_rectas",
     "mayo": "Tijeras_rectas",
+    "mano": "Mano",
 }
 
 
@@ -41,47 +43,85 @@ class CommandRouter:
     def route(self, text: str) -> RouteDecision:
         normalized = normalize_text(text)
 
+        if any(
+            term in normalized
+            for term in (
+                "que instrumentos tienes",
+                "que herramienta tienes",
+                "que herramientas tienes",
+                "que puedes hacer",
+                "cual es tu inventario",
+                "que tienes disponible",
+            )
+        ):
+            return RouteDecision(
+                action="chat",
+                assistant_text=(
+                    "Con gusto. Puedo ayudarte con bisturi, pinzas, tijeras curvas, "
+                    "tijeras rectas, entrega a mano, volver a casa y cancelar."
+                ),
+            )
+
         if "nueva conversacion" in normalized or "reinicia la conversacion" in normalized:
             return RouteDecision(
                 action="new_conversation",
-                assistant_text="He iniciado una nueva conversacion.",
+                assistant_text="Con gusto, he iniciado una nueva conversacion.",
+            )
+
+        if any(term in normalized for term in ("salir", "sal de la conversacion", "cierra la conversacion", "termina la conversacion")):
+            return RouteDecision(
+                action="voice_exit",
+                assistant_text="Con gusto, cierro la conversacion por voz.",
             )
 
         if any(term in normalized for term in ("saluda", "saludar", "haz un saludo", "di hola")):
-            return RouteDecision(action="greet", assistant_text="Voy a saludar.")
+            return RouteDecision(action="greet", assistant_text="Con gusto, voy a saludar.")
 
         if "seguir mano" in normalized or "modo mano" in normalized or "modo entrega" in normalized:
             return RouteDecision(
                 action="set_mode",
                 payload={"mode": "hand_follow"},
-                assistant_text="He activado el modo seguir mano.",
+                assistant_text="Con gusto, he activado el modo seguir mano.",
             )
 
         if "modo recoger" in normalized or "modo objetos" in normalized or "recoger objetos" in normalized:
             return RouteDecision(
                 action="set_mode",
                 payload={"mode": "object_pick"},
-                assistant_text="He activado el modo recoger objetos.",
+                assistant_text="Con gusto, he activado el modo recoger objetos.",
             )
 
-        if any(term in normalized for term in ("detente", "alto", "cancela", "cancela")):
-            return RouteDecision(action="cancel", assistant_text="He detenido la operacion actual.")
+        if any(term in normalized for term in ("detente", "alto", "cancela", "deten", "deten el proceso", "deten el movimiento")):
+            return RouteDecision(action="cancel", assistant_text="Con gusto, he cancelado la operacion actual.")
 
         if any(term in normalized for term in ("casa", "home", "ve a casa", "regresa a casa")):
-            return RouteDecision(action="go_home", assistant_text="Regresare a la posicion de casa.")
+            return RouteDecision(action="go_home", assistant_text="Con gusto, regresare a la posicion de casa.")
 
         if any(term in normalized for term in ("suelta", "libera", "apaga el iman", "desactiva el iman")):
-            return RouteDecision(action="release_object", assistant_text="Voy a liberar el objeto.")
+            return RouteDecision(action="release_object", assistant_text="Con gusto, voy a liberar el objeto.")
 
         if any(term in normalized for term in ("enciende el iman", "activa el iman")):
-            return RouteDecision(action="magnet_on", assistant_text="Voy a activar el electroiman.")
+            return RouteDecision(action="magnet_on", assistant_text="Con gusto, voy a activar el electroiman.")
+
+        if (
+            "tijeras" in normalized
+            and "tijeras curvas" not in normalized
+            and "tijeras rectas" not in normalized
+            and "metzenbaum" not in normalized
+            and "mayo" not in normalized
+            and any(term in normalized for term in ("recoge", "busca", "ve por", "trae", "pasa", "dame", "entrega", "toma"))
+        ):
+            return RouteDecision(
+                action="chat",
+                assistant_text="Con gusto, necesito confirmar si deseas tijeras curvas o rectas.",
+            )
 
         label = self._extract_object_label(normalized)
         if label and any(term in normalized for term in ("recoge", "busca", "ve por", "trae", "pasa", "dame", "entrega", "toma")):
             return RouteDecision(
                 action="pick_object",
                 payload={"label": label},
-                assistant_text=f"Voy a recoger {label.replace('_', ' ').lower()}.",
+                assistant_text=f"Con gusto, voy a preparar {label.replace('_', ' ').lower()}.",
             )
 
         return RouteDecision(action="chat", assistant_text="")

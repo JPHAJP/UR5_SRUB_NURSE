@@ -16,6 +16,10 @@
                 <p class="hero-copy">
                     Control web unificado para robot, camara, seguridad, voz continua y modos de trabajo.
                 </p>
+                <div class="network-banner">
+                    <span class="network-status" id="network-origin">Origen: detectando...</span>
+                    <span class="network-status" id="network-voice-hint">Comprobando acceso LAN...</span>
+                </div>
             </div>
             <div class="hero-actions">
                 <button class="primary" id="greet-btn">Saludar</button>
@@ -93,10 +97,80 @@
 
             <article class="panel events-panel">
                 <div class="panel-header">
-                    <h2>Eventos</h2>
-                    <span class="subtle">Robot y sistema</span>
+                    <h2>Semaforos</h2>
+                    <span class="subtle">Ultimo estado por categoria</span>
                 </div>
-                <div id="events-log" class="events-log"></div>
+                <div class="signal-list">
+                    <div class="signal-card signal-robot">
+                        <div class="signal-head">
+                            <span class="signal-dot" id="robot-log-dot"></span>
+                            <strong>Robot Log</strong>
+                        </div>
+                        <div class="signal-message" id="robot-log-message">Sin eventos</div>
+                    </div>
+                    <div class="signal-card signal-system">
+                        <div class="signal-head">
+                            <span class="signal-dot" id="system-event-dot"></span>
+                            <strong>System Event</strong>
+                        </div>
+                        <div class="signal-message" id="system-event-message">Sin eventos</div>
+                    </div>
+                    <div class="signal-card signal-safety">
+                        <div class="signal-head">
+                            <span class="signal-dot" id="safety-event-dot"></span>
+                            <strong>Safety Event</strong>
+                        </div>
+                        <div class="signal-message" id="safety-event-message">Sin eventos</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="grid grid-diagnostics">
+            <article class="panel diagnostic-panel">
+                <div class="panel-header">
+                    <h2>Test de Transcripcion</h2>
+                    <span class="subtle">Diagnostico directo del microfono hacia Flask</span>
+                </div>
+                <p class="hero-copy diagnostic-copy">
+                    Graba con iniciar y detener para mandar un WAV limpio al backend, sin palabra clave ni respuestas de SILVIA.
+                </p>
+                <div class="status-actions">
+                    <button class="secondary" id="transcribe-test-btn">Iniciar Prueba</button>
+                </div>
+                <div class="diagnostic-result">
+                    <span class="label">Estado</span>
+                    <strong id="transcribe-test-status">Listo para grabar.</strong>
+                </div>
+                <div class="diagnostic-result">
+                    <span class="label">Texto detectado por Flask</span>
+                    <pre id="transcribe-test-output">Sin transcripcion todavia.</pre>
+                </div>
+                <div class="diagnostic-result">
+                    <span class="label">Archivo guardado</span>
+                    <pre id="transcribe-test-path">Todavia no se ha guardado ninguna prueba.</pre>
+                </div>
+            </article>
+
+            <article class="panel diagnostic-panel">
+                <div class="panel-header">
+                    <h2>Push To Talk</h2>
+                    <span class="subtle">Turno manual sin palabra clave</span>
+                </div>
+                <p class="hero-copy diagnostic-copy">
+                    Pulsa iniciar, habla, deten y envia. Este modo usa el mismo hilo conversacional, pero no requiere decir Silvia.
+                </p>
+                <div class="status-actions">
+                    <button class="secondary" id="push-to-talk-btn">Iniciar Push To Talk</button>
+                </div>
+                <div class="diagnostic-result">
+                    <span class="label">Estado</span>
+                    <strong id="push-to-talk-status">Listo para usar push to talk.</strong>
+                </div>
+                <div class="diagnostic-result">
+                    <span class="label">Transcripcion enviada</span>
+                    <pre id="push-to-talk-output">Todavia no se ha enviado ningun turno manual.</pre>
+                </div>
             </article>
         </section>
     </main>

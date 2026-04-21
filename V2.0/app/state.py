@@ -13,6 +13,7 @@ class ConversationMessage:
     role: str
     text: str
     source: str
+    display_text: str | None = None
     timestamp: float = field(default_factory=time.time)
 
 
@@ -43,9 +44,22 @@ class AppState:
         self.messages: Deque[ConversationMessage] = deque(maxlen=100)
         self.events: Deque[TimelineEvent] = deque(maxlen=200)
 
-    def add_message(self, role: str, text: str, source: str = "text") -> None:
+    def add_message(
+        self,
+        role: str,
+        text: str,
+        source: str = "text",
+        display_text: str | None = None,
+    ) -> None:
         with self._lock:
-            self.messages.append(ConversationMessage(role=role, text=text, source=source))
+            self.messages.append(
+                ConversationMessage(
+                    role=role,
+                    text=text,
+                    source=source,
+                    display_text=display_text,
+                )
+            )
 
     def add_event(self, kind: str, message: str, payload: Dict[str, Any] | None = None) -> None:
         with self._lock:
@@ -133,6 +147,7 @@ class AppState:
                     {
                         "role": message.role,
                         "text": message.text,
+                        "display_text": message.display_text,
                         "source": message.source,
                         "timestamp": message.timestamp,
                     }

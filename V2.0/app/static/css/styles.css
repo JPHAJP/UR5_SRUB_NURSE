@@ -75,6 +75,34 @@ body {
     line-height: 1.65;
 }
 
+.network-banner {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.network-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(15, 33, 51, 0.06);
+    color: var(--muted);
+    border: 1px solid rgba(14, 55, 92, 0.08);
+}
+
+.network-status.is-ok {
+    background: rgba(21, 122, 110, 0.12);
+    color: var(--accent-strong);
+}
+
+.network-status.is-warning {
+    background: rgba(184, 92, 56, 0.12);
+    color: var(--warning);
+}
+
 .hero-actions,
 .status-actions,
 .chat-form {
@@ -95,6 +123,11 @@ body {
 
 .grid-bottom {
     grid-template-columns: 1.4fr 1fr;
+}
+
+.grid-diagnostics {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    margin-top: 24px;
 }
 
 .panel {
@@ -172,8 +205,7 @@ body {
     flex-wrap: wrap;
 }
 
-.conversation-log,
-.events-log {
+.conversation-log {
     min-height: 320px;
     max-height: 420px;
     overflow-y: auto;
@@ -183,8 +215,7 @@ body {
     padding-right: 6px;
 }
 
-.message,
-.event {
+.message {
     padding: 14px 16px;
     border-radius: 16px;
     line-height: 1.55;
@@ -199,13 +230,54 @@ body {
     background: rgba(15, 33, 51, 0.06);
 }
 
-.event {
-    background: rgba(15, 33, 51, 0.05);
+.signal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
-.event.safety_fault {
-    background: rgba(168, 51, 51, 0.12);
-    border: 1px solid rgba(168, 51, 51, 0.2);
+.signal-card {
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(245, 249, 252, 0.92);
+    border: 1px solid rgba(14, 55, 92, 0.08);
+    min-height: 92px;
+}
+
+.signal-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.signal-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #aebdca;
+    box-shadow: 0 0 0 6px rgba(174, 189, 202, 0.18);
+    flex: 0 0 auto;
+}
+
+.signal-dot.is-green {
+    background: #1e9b63;
+    box-shadow: 0 0 0 6px rgba(30, 155, 99, 0.18);
+}
+
+.signal-dot.is-yellow {
+    background: #d39a24;
+    box-shadow: 0 0 0 6px rgba(211, 154, 36, 0.18);
+}
+
+.signal-dot.is-red {
+    background: #c43d3d;
+    box-shadow: 0 0 0 6px rgba(196, 61, 61, 0.18);
+}
+
+.signal-message {
+    color: var(--muted);
+    line-height: 1.55;
 }
 
 button,
@@ -241,6 +313,12 @@ button.danger {
     color: var(--danger);
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
 .chat-form {
     margin-top: 18px;
 }
@@ -259,6 +337,34 @@ button.danger {
     border-radius: 16px;
     background: rgba(15, 33, 51, 0.04);
     overflow-x: auto;
+}
+
+.diagnostic-copy {
+    max-width: none;
+    margin-bottom: 18px;
+}
+
+.diagnostic-result {
+    margin-top: 16px;
+}
+
+.diagnostic-result strong {
+    display: block;
+    margin-top: 10px;
+}
+
+.diagnostic-panel .status-actions button {
+    min-width: 190px;
+}
+
+.diagnostic-result pre {
+    margin: 10px 0 0;
+    min-height: 92px;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(15, 33, 51, 0.04);
+    color: var(--text);
+    white-space: pre-wrap;
 }
 
 @media (max-width: 1080px) {
