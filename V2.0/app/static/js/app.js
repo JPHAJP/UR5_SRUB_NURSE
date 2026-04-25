@@ -206,8 +206,9 @@ function renderDepthPanel(depthData, calibrationData) {
   const diagnostics = latestDepthDiagnostics || {};
   const calibration = latestDepthCalibration || {};
   const points = diagnostics.points || [];
+  const recovery = diagnostics.camera_recovery || {};
   const depthComp = calibration.depth_compensation || diagnostics.depth_compensation || {};
-  const transform = calibration.camera_to_robot || diagnostics.camera_to_robot || {};
+  const transform = calibration.tcp_to_camera || diagnostics.tcp_to_camera || calibration.camera_to_robot || diagnostics.camera_to_robot || {};
   const robotReference = calibration.robot_reference || null;
 
   stateEls.depthBackend.textContent = `Backend: ${calibration.backend || diagnostics.source || "hp60c_ros2"}`;
@@ -249,7 +250,7 @@ function renderDepthPanel(depthData, calibrationData) {
 
   stateEls.cameraTransformSummary.textContent = [
     `Configurada: ${transform.configured ? "si" : "no"}`,
-    `Traslacion: ${(transform.translation_mm || []).join(", ") || "0, 0, 0"}`,
+    `TCP -> camara: ${(transform.translation_mm || []).join(", ") || "55, -30, 0"}`,
     `Rotacion RPY: ${(transform.rotation_rpy_deg || []).join(", ") || "0, 0, 0"}`,
   ].join("\n");
 
@@ -258,7 +259,12 @@ function renderDepthPanel(depthData, calibrationData) {
     diagnostics.intrinsics_ok ? "CameraInfo recibido." : "Falta camera_info.",
     diagnostics.alignment_ok ? "RGB y depth alineados." : "RGB y depth no alineados todavia.",
     robotReference ? `Robot Z: ${formatNumber(robotReference.robot_z_mm, 2)} mm` : "Sin referencia actual del robot.",
-  ].join("\n");
+    recovery.state ? `Recovery: ${recovery.state}` : "",
+    recovery.next_retry_in_s !== null && recovery.next_retry_in_s !== undefined
+      ? `Reintento watchdog: ${formatNumber(recovery.next_retry_in_s, 1)} s`
+      : "",
+    recovery.last_driver_issue ? `Driver: ${recovery.last_driver_issue}` : "",
+  ].filter(Boolean).join("\n");
 
   syncNumericInput(stateEls.depthGainInput, depthComp.gain, 6);
   syncNumericInput(stateEls.depthOffsetInput, depthComp.offset_mm, 3);

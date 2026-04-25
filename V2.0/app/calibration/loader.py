@@ -31,6 +31,12 @@ DEFAULT_CALIBRATION = CameraCalibration.from_dict(
             "matrix_4x4": [],
             "configured": False,
         },
+        "tcp_to_camera": {
+            "translation_mm": [55.0, -30.0, 0.0],
+            "rotation_rpy_deg": [0.0, 0.0, 0.0],
+            "matrix_4x4": [],
+            "configured": True,
+        },
         "depth_compensation": {
             "gain": 1.0,
             "offset_mm": 0.0,

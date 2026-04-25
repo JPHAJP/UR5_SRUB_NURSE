@@ -9,14 +9,21 @@ Aplicacion Flask modular para controlar el UR5 desde una interfaz web moderna, c
   - `30002` comandos
   - `30001` lectura de pose
   - `29999` dashboard/safety
+  - Logs de comandos dashboard configurables con `UR5_DASHBOARD_LOG_COMMANDS`
 - Vision unificada:
   - YOLO con el modelo actual configurable por `VISION_MODEL_PATH`
+  - Device de inferencia configurable por `VISION_DEVICE` (`auto`, `cpu`, `cuda:0`)
+  - Limites de carga configurables con `VISION_INFERENCE_FPS`, `VISION_PREVIEW_FPS` y `VISION_DEPTH_PREVIEW_FPS`
   - Umbral configurable por `VISION_CONFIDENCE_THRESHOLD` (default `0.50`)
   - Backend principal HP60C V2 por ROS 2 Jazzy
   - Subscripciones a RGB, depth y `camera_info`
   - Promedio central `3x3` al `10%` para diagnostico de profundidad
   - Compensacion de profundidad `gain + offset` calibrable contra la altura real del UR5
-  - La mano/guante tambien se sigue con YOLO usando la clase del modelo
+  - Instrumentos y mano con YOLO
+  - Seguimiento de mano con Z objetivo `HAND_PLANE_Z_MM + HAND_FOLLOW_Z_OFFSET_MM` (default `350 + 200 = 550` mm)
+  - Demo `/hand-demo` en modo `VISION_DETECTOR_MODE=hand_only`, usando solo la clase `Mano` de YOLO
+  - Paro por target/camara viejos con `HAND_TARGET_MAX_AGE_S`, `TRACK_COMMAND_HZ` y `MAX_TRACK_ACCEL_MM_S2`
+  - Transformacion dinamica `base -> TCP -> camara` usando el offset `TCP_TO_CAMERA_TRANSLATION_MM=55,-30,0`
   - Captura ROS2 e inferencia corren en hilos separados
 - Voz con OpenAI:
   - STT: `gpt-4o-mini-transcribe`
@@ -42,7 +49,8 @@ V2.0/
 
 - `rclpy`, `cv_bridge` y los mensajes ROS no se instalan con `pip`.
 - Deben venir del entorno ROS 2 Jazzy del sistema y de la workspace de `ascamera`.
-- La app espera que el nodo HP60C ya este arrancado y publicando:
+- La app puede autoarrancar `ascamera_node` con `ROS_AUTO_LAUNCH_CAMERA=true`.
+- Si prefieres correr la camara por fuera, debe publicar:
   - `/ascamera/camera_publisher/rgb0/image`
   - `/ascamera/camera_publisher/depth0/image_raw`
   - `/ascamera/camera_publisher/rgb0/camera_info`
@@ -51,15 +59,16 @@ V2.0/
 ## Flujo recomendado
 
 1. Copia `V2.0/.env.example` a `V2.0/.env` o usa la raiz `.env`.
-2. Ajusta `VISION_MODEL_PATH`, `UR5_HOST` y los topics ROS si cambiaste el namespace.
-3. Arranca la HP60C V2 desde el bundle o tu entorno ROS 2.
-4. Si necesitas una calibracion planar legacy, corre la demo:
+2. Ajusta `VISION_MODEL_PATH`, `VISION_DEVICE`, los FPS de vision, `UR5_HOST`, la resolucion HP60C y los topics ROS si cambiaste el namespace.
+3. Si SILVIA va a controlar la HP60C, deja `ROS_AUTO_LAUNCH_CAMERA=true`.
+4. Si prefieres fijar la camara por fuera, arrancala desde el bundle o tu entorno ROS 2 y desactiva `ROS_AUTO_LAUNCH_CAMERA`.
+5. Si necesitas una calibracion planar legacy, corre la demo:
 
 ```bash
 python3 V2.0/demo/webcam_calibrator.py
 ```
 
-5. Instala dependencias Python:
+6. Instala dependencias Python:
 
 ```bash
 pip install -r V2.0/requirements.txt
@@ -71,16 +80,81 @@ Si `cv_bridge` falla con un mensaje sobre NumPy 1.x vs 2.x, fuerza el entorno a 
 pip install --upgrade "numpy<2" -r V2.0/requirements.txt
 ```
 
-6. Arranca la app:
+Si quieres forzar GPU NVIDIA con una build compatible de PyTorch para drivers CUDA 12.1/12.2:
+
+```bash
+./venv/bin/pip install --upgrade --force-reinstall \
+  torch==2.3.1 torchvision==0.18.1 \
+  --index-url https://download.pytorch.org/whl/cu121
+```
+
+Para bajar carga de CPU/GPU sin tocar codigo, empieza con:
+
+```bash
+VISION_INFERENCE_FPS=8
+VISION_PREVIEW_FPS=8
+VISION_DEPTH_PREVIEW_FPS=4
+ROS_CAMERA_NODE_FPS=10
+ROS_CAMERA_STARTUP_GRACE_S=8
+ROS_CAMERA_STALL_TIMEOUT_S=3
+ROS_CAMERA_NO_CAMERA_INFO_TIMEOUT_S=4
+ROS_CAMERA_HARD_RESTART_TIMEOUT_S=6
+ROS_CAMERA_HEALTHY_RESET_S=20
+ROS_CAMERA_BACKOFF_SEQUENCE_S=2,5,10,20
+VISION_DETECTOR_MODE=full
+HAND_FOLLOW_Z_OFFSET_MM=200
+HAND_TARGET_MAX_AGE_S=0.5
+TRACK_COMMAND_HZ=10
+MAX_TRACK_ACCEL_MM_S2=300
+UR5_DASHBOARD_LOG_COMMANDS=false
+```
+
+7. Arranca la app:
 
 ```bash
 python3 V2.0/run.py
 ```
 
-7. Abre la app:
+8. Abre la app:
 
 - En la misma maquina: `http://localhost:5050`
 - Desde otro equipo en la red: `http://<IP-LAN-DEL-SERVIDOR>:5050`
+
+9. En `Profundidad HP60C`, verifica que aparezcan `CameraInfo recibido` y `RGB y depth alineados`.
+10. Deja la transformacion TCP-camara en `[55, -30, 0]` mm y RPY `[0, 0, 0]` si los ejes estan alineados.
+11. Si la profundidad tiene sesgo, captura muestras, ajusta `gain/offset` y guarda la calibracion.
+12. Usa `Seguir Mano`; YOLO toma la deteccion `Mano` y el UR5e sigue el centro de la caja manteniendo Z TCP en `plano_mano + 200 mm`.
+
+## Watchdog HP60C y USB
+
+- SILVIA ahora vigila la salud real del stream ROS2 y reinicia `ascamera_node` si el proceso sigue vivo pero deja de publicar.
+- El estado se expone en `/api/state` y `/api/vision/depth` dentro de `camera_recovery`.
+- La HP60C detectada en esta maquina es `3482:6723` y hoy cuelga de un hub USB 2.0. Si el watchdog sigue recuperando demasiado seguido, el siguiente paso obligatorio es moverla a un puerto directo o a un hub alimentado.
+
+### Desactivar autosuspend de la HP60C
+
+```bash
+sudo ./V2.0/scripts/install_hp60c_no_autosuspend.sh
+```
+
+### Verificacion operativa
+
+```bash
+lsusb -t
+cat /sys/bus/usb/devices/3-2.3/power/control
+source /opt/ros/jazzy/setup.bash
+source hp60c_portable_bundle/workspace/install/setup.bash
+ros2 topic echo --once /ascamera/camera_publisher/rgb0/camera_info
+tail -f V2.0/data/logs/hp60c_autolaunch.log
+```
+
+## Demo YOLO mano
+
+```bash
+python3 V2.0/run_hand_demo.py
+```
+
+Abre `http://localhost:5050/hand-demo`. Esta ruta muestra RGB crudo, YOLO anotado, depth, calibracion del plano de mano, target XYZ, delta contra el TCP y velocidad enviada. El runner fuerza `VISION_DETECTOR_MODE=hand_only` y `VISION_INFERENCE_FPS=5`, asi que la demo trabaja solo con la clase `Mano` de YOLO.
 
 ## Cloudflare Tunnel
 
@@ -134,4 +208,4 @@ export FLASK_PORT=5051
 - El electroiman usa `DO0` por defecto.
 - Si el robot entra en fault de safety, la app bloquea los modos automaticos hasta que un operador lo libere manualmente.
 - El dashboard principal muestra solo RGB; la profundidad se usa internamente para coordenadas y calibracion.
-- La tarjeta `Profundidad HP60C` permite capturar muestras robot-vs-camara, ajustar `gain/offset` y guardar la calibracion persistente.
+- La tarjeta `Profundidad HP60C` permite capturar muestras robot-vs-camara, ajustar `gain/offset`, configurar TCP-camara y guardar la calibracion persistente.

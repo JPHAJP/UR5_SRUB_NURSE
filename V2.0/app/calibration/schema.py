@@ -168,6 +168,7 @@ class CameraCalibration:
     topics: Dict[str, str] = field(default_factory=dict)
     intrinsics: Dict[str, CameraIntrinsics] = field(default_factory=dict)
     camera_to_robot: CameraTransformCalibration = field(default_factory=CameraTransformCalibration)
+    tcp_to_camera: CameraTransformCalibration = field(default_factory=CameraTransformCalibration)
     depth_compensation: DepthCompensationCalibration = field(default_factory=DepthCompensationCalibration)
 
     @classmethod
@@ -184,6 +185,7 @@ class CameraCalibration:
                 "depth": CameraIntrinsics.from_dict(dict(intrinsics_raw.get("depth", {}))),
             },
             camera_to_robot=CameraTransformCalibration.from_dict(dict(data.get("camera_to_robot", {}))),
+            tcp_to_camera=CameraTransformCalibration.from_dict(dict(data.get("tcp_to_camera", {}))),
             depth_compensation=DepthCompensationCalibration.from_dict(dict(data.get("depth_compensation", {}))),
         )
 
@@ -199,5 +201,6 @@ class CameraCalibration:
                 "depth": self.intrinsics.get("depth", CameraIntrinsics()).to_dict(),
             },
             "camera_to_robot": self.camera_to_robot.to_dict(),
+            "tcp_to_camera": self.tcp_to_camera.to_dict(),
             "depth_compensation": self.depth_compensation.to_dict(),
         }

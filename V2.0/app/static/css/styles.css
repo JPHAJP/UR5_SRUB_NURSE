@@ -134,6 +134,22 @@ body {
     margin-top: 24px;
 }
 
+.hand-demo-grid {
+    grid-template-columns: 1.25fr 1fr;
+}
+
+.hand-demo-tools-grid {
+    grid-template-columns: 1fr;
+}
+
+.hand-demo-feed-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.hand-demo-status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .panel {
     padding: 22px;
 }
@@ -475,6 +491,7 @@ button:disabled {
 @media (max-width: 1080px) {
     .grid-top,
     .grid-bottom,
+    .hand-demo-grid,
     .hero {
         grid-template-columns: 1fr;
         flex-direction: column;

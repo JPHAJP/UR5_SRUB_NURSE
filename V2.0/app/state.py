@@ -36,6 +36,7 @@ class AppState:
         self.safety_meta: Dict[str, Any] = {}
         self.robot_status: Dict[str, Any] = {}
         self.vision_status: Dict[str, Any] = {}
+        self.tracking_status: Dict[str, Any] = {}
         self.last_detections: List[Dict[str, Any]] = []
         self.hand_target: Optional[Dict[str, Any]] = None
         self.object_target: Optional[Dict[str, Any]] = None
@@ -113,6 +114,10 @@ class AppState:
         with self._lock:
             self.vision_status = status
 
+    def set_tracking_status(self, status: Dict[str, Any]) -> None:
+        with self._lock:
+            self.tracking_status = status
+
     def set_detections(self, detections: List[Dict[str, Any]]) -> None:
         with self._lock:
             self.last_detections = detections
@@ -138,6 +143,7 @@ class AppState:
                 "safety_meta": self.safety_meta,
                 "robot_status": self.robot_status,
                 "vision_status": self.vision_status,
+                "tracking_status": self.tracking_status,
                 "detections": list(self.last_detections),
                 "hand_target": self.hand_target,
                 "object_target": self.object_target,

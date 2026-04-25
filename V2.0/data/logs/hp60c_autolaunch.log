@@ -1,0 +1,308 @@
+[INFO] [1777147509.791868270] [ascamera.camera_publisher]: get depth_width 640
+[INFO] [1777147509.791957814] [ascamera.camera_publisher]: get depth_height 480
+[INFO] [1777147509.791966041] [ascamera.camera_publisher]: get rgb_width 640
+[INFO] [1777147509.791972839] [ascamera.camera_publisher]: get rgb_height 480
+[INFO] [1777147509.791978633] [ascamera.camera_publisher]: get set_fps 10
+[INFO] [1777147509.791984484] [ascamera.camera_publisher]: get pub_tfTree 1
+[INFO] [1777147509.791991060] [ascamera.camera_publisher]: hello world angstrong camera ros2 node
+[INFO] [1777147509.792049785] [ascamera.camera_publisher]: 2026-04-25 14:05:09[INFO] [CameraSrv.cpp] [35] [CameraSrv] Angstrong camera server
+[INFO] [1777147509.792067584] [ascamera.camera_publisher]: 2026-04-25 14:05:09[INFO] [CameraSrv.cpp] [45] [CameraSrv] Angstrong camera sdk version:v1.2.28.20241021
+[INFO] [1777147510.795900475] [ascamera.camera_publisher]: 2026-04-25 14:05:10[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147510.796207945] [ascamera.camera_publisher]: 2026-04-25 14:05:10[INFO] [CameraSrv.cpp] [149] [onAttached] this is a new attach device, create and open it
+[INFO] [1777147511.995456258] [ascamera.camera_publisher]: 2026-04-25 14:05:11[INFO] [CameraSrv.cpp] [158] [onAttached] get model type 9
+[INFO] [1777147511.995836856] [ascamera.camera_publisher]: 2026-04-25 14:05:11[INFO] [CameraSrv.cpp] [352] [getConfigFile] get file: /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147511.995911266] [ascamera.camera_publisher]: 2026-04-25 14:05:11[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:48  port:3  ports:2.3
+[INFO] [1777147511.995930052] [ascamera.camera_publisher]: usb camera
+[INFO] [1777147511.995941182] [ascamera.camera_publisher]: bnum:3
+[INFO] [1777147511.995949155] [ascamera.camera_publisher]: dnum:48
+[INFO] [1777147511.995957967] [ascamera.camera_publisher]: port_numbers:2.3
+[INFO] [1777147511.995966674] [ascamera.camera_publisher]: create a new publisher info set
+[INFO] [1777147512.001676946] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:48  port:3  ports:2.3
+[INFO] [1777147512.001815932] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [TfTreeFrameIdInfo.cpp] [11] [TfTreeFrameIdInfo] Namespace /ascamera
+[INFO] [1777147512.008456261] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1830] [getConfigurationParameters] according to the configuration file.
+[INFO] [1777147512.008677797] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1535] [parseConfigFileParameter] moduleName:AS_CAM_HP60C
+[INFO] [1777147512.008745564] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1562] [parseConfigFileParameter] Parsing config file /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147512.009187937] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1627] [parseConfigFileParameter] configuration protocol Version: v2.x
+[INFO] [1777147512.009201177] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1638] [parseConfigFileParameter] configuration Version: v2.0.0.20230704
+[INFO] [1777147512.010576601] [ascamera.camera_publisher]: 2026-04-25 14:05:12[INFO] [CameraHp60c.cpp] [1803] [setParamersAfterOpenCam] Camera confiParaEnable true, setting configuration parameter
+[INFO] [1777147513.496089103] [ascamera.camera_publisher]: 2026-04-25 14:05:13[ERROR] [XuCmdCameraHp60c.cpp] [454] [getMjpegSize] get mjpeg from xu command failed
+[INFO] [1777147513.496291508] [ascamera.camera_publisher]: 2026-04-25 14:05:13[INFO] [XuCmdCameraHp60c.cpp] [458] [getMjpegSize] mjpeg size:640x480
+[INFO] [1777147513.496338176] [ascamera.camera_publisher]: camera opened
+[INFO] [1777147513.496355938] [ascamera.camera_publisher]: get config info, ret 0, is_Registration 1
+[INFO] [1777147513.497823040] [ascamera.camera_publisher]: #camera[0x5e7ce25f3600] SN[ASC60CF42000559]'s firmware version:DLS_VERc20865=:V01.09_2024110714:V01.19_2024110714:L01
+[INFO] [1777147513.498565832] [ascamera.camera_publisher]: set depth resolution: 640 x 480 @ 10fps
+[INFO] [1777147513.498750497] [ascamera.camera_publisher]: set rgb resolution: 640 x 480 @ 10fps
+[INFO] [1777147513.501570755] [ascamera.camera_publisher]: 2026-04-25 14:05:13[INFO] [CameraHp60c.cpp] [259] [startStreaming] start streaming
+[INFO] [1777147513.501794960] [ascamera.camera_publisher]: 2026-04-25 14:05:13[INFO] [CameraSrv.cpp] [206] [onAttached] attached end
+[INFO] [1777147515.322246300] [ascamera.camera_publisher]: 2026-04-25 14:05:15[INFO] [CameraHp60c.cpp] [911] [setInternalParameter] mjpeg info: size(640x480)
+[INFO] [1777147515.498877323] [ascamera.camera_publisher]: SN [ ASC60CF42000559 ]'s parameter:
+[INFO] [1777147515.499102196] [ascamera.camera_publisher]: irfx: 422.909
+[INFO] [1777147515.499118232] [ascamera.camera_publisher]: irfy: 422.371
+[INFO] [1777147515.499127561] [ascamera.camera_publisher]: ircx: 317.452
+[INFO] [1777147515.499135833] [ascamera.camera_publisher]: ircy: 244.268
+[INFO] [1777147515.499144476] [ascamera.camera_publisher]: rgbfx: 564.297
+[INFO] [1777147515.499152721] [ascamera.camera_publisher]: rgbfy: 563.772
+[INFO] [1777147515.499162163] [ascamera.camera_publisher]: rgbcx: 331.095
+[INFO] [1777147515.499177794] [ascamera.camera_publisher]: rgbcy: 262.478
+
+[INFO] [1777147515.661773424] [ascamera.camera_publisher]: 2026-04-25 14:05:15[ERROR] [UvcCamera.cpp] [285] [cmdMsg] do usb contorl transfer failed, ret -1
+[INFO] [1777147515.662378711] [ascamera.camera_publisher]: 2026-04-25 14:05:15[ERROR] [XuCmdCameraHp60c.cpp] [34] [xucmd_write] write command, ret: -2
+[INFO] [1777147515.662419661] [ascamera.camera_publisher]: 2026-04-25 14:05:15[ERROR] [XuCmdCameraHp60c.cpp] [377] [setGain] set Gain(G) failed
+[INFO] [1777147515.662437380] [ascamera.camera_publisher]: 2026-04-25 14:05:15[INFO] [CameraHp60c.cpp] [1148] [streamCallback] set gain ret -88, gain 4
+[INFO] [1777147515.681942841] [ascamera.camera_publisher]: 2026-04-25 14:05:15[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147515.683386603] [ascamera.camera_publisher]: 2026-04-25 14:05:15[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:48  port:3  ports:2.3
+[INFO] [1777147515.683433294] [ascamera.camera_publisher]: 2026-04-25 14:05:15[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147515.683449880] [ascamera.camera_publisher]: 2026-04-25 14:05:15[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147515.683747782] [ascamera.camera_publisher]: publish depth info
+[INFO] [1777147515.686053793] [ascamera.camera_publisher]: publish color(rgb) info
+[INFO] [1777147515.689779081] [ascamera.camera_publisher]: publish tf info
+[INFO] [1777147524.336012721] [ascamera.camera_publisher]: 2026-04-25 14:05:24[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147524.336118161] [ascamera.camera_publisher]: 2026-04-25 14:05:24[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:48  port:3  ports:2.3
+[INFO] [1777147524.336135977] [ascamera.camera_publisher]: 2026-04-25 14:05:24[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147524.336145183] [ascamera.camera_publisher]: 2026-04-25 14:05:24[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147535.172540810] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1777147537.848645615] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraSrv.cpp] [78] [stop] stop listener monitor
+[INFO] [1777147537.848682946] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraSrv.cpp] [81] [stop] stop and close the camera
+[INFO] [1777147537.848687354] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraSrv.cpp] [84] [stop] close camera idx 0
+[INFO] [1777147537.848706582] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraHp60c.cpp] [278] [stopStreaming] stop streaming
+[INFO] [1777147537.849215076] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraSrv.cpp] [96] [stop] destory camera success
+[INFO] [1777147537.849235527] [ascamera.camera_publisher]: 2026-04-25 14:05:37[INFO] [CameraSrv.cpp] [52] [~CameraSrv] Angstrong camera server exit
+[INFO] [1777147537.849244567] [ascamera.camera_publisher]: angstrong camera ros2 node shutdown
+[INFO] [1777147576.568668687] [ascamera.camera_publisher]: get depth_width 640
+[INFO] [1777147576.568753397] [ascamera.camera_publisher]: get depth_height 480
+[INFO] [1777147576.568760749] [ascamera.camera_publisher]: get rgb_width 640
+[INFO] [1777147576.568765502] [ascamera.camera_publisher]: get rgb_height 480
+[INFO] [1777147576.568769870] [ascamera.camera_publisher]: get set_fps 10
+[INFO] [1777147576.568774444] [ascamera.camera_publisher]: get pub_tfTree 1
+[INFO] [1777147576.568779442] [ascamera.camera_publisher]: hello world angstrong camera ros2 node
+[INFO] [1777147576.568832365] [ascamera.camera_publisher]: 2026-04-25 14:06:16[INFO] [CameraSrv.cpp] [35] [CameraSrv] Angstrong camera server
+[INFO] [1777147576.568847510] [ascamera.camera_publisher]: 2026-04-25 14:06:16[INFO] [CameraSrv.cpp] [45] [CameraSrv] Angstrong camera sdk version:v1.2.28.20241021
+[INFO] [1777147577.572589784] [ascamera.camera_publisher]: 2026-04-25 14:06:17[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147577.572871470] [ascamera.camera_publisher]: 2026-04-25 14:06:17[INFO] [CameraSrv.cpp] [149] [onAttached] this is a new attach device, create and open it
+[INFO] [1777147578.762485110] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraSrv.cpp] [158] [onAttached] get model type 9
+[INFO] [1777147578.762925450] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraSrv.cpp] [352] [getConfigFile] get file: /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147578.763010420] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:49  port:3  ports:2.3
+[INFO] [1777147578.763027566] [ascamera.camera_publisher]: usb camera
+[INFO] [1777147578.763037805] [ascamera.camera_publisher]: bnum:3
+[INFO] [1777147578.763043034] [ascamera.camera_publisher]: dnum:49
+[INFO] [1777147578.763048146] [ascamera.camera_publisher]: port_numbers:2.3
+[INFO] [1777147578.763056365] [ascamera.camera_publisher]: create a new publisher info set
+[INFO] [1777147578.769840240] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:49  port:3  ports:2.3
+[INFO] [1777147578.770009912] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [TfTreeFrameIdInfo.cpp] [11] [TfTreeFrameIdInfo] Namespace /ascamera
+[INFO] [1777147578.775842105] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1830] [getConfigurationParameters] according to the configuration file.
+[INFO] [1777147578.775976382] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1535] [parseConfigFileParameter] moduleName:AS_CAM_HP60C
+[INFO] [1777147578.776031468] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1562] [parseConfigFileParameter] Parsing config file /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147578.776170139] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1627] [parseConfigFileParameter] configuration protocol Version: v2.x
+[INFO] [1777147578.776180553] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1638] [parseConfigFileParameter] configuration Version: v2.0.0.20230704
+[INFO] [1777147578.777792432] [ascamera.camera_publisher]: 2026-04-25 14:06:18[INFO] [CameraHp60c.cpp] [1803] [setParamersAfterOpenCam] Camera confiParaEnable true, setting configuration parameter
+[INFO] [1777147580.263037266] [ascamera.camera_publisher]: 2026-04-25 14:06:20[ERROR] [XuCmdCameraHp60c.cpp] [454] [getMjpegSize] get mjpeg from xu command failed
+[INFO] [1777147580.263319519] [ascamera.camera_publisher]: 2026-04-25 14:06:20[INFO] [XuCmdCameraHp60c.cpp] [458] [getMjpegSize] mjpeg size:640x480
+[INFO] [1777147580.263342287] [ascamera.camera_publisher]: camera opened
+[INFO] [1777147580.263356217] [ascamera.camera_publisher]: get config info, ret 0, is_Registration 1
+[INFO] [1777147580.264805620] [ascamera.camera_publisher]: #camera[0x55a30f544820] SN[ASC60CF42000559]'s firmware version:DLS_VERc20865=:V01.09_2024110714:V01.19_2024110714:L01
+[INFO] [1777147580.265775708] [ascamera.camera_publisher]: set depth resolution: 640 x 480 @ 10fps
+[INFO] [1777147580.265988292] [ascamera.camera_publisher]: set rgb resolution: 640 x 480 @ 10fps
+[INFO] [1777147580.268741511] [ascamera.camera_publisher]: 2026-04-25 14:06:20[INFO] [CameraHp60c.cpp] [259] [startStreaming] start streaming
+[INFO] [1777147580.268888966] [ascamera.camera_publisher]: 2026-04-25 14:06:20[INFO] [CameraSrv.cpp] [206] [onAttached] attached end
+[INFO] [1777147582.110341064] [ascamera.camera_publisher]: 2026-04-25 14:06:22[INFO] [CameraHp60c.cpp] [911] [setInternalParameter] mjpeg info: size(640x480)
+[INFO] [1777147582.268467291] [ascamera.camera_publisher]: SN [ ASC60CF42000559 ]'s parameter:
+[INFO] [1777147582.268694304] [ascamera.camera_publisher]: irfx: 422.909
+[INFO] [1777147582.268723243] [ascamera.camera_publisher]: irfy: 422.371
+[INFO] [1777147582.268730348] [ascamera.camera_publisher]: ircx: 317.452
+[INFO] [1777147582.268740986] [ascamera.camera_publisher]: ircy: 244.268
+[INFO] [1777147582.268749575] [ascamera.camera_publisher]: rgbfx: 564.297
+[INFO] [1777147582.268757091] [ascamera.camera_publisher]: rgbfy: 563.772
+[INFO] [1777147582.268764385] [ascamera.camera_publisher]: rgbcx: 331.095
+[INFO] [1777147582.268772871] [ascamera.camera_publisher]: rgbcy: 262.478
+
+[INFO] [1777147582.455967214] [ascamera.camera_publisher]: 2026-04-25 14:06:22[INFO] [CameraHp60c.cpp] [1148] [streamCallback] set gain ret 0, gain 4
+[INFO] [1777147582.471439659] [ascamera.camera_publisher]: publish depth info
+[INFO] [1777147582.473172222] [ascamera.camera_publisher]: publish color(rgb) info
+[INFO] [1777147582.475269228] [ascamera.camera_publisher]: publish tf info
+[INFO] [1777147587.489903118] [ascamera.camera_publisher]: 2026-04-25 14:06:27[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147587.489972340] [ascamera.camera_publisher]: 2026-04-25 14:06:27[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:49  port:3  ports:2.3
+[INFO] [1777147587.489990835] [ascamera.camera_publisher]: 2026-04-25 14:06:27[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147587.490001466] [ascamera.camera_publisher]: 2026-04-25 14:06:27[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147596.090635995] [ascamera.camera_publisher]: 2026-04-25 14:06:36[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147596.090809781] [ascamera.camera_publisher]: 2026-04-25 14:06:36[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:49  port:3  ports:2.3
+[INFO] [1777147596.090820353] [ascamera.camera_publisher]: 2026-04-25 14:06:36[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147596.090828833] [ascamera.camera_publisher]: 2026-04-25 14:06:36[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147608.525676277] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1777147611.807579299] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [78] [stop] stop listener monitor
+[INFO] [1777147611.807689237] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [81] [stop] stop and close the camera
+[INFO] [1777147611.807716883] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [84] [stop] close camera idx 0
+[INFO] [1777147611.807732791] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraHp60c.cpp] [278] [stopStreaming] stop streaming
+[INFO] [1777147611.808446975] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [96] [stop] destory camera success
+[INFO] [1777147611.808513878] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [52] [~CameraSrv] Angstrong camera server exit
+[INFO] [1777147611.808558021] [ascamera.camera_publisher]: angstrong camera ros2 node shutdown
+[INFO] [1777147611.810055400] [ascamera.camera_publisher]: get depth_width 640
+[INFO] [1777147611.810298505] [ascamera.camera_publisher]: get depth_height 480
+[INFO] [1777147611.810326956] [ascamera.camera_publisher]: get rgb_width 640
+[INFO] [1777147611.810334562] [ascamera.camera_publisher]: get rgb_height 480
+[INFO] [1777147611.810340572] [ascamera.camera_publisher]: get set_fps 10
+[INFO] [1777147611.810345901] [ascamera.camera_publisher]: get pub_tfTree 1
+[INFO] [1777147611.810356259] [ascamera.camera_publisher]: hello world angstrong camera ros2 node
+[INFO] [1777147611.810505921] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [35] [CameraSrv] Angstrong camera server
+[INFO] [1777147611.810546098] [ascamera.camera_publisher]: 2026-04-25 14:06:51[INFO] [CameraSrv.cpp] [45] [CameraSrv] Angstrong camera sdk version:v1.2.28.20241021
+[INFO] [1777147612.819038774] [ascamera.camera_publisher]: 2026-04-25 14:06:52[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147612.819407916] [ascamera.camera_publisher]: 2026-04-25 14:06:52[INFO] [CameraSrv.cpp] [149] [onAttached] this is a new attach device, create and open it
+[INFO] [1777147614.012466315] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraSrv.cpp] [158] [onAttached] get model type 9
+[INFO] [1777147614.012781397] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraSrv.cpp] [352] [getConfigFile] get file: /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147614.012837145] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:50  port:3  ports:2.3
+[INFO] [1777147614.012848583] [ascamera.camera_publisher]: usb camera
+[INFO] [1777147614.012855356] [ascamera.camera_publisher]: bnum:3
+[INFO] [1777147614.012860738] [ascamera.camera_publisher]: dnum:50
+[INFO] [1777147614.012865207] [ascamera.camera_publisher]: port_numbers:2.3
+[INFO] [1777147614.012870481] [ascamera.camera_publisher]: create a new publisher info set
+[INFO] [1777147614.017557341] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:50  port:3  ports:2.3
+[INFO] [1777147614.017653382] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [TfTreeFrameIdInfo.cpp] [11] [TfTreeFrameIdInfo] Namespace /ascamera
+[INFO] [1777147614.023918362] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1830] [getConfigurationParameters] according to the configuration file.
+[INFO] [1777147614.024079445] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1535] [parseConfigFileParameter] moduleName:AS_CAM_HP60C
+[INFO] [1777147614.024169062] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1562] [parseConfigFileParameter] Parsing config file /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147614.024417925] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1627] [parseConfigFileParameter] configuration protocol Version: v2.x
+[INFO] [1777147614.024447544] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1638] [parseConfigFileParameter] configuration Version: v2.0.0.20230704
+[INFO] [1777147614.025953651] [ascamera.camera_publisher]: 2026-04-25 14:06:54[INFO] [CameraHp60c.cpp] [1803] [setParamersAfterOpenCam] Camera confiParaEnable true, setting configuration parameter
+[INFO] [1777147615.511466426] [ascamera.camera_publisher]: 2026-04-25 14:06:55[ERROR] [XuCmdCameraHp60c.cpp] [454] [getMjpegSize] get mjpeg from xu command failed
+[INFO] [1777147615.511619410] [ascamera.camera_publisher]: 2026-04-25 14:06:55[INFO] [XuCmdCameraHp60c.cpp] [458] [getMjpegSize] mjpeg size:640x480
+[INFO] [1777147615.511629722] [ascamera.camera_publisher]: camera opened
+[INFO] [1777147615.511639067] [ascamera.camera_publisher]: get config info, ret 0, is_Registration 1
+[INFO] [1777147615.512799813] [ascamera.camera_publisher]: #camera[0x56a14c26afd0] SN[ASC60CF42000559]'s firmware version:DLS_VERc20865=:V01.09_2024110714:V01.19_2024110714:L01
+[INFO] [1777147615.513169653] [ascamera.camera_publisher]: set depth resolution: 640 x 480 @ 10fps
+[INFO] [1777147615.513439681] [ascamera.camera_publisher]: set rgb resolution: 640 x 480 @ 10fps
+[INFO] [1777147615.516688393] [ascamera.camera_publisher]: 2026-04-25 14:06:55[INFO] [CameraHp60c.cpp] [259] [startStreaming] start streaming
+[INFO] [1777147615.516899083] [ascamera.camera_publisher]: 2026-04-25 14:06:55[INFO] [CameraSrv.cpp] [206] [onAttached] attached end
+[INFO] [1777147617.376398032] [ascamera.camera_publisher]: 2026-04-25 14:06:57[INFO] [CameraHp60c.cpp] [911] [setInternalParameter] mjpeg info: size(640x480)
+[INFO] [1777147617.513494752] [ascamera.camera_publisher]: SN [ ASC60CF42000559 ]'s parameter:
+[INFO] [1777147617.514042227] [ascamera.camera_publisher]: irfx: 422.909
+[INFO] [1777147617.514064405] [ascamera.camera_publisher]: irfy: 422.371
+[INFO] [1777147617.514077889] [ascamera.camera_publisher]: ircx: 317.452
+[INFO] [1777147617.514093086] [ascamera.camera_publisher]: ircy: 244.268
+[INFO] [1777147617.514104025] [ascamera.camera_publisher]: rgbfx: 564.297
+[INFO] [1777147617.514118391] [ascamera.camera_publisher]: rgbfy: 563.772
+[INFO] [1777147617.514126394] [ascamera.camera_publisher]: rgbcx: 331.095
+[INFO] [1777147617.514145183] [ascamera.camera_publisher]: rgbcy: 262.478
+
+[INFO] [1777147617.525176368] [ascamera.camera_publisher]: publish depth info
+[INFO] [1777147617.526816452] [ascamera.camera_publisher]: publish color(rgb) info
+[INFO] [1777147617.528827338] [ascamera.camera_publisher]: publish tf info
+[INFO] [1777147617.714759429] [ascamera.camera_publisher]: 2026-04-25 14:06:57[INFO] [CameraHp60c.cpp] [1148] [streamCallback] set gain ret 0, gain 4
+[INFO] [1777147620.666379825] [ascamera.camera_publisher]: 2026-04-25 14:07:00[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147620.666759064] [ascamera.camera_publisher]: 2026-04-25 14:07:00[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:50  port:3  ports:2.3
+[INFO] [1777147620.666798149] [ascamera.camera_publisher]: 2026-04-25 14:07:00[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147620.666816880] [ascamera.camera_publisher]: 2026-04-25 14:07:00[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147629.095532373] [ascamera.camera_publisher]: 2026-04-25 14:07:09[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147629.095743825] [ascamera.camera_publisher]: 2026-04-25 14:07:09[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:50  port:3  ports:2.3
+[INFO] [1777147629.095777750] [ascamera.camera_publisher]: 2026-04-25 14:07:09[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147629.095789240] [ascamera.camera_publisher]: 2026-04-25 14:07:09[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147641.634870837] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1777147643.446237144] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraSrv.cpp] [78] [stop] stop listener monitor
+[INFO] [1777147643.446316518] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraSrv.cpp] [81] [stop] stop and close the camera
+[INFO] [1777147643.446324941] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraSrv.cpp] [84] [stop] close camera idx 0
+[INFO] [1777147643.446335022] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraHp60c.cpp] [278] [stopStreaming] stop streaming
+[INFO] [1777147643.453458946] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraSrv.cpp] [96] [stop] destory camera success
+[INFO] [1777147643.453890843] [ascamera.camera_publisher]: 2026-04-25 14:07:23[INFO] [CameraSrv.cpp] [52] [~CameraSrv] Angstrong camera server exit
+[INFO] [1777147643.454828626] [ascamera.camera_publisher]: angstrong camera ros2 node shutdown
+[INFO] [1777147649.878784929] [ascamera.camera_publisher]: get depth_width 640
+[INFO] [1777147649.878856816] [ascamera.camera_publisher]: get depth_height 480
+[INFO] [1777147649.878863316] [ascamera.camera_publisher]: get rgb_width 640
+[INFO] [1777147649.878867818] [ascamera.camera_publisher]: get rgb_height 480
+[INFO] [1777147649.878871935] [ascamera.camera_publisher]: get set_fps 10
+[INFO] [1777147649.878876393] [ascamera.camera_publisher]: get pub_tfTree 1
+[INFO] [1777147649.878880893] [ascamera.camera_publisher]: hello world angstrong camera ros2 node
+[INFO] [1777147649.878925854] [ascamera.camera_publisher]: 2026-04-25 14:07:29[INFO] [CameraSrv.cpp] [35] [CameraSrv] Angstrong camera server
+[INFO] [1777147649.878938513] [ascamera.camera_publisher]: 2026-04-25 14:07:29[INFO] [CameraSrv.cpp] [45] [CameraSrv] Angstrong camera sdk version:v1.2.28.20241021
+[INFO] [1777147650.882709260] [ascamera.camera_publisher]: 2026-04-25 14:07:30[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147650.882787101] [ascamera.camera_publisher]: 2026-04-25 14:07:30[INFO] [CameraSrv.cpp] [149] [onAttached] this is a new attach device, create and open it
+[INFO] [1777147652.065502577] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraSrv.cpp] [158] [onAttached] get model type 9
+[INFO] [1777147652.065637211] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraSrv.cpp] [352] [getConfigFile] get file: /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147652.065664713] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:51  port:3  ports:2.3
+[INFO] [1777147652.065674932] [ascamera.camera_publisher]: usb camera
+[INFO] [1777147652.065681417] [ascamera.camera_publisher]: bnum:3
+[INFO] [1777147652.065687558] [ascamera.camera_publisher]: dnum:51
+[INFO] [1777147652.065693168] [ascamera.camera_publisher]: port_numbers:2.3
+[INFO] [1777147652.065699087] [ascamera.camera_publisher]: create a new publisher info set
+[INFO] [1777147652.068014220] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:51  port:3  ports:2.3
+[INFO] [1777147652.068055684] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [TfTreeFrameIdInfo.cpp] [11] [TfTreeFrameIdInfo] Namespace /ascamera
+[INFO] [1777147652.072062532] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1830] [getConfigurationParameters] according to the configuration file.
+[INFO] [1777147652.072098158] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1535] [parseConfigFileParameter] moduleName:AS_CAM_HP60C
+[INFO] [1777147652.072127904] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1562] [parseConfigFileParameter] Parsing config file /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147652.072221306] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1627] [parseConfigFileParameter] configuration protocol Version: v2.x
+[INFO] [1777147652.072243361] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1638] [parseConfigFileParameter] configuration Version: v2.0.0.20230704
+[INFO] [1777147652.073420826] [ascamera.camera_publisher]: 2026-04-25 14:07:32[INFO] [CameraHp60c.cpp] [1803] [setParamersAfterOpenCam] Camera confiParaEnable true, setting configuration parameter
+[INFO] [1777147653.564276882] [ascamera.camera_publisher]: 2026-04-25 14:07:33[ERROR] [XuCmdCameraHp60c.cpp] [454] [getMjpegSize] get mjpeg from xu command failed
+[INFO] [1777147653.564557803] [ascamera.camera_publisher]: 2026-04-25 14:07:33[INFO] [XuCmdCameraHp60c.cpp] [458] [getMjpegSize] mjpeg size:640x480
+[INFO] [1777147653.564573356] [ascamera.camera_publisher]: camera opened
+[INFO] [1777147653.564581697] [ascamera.camera_publisher]: get config info, ret 0, is_Registration 1
+[INFO] [1777147653.565936475] [ascamera.camera_publisher]: #camera[0x5f5d28ae8810] SN[ASC60CF42000559]'s firmware version:DLS_VERc20865=:V01.09_2024110714:V01.19_2024110714:L01
+[INFO] [1777147653.566494942] [ascamera.camera_publisher]: set depth resolution: 640 x 480 @ 10fps
+[INFO] [1777147653.566728864] [ascamera.camera_publisher]: set rgb resolution: 640 x 480 @ 10fps
+[INFO] [1777147653.569397567] [ascamera.camera_publisher]: 2026-04-25 14:07:33[INFO] [CameraHp60c.cpp] [259] [startStreaming] start streaming
+[INFO] [1777147653.569446799] [ascamera.camera_publisher]: 2026-04-25 14:07:33[INFO] [CameraSrv.cpp] [206] [onAttached] attached end
+[INFO] [1777147655.313368570] [ascamera.camera_publisher]: 2026-04-25 14:07:35[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147655.313437615] [ascamera.camera_publisher]: 2026-04-25 14:07:35[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:51  port:3  ports:2.3
+[INFO] [1777147655.313449140] [ascamera.camera_publisher]: 2026-04-25 14:07:35[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147655.313455362] [ascamera.camera_publisher]: 2026-04-25 14:07:35[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147663.832851281] [ascamera.camera_publisher]: 2026-04-25 14:07:43[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147663.832931579] [ascamera.camera_publisher]: 2026-04-25 14:07:43[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:51  port:3  ports:2.3
+[INFO] [1777147663.832940980] [ascamera.camera_publisher]: 2026-04-25 14:07:43[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147663.832947258] [ascamera.camera_publisher]: 2026-04-25 14:07:43[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147667.619067122] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1777147670.706465271] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraSrv.cpp] [78] [stop] stop listener monitor
+[INFO] [1777147670.706520960] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraSrv.cpp] [81] [stop] stop and close the camera
+[INFO] [1777147670.706525849] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraSrv.cpp] [84] [stop] close camera idx 0
+[INFO] [1777147670.706531817] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraHp60c.cpp] [278] [stopStreaming] stop streaming
+[INFO] [1777147670.706919093] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraSrv.cpp] [96] [stop] destory camera success
+[INFO] [1777147670.706935386] [ascamera.camera_publisher]: 2026-04-25 14:07:50[INFO] [CameraSrv.cpp] [52] [~CameraSrv] Angstrong camera server exit
+[INFO] [1777147671.706632205] [ascamera.camera_publisher]: angstrong camera ros2 node shutdown
+[INFO] [1777147722.249939172] [ascamera.camera_publisher]: get depth_width 640
+[INFO] [1777147722.250205899] [ascamera.camera_publisher]: get depth_height 480
+[INFO] [1777147722.250219149] [ascamera.camera_publisher]: get rgb_width 640
+[INFO] [1777147722.250224391] [ascamera.camera_publisher]: get rgb_height 480
+[INFO] [1777147722.250251665] [ascamera.camera_publisher]: get set_fps 10
+[INFO] [1777147722.250257016] [ascamera.camera_publisher]: get pub_tfTree 1
+[INFO] [1777147722.250266132] [ascamera.camera_publisher]: hello world angstrong camera ros2 node
+[INFO] [1777147722.250446391] [ascamera.camera_publisher]: 2026-04-25 14:08:42[INFO] [CameraSrv.cpp] [35] [CameraSrv] Angstrong camera server
+[INFO] [1777147722.250539203] [ascamera.camera_publisher]: 2026-04-25 14:08:42[INFO] [CameraSrv.cpp] [45] [CameraSrv] Angstrong camera sdk version:v1.2.28.20241021
+[INFO] [1777147723.256977372] [ascamera.camera_publisher]: 2026-04-25 14:08:43[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147723.257062184] [ascamera.camera_publisher]: 2026-04-25 14:08:43[INFO] [CameraSrv.cpp] [149] [onAttached] this is a new attach device, create and open it
+[INFO] [1777147724.449454358] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraSrv.cpp] [158] [onAttached] get model type 9
+[INFO] [1777147724.449757007] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraSrv.cpp] [352] [getConfigFile] get file: /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147724.449797061] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:52  port:3  ports:2.3
+[INFO] [1777147724.449806879] [ascamera.camera_publisher]: usb camera
+[INFO] [1777147724.449814061] [ascamera.camera_publisher]: bnum:3
+[INFO] [1777147724.449818490] [ascamera.camera_publisher]: dnum:52
+[INFO] [1777147724.449822160] [ascamera.camera_publisher]: port_numbers:2.3
+[INFO] [1777147724.449826762] [ascamera.camera_publisher]: create a new publisher info set
+[INFO] [1777147724.453568768] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:52  port:3  ports:2.3
+[INFO] [1777147724.453620226] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [TfTreeFrameIdInfo.cpp] [11] [TfTreeFrameIdInfo] Namespace /ascamera
+[INFO] [1777147724.457925068] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1830] [getConfigurationParameters] according to the configuration file.
+[INFO] [1777147724.457974253] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1535] [parseConfigFileParameter] moduleName:AS_CAM_HP60C
+[INFO] [1777147724.458000615] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1562] [parseConfigFileParameter] Parsing config file /home/jpha/Documents/proyectos/UR5_SRUB_NURSE/hp60c_portable_bundle/workspace/src/ascamera/configurationfiles/hp60c_v2_00_20230704_configEncrypt.json
+[INFO] [1777147724.458078015] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1627] [parseConfigFileParameter] configuration protocol Version: v2.x
+[INFO] [1777147724.458085305] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1638] [parseConfigFileParameter] configuration Version: v2.0.0.20230704
+[INFO] [1777147724.458921370] [ascamera.camera_publisher]: 2026-04-25 14:08:44[INFO] [CameraHp60c.cpp] [1803] [setParamersAfterOpenCam] Camera confiParaEnable true, setting configuration parameter
+[INFO] [1777147725.943261281] [ascamera.camera_publisher]: 2026-04-25 14:08:45[ERROR] [XuCmdCameraHp60c.cpp] [454] [getMjpegSize] get mjpeg from xu command failed
+[INFO] [1777147725.943341154] [ascamera.camera_publisher]: 2026-04-25 14:08:45[INFO] [XuCmdCameraHp60c.cpp] [458] [getMjpegSize] mjpeg size:640x480
+[INFO] [1777147725.943349200] [ascamera.camera_publisher]: camera opened
+[INFO] [1777147725.943354510] [ascamera.camera_publisher]: get config info, ret 0, is_Registration 1
+[INFO] [1777147725.944482207] [ascamera.camera_publisher]: #camera[0x589fb868b810] SN[ASC60CF42000559]'s firmware version:DLS_VERc20865=:V01.09_2024110714:V01.19_2024110714:L01
+[INFO] [1777147725.944715789] [ascamera.camera_publisher]: set depth resolution: 640 x 480 @ 10fps
+[INFO] [1777147725.944867387] [ascamera.camera_publisher]: set rgb resolution: 640 x 480 @ 10fps
+[INFO] [1777147725.946861149] [ascamera.camera_publisher]: 2026-04-25 14:08:45[INFO] [CameraHp60c.cpp] [259] [startStreaming] start streaming
+[INFO] [1777147725.946891188] [ascamera.camera_publisher]: 2026-04-25 14:08:45[INFO] [CameraSrv.cpp] [206] [onAttached] attached end
+[INFO] [1777147727.272698924] [ascamera.camera_publisher]: 2026-04-25 14:08:47[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147727.272794043] [ascamera.camera_publisher]: 2026-04-25 14:08:47[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:52  port:3  ports:2.3
+[INFO] [1777147727.272807979] [ascamera.camera_publisher]: 2026-04-25 14:08:47[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147727.272817861] [ascamera.camera_publisher]: 2026-04-25 14:08:47[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147735.833808873] [ascamera.camera_publisher]: 2026-04-25 14:08:55[INFO] [CameraSrv.cpp] [112] [onAttached] attached
+[INFO] [1777147735.834016186] [ascamera.camera_publisher]: 2026-04-25 14:08:55[INFO] [as_camera_sdk_api.cpp] [276] [AS_SDK_GetCameraAttrs] pid:26403  vid13442 busnum: 3  dev:52  port:3  ports:2.3
+[INFO] [1777147735.834028279] [ascamera.camera_publisher]: 2026-04-25 14:08:55[WARN] [CameraSrv.cpp] [123] [onAttached] this camera exist
+[INFO] [1777147735.834035273] [ascamera.camera_publisher]: 2026-04-25 14:08:55[WARN] [CameraSrv.cpp] [145] [onAttached] this device exist, ignore this event, attached end
+[INFO] [1777147748.480654874] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [1777147753.907537171] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraSrv.cpp] [78] [stop] stop listener monitor
+[INFO] [1777147753.907581632] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraSrv.cpp] [81] [stop] stop and close the camera
+[INFO] [1777147753.907586578] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraSrv.cpp] [84] [stop] close camera idx 0
+[INFO] [1777147753.907593044] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraHp60c.cpp] [278] [stopStreaming] stop streaming
+[INFO] [1777147753.907896280] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraSrv.cpp] [96] [stop] destory camera success
+[INFO] [1777147753.907918684] [ascamera.camera_publisher]: 2026-04-25 14:09:13[INFO] [CameraSrv.cpp] [52] [~CameraSrv] Angstrong camera server exit
+[INFO] [1777147754.907707761] [ascamera.camera_publisher]: angstrong camera ros2 node shutdown

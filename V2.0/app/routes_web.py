@@ -11,6 +11,12 @@ def index():
     return render_template("index.html", settings=config.public_settings())
 
 
+@web_blueprint.get("/hand-demo")
+def hand_demo():
+    config = current_app.extensions["silvia_config"]
+    return render_template("hand_demo.html", settings=config.public_settings())
+
+
 @web_blueprint.get("/video_feed")
 def video_feed():
     vision = current_app.extensions["silvia_services"]["vision"]

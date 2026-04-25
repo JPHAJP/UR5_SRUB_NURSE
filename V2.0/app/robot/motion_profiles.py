@@ -19,6 +19,22 @@ def smooth_velocity(previous: Iterable[float], current: Iterable[float], alpha: 
     ]
 
 
+def limit_velocity_acceleration(
+    previous: Iterable[float],
+    current: Iterable[float],
+    max_accel_mm_s2: float,
+    dt_s: float,
+) -> List[float]:
+    if max_accel_mm_s2 <= 0.0 or dt_s <= 0.0:
+        return [float(value) for value in current]
+
+    max_delta = float(max_accel_mm_s2) * float(dt_s)
+    return [
+        float(old) + clamp(float(new) - float(old), -max_delta, max_delta)
+        for old, new in zip(previous, current)
+    ]
+
+
 def velocity_from_error_mm(
     error_mm: float,
     max_speed_mm_s: float,

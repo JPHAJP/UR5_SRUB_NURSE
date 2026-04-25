@@ -3,9 +3,9 @@ from __future__ import annotations
 import logging
 import threading
 import time
-from typing import Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
-from ..robot.motion_profiles import smooth_velocity, velocity_from_error_mm
+from ..robot.motion_profiles import limit_velocity_acceleration, smooth_velocity, velocity_from_error_mm
 from ..robot.sequences import build_pick_waypoints
 
 logger = logging.getLogger(__name__)
@@ -24,6 +24,9 @@ class TrackingService:
         self._pending_pick: Optional[Dict[str, object]] = None
         self._last_hand_seen_ts = 0.0
         self._prev_velocity = [0.0, 0.0, 0.0]
+        self._last_command_ts = 0.0
+        self._last_stop_ts = 0.0
+        self._last_stop_reason = ""
 
     def start(self) -> None:
         if self._running:
@@ -44,9 +47,17 @@ class TrackingService:
 
         if mode == "idle":
             self._pending_pick = None
-            self.gateway.stop_motion()
+            self._stop_tracking("idle")
 
         self.state.set_mode(mode)
+        if mode == "hand_follow":
+            self._publish_tracking_status(
+                {
+                    "active": True,
+                    "stop_reason": "",
+                    "velocity_mm_s": [0.0, 0.0, 0.0],
+                }
+            )
         self.state.add_event("system_event", f"Modo cambiado a {mode}.", {"mode": mode})
         return True, f"Modo {mode} activado."
 
@@ -62,7 +73,7 @@ class TrackingService:
     def cancel(self) -> Tuple[bool, str]:
         self._pending_pick = None
         self.state.set_mode("idle")
-        self.gateway.stop_motion()
+        self._stop_tracking("cancel")
         self.gateway.set_magnet(False)
         self.state.clear_voice_session()
         return True, "Operacion cancelada."
@@ -70,7 +81,7 @@ class TrackingService:
     def _worker_loop(self) -> None:
         while self._running and not self._stop_event.is_set():
             if self.safety.is_locked():
-                self.gateway.stop_motion()
+                self._stop_tracking("safety_locked")
                 time.sleep(0.1)
                 continue
 
@@ -85,22 +96,39 @@ class TrackingService:
                 self._follow_hand_step()
             else:
                 self._prev_velocity = [0.0, 0.0, 0.0]
+                self._publish_tracking_status({"active": False, "stop_reason": "idle"})
 
             time.sleep(0.05)
 
     def _follow_hand_step(self) -> None:
-        target = self.vision.get_latest_hand_target()
-        if not target or not target.get("world_mm"):
-            if time.time() - self._last_hand_seen_ts > self.config.target_loss_timeout_s:
-                self.gateway.stop_motion()
+        stream_health = self.vision.get_stream_health()
+        if not stream_health.get("rgb_ok") or not stream_health.get("depth_ok"):
+            self._stop_tracking("camera_stale", {"stream_health": stream_health})
             return
 
-        self._last_hand_seen_ts = time.time()
+        target = self.vision.get_latest_hand_target()
+        if not target or not target.get("world_mm"):
+            if time.time() - self._last_hand_seen_ts > min(
+                float(self.config.target_loss_timeout_s),
+                float(getattr(self.config, "hand_target_max_age_s", 0.5)),
+            ):
+                self._stop_tracking("hand_not_visible", {"stream_health": stream_health})
+            return
+
+        now = time.time()
+        target_age_s = self._target_age_s(target, now)
+        if target_age_s is None or target_age_s > float(getattr(self.config, "hand_target_max_age_s", 0.5)):
+            self._stop_tracking("target_stale", {"target_age_s": target_age_s, "stream_health": stream_health})
+            return
+
+        self._last_hand_seen_ts = now
         current_pose = self.gateway.current_pose_mm()
-        target_xyz = target["world_mm"]
+        target_xyz = list(target["world_mm"])
+        target_z_mm = self.vision.get_hand_follow_calibration()["target_z_mm"]
+        target_xyz[2] = float(target_z_mm)
         ok, message = self.safety.evaluate_target("hand_follow", target_xyz)
         if not ok:
-            self.gateway.stop_motion()
+            self._stop_tracking("safety_rejected", {"target": target_xyz, "message": message})
             self.state.lock_safety(message, {"mode": "hand_follow", "target": target_xyz})
             return
 
@@ -114,13 +142,132 @@ class TrackingService:
             velocity_from_error_mm(error_z, self.config.max_track_speed_z_mm_s, self.config.hand_deadzone_mm),
         ]
         smoothed = smooth_velocity(self._prev_velocity, raw_velocity, self.config.track_smoothing_alpha)
-        self._prev_velocity = smoothed
-
-        if max(abs(value) for value in smoothed) < 0.5:
-            self.gateway.stop_motion()
+        command_interval_s = self._command_interval_s()
+        if self._last_command_ts and now - self._last_command_ts < command_interval_s:
+            self._publish_tracking_status(
+                self._tracking_payload(
+                    target,
+                    target_xyz,
+                    [error_x, error_y, error_z],
+                    self._prev_velocity,
+                    target_age_s,
+                    "rate_limited",
+                    stream_health,
+                )
+            )
             return
 
-        self.gateway.speed_linear_mm(smoothed)
+        dt_s = max(command_interval_s, now - self._last_command_ts) if self._last_command_ts else command_interval_s
+        limited = limit_velocity_acceleration(
+            self._prev_velocity,
+            smoothed,
+            float(getattr(self.config, "max_track_accel_mm_s2", 300.0)),
+            dt_s,
+        )
+        self._prev_velocity = limited
+        self._last_command_ts = now
+
+        if max(abs(value) for value in limited) < 0.5:
+            self._stop_tracking(
+                "deadzone",
+                self._tracking_payload(
+                    target,
+                    target_xyz,
+                    [error_x, error_y, error_z],
+                    limited,
+                    target_age_s,
+                    "deadzone",
+                    stream_health,
+                ),
+            )
+            return
+
+        self.gateway.speed_linear_mm(limited)
+        self._publish_tracking_status(
+            self._tracking_payload(
+                target,
+                target_xyz,
+                [error_x, error_y, error_z],
+                limited,
+                target_age_s,
+                "",
+                stream_health,
+            )
+        )
+
+    def _stop_tracking(self, reason: str, extra: Dict[str, Any] | None = None) -> None:
+        now = time.time()
+        should_send_stop = (
+            reason != self._last_stop_reason
+            or self._last_stop_ts <= 0.0
+            or (now - self._last_stop_ts) >= 0.5
+        )
+        if should_send_stop:
+            self.gateway.stop_motion()
+            self._last_stop_ts = now
+            self._last_stop_reason = reason
+        self._prev_velocity = [0.0, 0.0, 0.0]
+        self._last_command_ts = 0.0
+        payload = {
+            "active": self.state.snapshot().get("mode") == "hand_follow",
+            "velocity_mm_s": [0.0, 0.0, 0.0],
+            "stop_reason": reason,
+        }
+        if extra:
+            payload.update(extra)
+        self._publish_tracking_status(payload)
+
+    def _target_age_s(self, target: Dict[str, Any], now: float) -> float | None:
+        timestamp = target.get("timestamp_s")
+        if timestamp is None:
+            return None
+        try:
+            return max(0.0, now - float(timestamp))
+        except (TypeError, ValueError):
+            return None
+
+    def _command_interval_s(self) -> float:
+        try:
+            hz = float(getattr(self.config, "track_command_hz", 10.0))
+        except (TypeError, ValueError):
+            hz = 10.0
+        return 1.0 / hz if hz > 0.0 else 0.0
+
+    def _tracking_payload(
+        self,
+        target: Dict[str, Any],
+        target_xyz: list[float],
+        error_xyz: list[float],
+        velocity_xyz: list[float],
+        target_age_s: float | None,
+        stop_reason: str,
+        stream_health: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        return {
+            "active": True,
+            "hand_world_mm": list(target.get("world_mm") or []),
+            "target_xyz_mm": [round(float(value), 3) for value in target_xyz],
+            "error_xyz_mm": [round(float(value), 3) for value in error_xyz],
+            "velocity_mm_s": [round(float(value), 3) for value in velocity_xyz],
+            "target_age_s": round(float(target_age_s), 3) if target_age_s is not None else None,
+            "stop_reason": stop_reason,
+            "stream_health": stream_health,
+        }
+
+    def _publish_tracking_status(self, payload: Dict[str, Any]) -> None:
+        status = {
+            "active": False,
+            "hand_world_mm": None,
+            "target_xyz_mm": None,
+            "error_xyz_mm": None,
+            "velocity_mm_s": [0.0, 0.0, 0.0],
+            "target_age_s": None,
+            "stop_reason": "",
+            "command_hz": float(getattr(self.config, "track_command_hz", 10.0)),
+            "max_accel_mm_s2": float(getattr(self.config, "max_track_accel_mm_s2", 300.0)),
+        }
+        status.update(payload)
+        self.state.set_tracking_status(status)
 
     def _execute_pick(self, request: Dict[str, object]) -> None:
         label = request.get("label")

@@ -1,0 +1,164 @@
+{
+  "camera": {
+    "index": 0,
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "backend": "hp60c_ros2"
+  },
+  "hand_follow": {
+    "plane_z_mm": 0.0,
+    "image_points": [],
+    "world_points_mm": [],
+    "homography": [],
+    "workspace": {
+      "x": [
+        -450,
+        450
+      ],
+      "y": [
+        -700,
+        150
+      ],
+      "z": [
+        150,
+        700
+      ]
+    }
+  },
+  "object_pick": {
+    "plane_z_mm": 120.0,
+    "image_points": [],
+    "world_points_mm": [],
+    "homography": [],
+    "workspace": {
+      "x": [
+        -450,
+        450
+      ],
+      "y": [
+        -700,
+        150
+      ],
+      "z": [
+        20,
+        600
+      ]
+    }
+  },
+  "backend": "hp60c_ros2",
+  "topics": {
+    "rgb": "/ascamera/camera_publisher/rgb0/image",
+    "depth": "/ascamera/camera_publisher/depth0/image_raw",
+    "rgb_camera_info": "/ascamera/camera_publisher/rgb0/camera_info",
+    "depth_camera_info": "/ascamera/camera_publisher/depth0/camera_info"
+  },
+  "intrinsics": {
+    "rgb": {
+      "width": 0,
+      "height": 0,
+      "fx": 0.0,
+      "fy": 0.0,
+      "cx": 0.0,
+      "cy": 0.0,
+      "frame_id": "",
+      "topic": "/ascamera/camera_publisher/rgb0/camera_info"
+    },
+    "depth": {
+      "width": 0,
+      "height": 0,
+      "fx": 0.0,
+      "fy": 0.0,
+      "cx": 0.0,
+      "cy": 0.0,
+      "frame_id": "",
+      "topic": "/ascamera/camera_publisher/depth0/camera_info"
+    }
+  },
+  "camera_to_robot": {
+    "translation_mm": [
+      55.0,
+      -30.0,
+      0.0
+    ],
+    "rotation_rpy_deg": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "matrix_4x4": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        55.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -30.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "configured": true
+  },
+  "tcp_to_camera": {
+    "translation_mm": [
+      55.0,
+      -30.0,
+      0.0
+    ],
+    "rotation_rpy_deg": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "matrix_4x4": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        55.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -30.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "configured": true
+  },
+  "depth_compensation": {
+    "gain": 1.0,
+    "offset_mm": 0.0,
+    "last_error_abs_mm": 0.0,
+    "last_error_mean_mm": 0.0,
+    "configured": false,
+    "samples": []
+  }
+}

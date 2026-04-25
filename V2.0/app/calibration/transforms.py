@@ -96,6 +96,49 @@ def build_transform_matrix(
     return transform.tolist()
 
 
+def build_transform_from_ur_pose(pose_mm: Sequence[float]) -> List[List[float]]:
+    if len(pose_mm) < 6:
+        raise ValueError("La pose UR debe incluir x, y, z, rx, ry, rz.")
+
+    x_mm, y_mm, z_mm = [float(value) for value in pose_mm[:3]]
+    rotation_vector = np.asarray([float(value) for value in pose_mm[3:6]], dtype=float)
+    angle = float(np.linalg.norm(rotation_vector))
+
+    if angle <= 1e-12:
+        rotation = np.eye(3, dtype=float)
+    else:
+        axis = rotation_vector / angle
+        kx, ky, kz = axis
+        skew = np.asarray(
+            [
+                [0.0, -kz, ky],
+                [kz, 0.0, -kx],
+                [-ky, kx, 0.0],
+            ],
+            dtype=float,
+        )
+        rotation = (
+            np.eye(3, dtype=float)
+            + math.sin(angle) * skew
+            + (1.0 - math.cos(angle)) * (skew @ skew)
+        )
+
+    transform = np.eye(4, dtype=float)
+    transform[:3, :3] = rotation
+    transform[:3, 3] = np.asarray([x_mm, y_mm, z_mm], dtype=float)
+    return transform.tolist()
+
+
+def compose_transform_matrices(*transforms: Sequence[Sequence[float]]) -> List[List[float]]:
+    composed = np.eye(4, dtype=float)
+    for transform in transforms:
+        matrix = np.asarray(transform, dtype=float)
+        if matrix.shape != (4, 4):
+            raise ValueError("Cada matriz de transformacion debe ser 4x4.")
+        composed = composed @ matrix
+    return composed.tolist()
+
+
 def apply_rigid_transform(
     point_xyz_mm: Sequence[float],
     transform_matrix: Sequence[Sequence[float]],

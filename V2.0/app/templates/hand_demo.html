@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILVIA Hand Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <main class="shell hand-demo-shell">
+        <section class="hero hand-demo-hero">
+            <div>
+                <p class="eyebrow">UR5 YOLO Demo</p>
+                <h1>Seguimiento de Mano</h1>
+                <div class="network-banner">
+                    <span class="network-status is-ok" id="demo-detector">YOLO mano</span>
+                    <span class="network-status" id="demo-origin">Origen: detectando...</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <button class="primary" id="demo-start-btn">Arrancar</button>
+                <button class="danger" id="demo-stop-btn">Detener</button>
+                <button class="secondary" id="demo-home-btn">Home</button>
+                <button class="secondary" id="demo-reset-safety-btn">Liberar Bloqueo</button>
+            </div>
+        </section>
+
+        <section class="grid hand-demo-grid">
+            <article class="panel feed-panel">
+                <div class="panel-header">
+                    <h2>Camara</h2>
+                    <span class="subtle" id="demo-camera-status">Sin datos</span>
+                </div>
+                <div class="feed-grid hand-demo-feed-grid">
+                    <div class="video-card">
+                        <span class="label">RGB HP60C</span>
+                        <div class="video-frame">
+                            <img src="{{ url_for('web.video_feed_rgb') }}" alt="Feed RGB HP60C">
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <span class="label">YOLO anotado</span>
+                        <div class="video-frame">
+                            <img src="{{ url_for('web.video_feed') }}" alt="Feed YOLO">
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <span class="label">Depth HP60C</span>
+                        <div class="video-frame">
+                            <img src="{{ url_for('web.video_feed_depth') }}" alt="Feed profundidad">
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="panel status-panel">
+                <div class="panel-header">
+                    <h2>Seguimiento</h2>
+                    <span id="demo-mode-pill" class="pill">idle</span>
+                </div>
+                <div class="status-grid hand-demo-status-grid">
+                    <div class="status-card">
+                        <span class="label">Robot</span>
+                        <strong id="demo-robot-status">Desconocido</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Safety</span>
+                        <strong id="demo-safety-status">Sin datos</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Mano</span>
+                        <strong id="demo-hand-status">No detectada</strong>
+                    </div>
+                    <div class="status-card">
+                        <span class="label">Paro</span>
+                        <strong id="demo-stop-reason">Sin paro</strong>
+                    </div>
+                </div>
+
+                <div class="depth-tools-grid hand-demo-tools-grid">
+                    <section class="depth-tool-card">
+                        <h3>Plano de Mano</h3>
+                        <div class="inline-form">
+                            <label>Z plano mm<input type="number" id="demo-plane-z-input" step="0.1"></label>
+                            <button class="secondary" id="demo-calibrate-plane-btn">Usar Z Actual</button>
+                            <button class="secondary" id="demo-save-plane-btn">Guardar</button>
+                        </div>
+                        <pre id="demo-plane-summary">Sin calibracion.</pre>
+                    </section>
+                    <section class="depth-tool-card">
+                        <h3>Vector de Control</h3>
+                        <pre id="demo-tracking-summary">Esperando datos.</pre>
+                    </section>
+                </div>
+
+                <div class="robot-readout">
+                    <h3>TCP Actual</h3>
+                    <pre id="demo-robot-pose">Sin datos</pre>
+                </div>
+            </article>
+        </section>
+    </main>
+    <script>
+        window.SILVIA_SETTINGS = {{ settings | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/hand_demo.js') }}"></script>
+</body>
+</html>

@@ -20,7 +20,11 @@ class RobotGateway:
         self._lock = threading.RLock()
         self.script_client = URScriptClient(config.ur5_host, config.ur5_cmd_port)
         self.state_client = URStateClient(config.ur5_host, config.ur5_state_port)
-        self.dashboard_client = URDashboardClient(config.ur5_host, config.ur5_dashboard_port)
+        self.dashboard_client = URDashboardClient(
+            config.ur5_host,
+            config.ur5_dashboard_port,
+            log_commands=config.ur5_dashboard_log_commands,
+        )
         self._last_status: Dict[str, object] = {
             "connected": False,
             "current_pose_mm": [0.0, 0.0, 0.0, *DEFAULT_ORIENTATION],

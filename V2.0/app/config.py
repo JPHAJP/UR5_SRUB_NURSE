@@ -54,6 +54,15 @@ def _parse_bool(name: str, default: bool) -> bool:
     return default
 
 
+def _env_has_value(name: str) -> bool:
+    return bool(str(os.getenv(name, "")).strip())
+
+
+def _normalize_detector_mode(value: str) -> str:
+    normalized = str(value or "full").strip().lower()
+    return normalized if normalized in {"full", "hand_only"} else "full"
+
+
 def _parse_joint_list(name: str, default: List[float]) -> List[float]:
     raw = os.getenv(name)
     if not raw:
@@ -63,6 +72,28 @@ def _parse_joint_list(name: str, default: List[float]) -> List[float]:
         return values if len(values) == 6 else default
     except ValueError:
         return default
+
+
+def _parse_float_list(name: str, default: List[float], expected_len: int) -> List[float]:
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    try:
+        values = [float(part.strip()) for part in raw.split(",")]
+        return values if len(values) == expected_len else default
+    except ValueError:
+        return default
+
+
+def _parse_float_csv(name: str, default: List[float]) -> List[float]:
+    raw = os.getenv(name)
+    if not raw:
+        return default
+    try:
+        values = [float(part.strip()) for part in raw.split(",") if part.strip()]
+    except ValueError:
+        return default
+    return values or default
 
 
 def _parse_optional_path(name: str, repo_dir: Path) -> Path | None:
@@ -102,7 +133,12 @@ class AppConfig:
     voice_timeout_s: float
     voice_chunk_ms: int
     vision_model_path: Path
+    vision_device: str
     vision_confidence_threshold: float
+    vision_inference_fps: float
+    vision_preview_fps: float
+    vision_depth_preview_fps: float
+    vision_detector_mode: str
     vision_backend: str
     depth_sampling_ratio: float
     ros_rgb_topic: str
@@ -121,9 +157,18 @@ class AppConfig:
     ros_camera_depth_width: int
     ros_camera_depth_height: int
     ros_camera_fps: int
+    ros_camera_color_pcl: bool
+    ros_camera_restart_delay_s: float
+    ros_camera_startup_grace_s: float
+    ros_camera_stall_timeout_s: float
+    ros_camera_no_camera_info_timeout_s: float
+    ros_camera_hard_restart_timeout_s: float
+    ros_camera_healthy_reset_s: float
+    ros_camera_backoff_sequence_s: List[float]
     v4l2_device: str
     hand_landmarker_model_path: Path
     hand_landmarker_model_url: str
+    hand_landmarker_delegate: str
     camera_index: int
     camera_width: int
     camera_height: int
@@ -132,9 +177,14 @@ class AppConfig:
     ur5_cmd_port: int
     ur5_state_port: int
     ur5_dashboard_port: int
+    ur5_dashboard_log_commands: bool
     magnet_do_pin: int
     hand_plane_z_mm: float
     object_plane_z_mm: float
+    hand_follow_height_mm: float
+    hand_follow_z_offset_mm: float
+    tcp_to_camera_translation_mm: List[float]
+    tcp_to_camera_rotation_rpy_deg: List[float]
     hand_workspace: Dict[str, Any]
     object_workspace: Dict[str, Any]
     max_track_speed_xy_mm_s: float
@@ -142,6 +192,9 @@ class AppConfig:
     hand_deadzone_mm: float
     track_smoothing_alpha: float
     target_loss_timeout_s: float
+    hand_target_max_age_s: float
+    track_command_hz: float
+    max_track_accel_mm_s2: float
     safety_poll_ms: int
     pick_approach_lift_mm: float
     home_joints_deg: List[float]
@@ -157,7 +210,7 @@ class AppConfig:
         _load_env_file(repo_dir / ".env")
         _load_env_file(base_dir / ".env")
 
-        default_home = [-51.9, -71.85, -112.7, -85.96, 90.0, 38.0]
+        default_home = [-60.5, -78.75, -94.7, -96.72, 90.9, -106]
         default_greet = [
             default_home,
             [-71.96, -90.60, -99.21, 2.23, 122.58, 37.98],
@@ -185,6 +238,15 @@ class AppConfig:
                 greet_sequence = default_greet
         else:
             greet_sequence = default_greet
+
+        hand_plane_z_mm = _parse_float("HAND_PLANE_Z_MM", 350.0)
+        legacy_hand_follow_height_mm = _parse_float("HAND_FOLLOW_HEIGHT_MM", hand_plane_z_mm + 200.0)
+        if _env_has_value("HAND_FOLLOW_Z_OFFSET_MM"):
+            hand_follow_z_offset_mm = _parse_float("HAND_FOLLOW_Z_OFFSET_MM", 200.0)
+            hand_follow_height_mm = hand_plane_z_mm + hand_follow_z_offset_mm
+        else:
+            hand_follow_z_offset_mm = legacy_hand_follow_height_mm - hand_plane_z_mm
+            hand_follow_height_mm = legacy_hand_follow_height_mm
 
         return cls(
             base_dir=base_dir,
@@ -220,7 +282,12 @@ class AppConfig:
                     str(repo_dir / "V_COVA" / "Dashboard" / "V6_best.pt"),
                 )
             ),
+            vision_device=os.getenv("VISION_DEVICE", "auto").strip().lower() or "auto",
             vision_confidence_threshold=_parse_float("VISION_CONFIDENCE_THRESHOLD", 0.5),
+            vision_inference_fps=_parse_float("VISION_INFERENCE_FPS", 8.0),
+            vision_preview_fps=_parse_float("VISION_PREVIEW_FPS", 8.0),
+            vision_depth_preview_fps=_parse_float("VISION_DEPTH_PREVIEW_FPS", 4.0),
+            vision_detector_mode=_normalize_detector_mode(os.getenv("VISION_DETECTOR_MODE", "full")),
             vision_backend=os.getenv("VISION_BACKEND", "hp60c_ros2").strip().lower() or "hp60c_ros2",
             depth_sampling_ratio=_parse_float("DEPTH_SAMPLING_RATIO", 0.10),
             ros_rgb_topic=os.getenv("ROS_RGB_TOPIC", "/ascamera/camera_publisher/rgb0/image"),
@@ -259,7 +326,15 @@ class AppConfig:
             ros_camera_rgb_height=_parse_int("ROS_CAMERA_RGB_HEIGHT", 480),
             ros_camera_depth_width=_parse_int("ROS_CAMERA_DEPTH_WIDTH", 640),
             ros_camera_depth_height=_parse_int("ROS_CAMERA_DEPTH_HEIGHT", 480),
-            ros_camera_fps=_parse_int("ROS_CAMERA_NODE_FPS", 15),
+            ros_camera_fps=_parse_int("ROS_CAMERA_NODE_FPS", 10),
+            ros_camera_color_pcl=_parse_bool("ROS_CAMERA_COLOR_PCL", False),
+            ros_camera_restart_delay_s=_parse_float("ROS_CAMERA_RESTART_DELAY_S", 3.0),
+            ros_camera_startup_grace_s=_parse_float("ROS_CAMERA_STARTUP_GRACE_S", 15.0),
+            ros_camera_stall_timeout_s=_parse_float("ROS_CAMERA_STALL_TIMEOUT_S", 6.0),
+            ros_camera_no_camera_info_timeout_s=_parse_float("ROS_CAMERA_NO_CAMERA_INFO_TIMEOUT_S", 10.0),
+            ros_camera_hard_restart_timeout_s=_parse_float("ROS_CAMERA_HARD_RESTART_TIMEOUT_S", 15.0),
+            ros_camera_healthy_reset_s=_parse_float("ROS_CAMERA_HEALTHY_RESET_S", 30.0),
+            ros_camera_backoff_sequence_s=_parse_float_csv("ROS_CAMERA_BACKOFF_SEQUENCE_S", [3.0, 8.0, 15.0, 30.0]),
             v4l2_device=os.getenv("V4L2_DEVICE", "/dev/video2").strip() or "/dev/video2",
             hand_landmarker_model_path=Path(
                 os.getenv(
@@ -271,17 +346,23 @@ class AppConfig:
                 "HAND_LANDMARKER_MODEL_URL",
                 "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
             ),
+            hand_landmarker_delegate=os.getenv("HAND_LANDMARKER_DELEGATE", "auto").strip().lower() or "auto",
             camera_index=_parse_int("CAMERA_INDEX", 0),
             camera_width=_parse_int("CAMERA_WIDTH", 1280),
             camera_height=_parse_int("CAMERA_HEIGHT", 720),
-            camera_fps=_parse_int("CAMERA_FPS", 30),
+            camera_fps=_parse_int("CAMERA_FPS", 10),
             ur5_host=os.getenv("UR5_HOST", "192.168.1.1"),
             ur5_cmd_port=_parse_int("UR5_CMD_PORT", 30002),
             ur5_state_port=_parse_int("UR5_STATE_PORT", 30001),
             ur5_dashboard_port=_parse_int("UR5_DASHBOARD_PORT", 29999),
+            ur5_dashboard_log_commands=_parse_bool("UR5_DASHBOARD_LOG_COMMANDS", False),
             magnet_do_pin=_parse_int("MAGNET_DO_PIN", 0),
-            hand_plane_z_mm=_parse_float("HAND_PLANE_Z_MM", 350.0),
+            hand_plane_z_mm=hand_plane_z_mm,
             object_plane_z_mm=_parse_float("OBJECT_PLANE_Z_MM", 120.0),
+            hand_follow_height_mm=hand_follow_height_mm,
+            hand_follow_z_offset_mm=hand_follow_z_offset_mm,
+            tcp_to_camera_translation_mm=_parse_float_list("TCP_TO_CAMERA_TRANSLATION_MM", [55.0, -30.0, 0.0], 3),
+            tcp_to_camera_rotation_rpy_deg=_parse_float_list("TCP_TO_CAMERA_ROTATION_RPY_DEG", [0.0, 0.0, 0.0], 3),
             hand_workspace=_parse_json_env("HAND_WORKSPACE_JSON", default_hand_workspace),
             object_workspace=_parse_json_env("OBJECT_WORKSPACE_JSON", default_object_workspace),
             max_track_speed_xy_mm_s=_parse_float("MAX_TRACK_SPEED_XY_MM_S", 120.0),
@@ -289,6 +370,9 @@ class AppConfig:
             hand_deadzone_mm=_parse_float("HAND_DEADZONE_MM", 12.0),
             track_smoothing_alpha=_parse_float("TRACK_SMOOTHING_ALPHA", 0.35),
             target_loss_timeout_s=_parse_float("TARGET_LOSS_TIMEOUT_S", 1.0),
+            hand_target_max_age_s=_parse_float("HAND_TARGET_MAX_AGE_S", 0.5),
+            track_command_hz=_parse_float("TRACK_COMMAND_HZ", 10.0),
+            max_track_accel_mm_s2=_parse_float("MAX_TRACK_ACCEL_MM_S2", 300.0),
             safety_poll_ms=_parse_int("SAFETY_POLL_MS", 500),
             pick_approach_lift_mm=_parse_float("PICK_APPROACH_LIFT_MM", 120.0),
             home_joints_deg=_parse_joint_list("HOME_JOINTS_DEG", default_home),
@@ -331,7 +415,12 @@ class AppConfig:
                 "https_enabled": self.ssl_mode in {"adhoc", "cert"},
             },
             "vision_model_name": self.vision_model_path.name,
+            "vision_device": self.vision_device,
             "vision_confidence_threshold": self.vision_confidence_threshold,
+            "vision_inference_fps": self.vision_inference_fps,
+            "vision_preview_fps": self.vision_preview_fps,
+            "vision_depth_preview_fps": self.vision_depth_preview_fps,
+            "vision_detector_mode": self.vision_detector_mode,
             "camera": {
                 "backend": self.vision_backend,
                 "index": self.camera_index,
@@ -350,7 +439,25 @@ class AppConfig:
                 "workspace": str(self.ros_workspace_dir),
                 "ascamera_config_path": str(self.ros_ascamera_config_path),
                 "v4l2_device": self.v4l2_device,
+                "node_fps": self.ros_camera_fps,
+                "color_pcl": self.ros_camera_color_pcl,
+                "restart_delay_s": self.ros_camera_restart_delay_s,
+                "startup_grace_s": self.ros_camera_startup_grace_s,
+                "stall_timeout_s": self.ros_camera_stall_timeout_s,
+                "no_camera_info_timeout_s": self.ros_camera_no_camera_info_timeout_s,
+                "hard_restart_timeout_s": self.ros_camera_hard_restart_timeout_s,
+                "healthy_reset_s": self.ros_camera_healthy_reset_s,
+                "backoff_sequence_s": list(self.ros_camera_backoff_sequence_s),
+                "tcp_to_camera_translation_mm": self.tcp_to_camera_translation_mm,
+                "tcp_to_camera_rotation_rpy_deg": self.tcp_to_camera_rotation_rpy_deg,
+                "hand_plane_z_mm": self.hand_plane_z_mm,
+                "hand_follow_z_offset_mm": self.hand_follow_z_offset_mm,
+                "hand_follow_height_mm": self.hand_follow_height_mm,
             },
+            "robot": {
+                "dashboard_log_commands": self.ur5_dashboard_log_commands,
+            },
+            "hand_landmarker_delegate": self.hand_landmarker_delegate,
             "models": {
                 "text": self.openai_text_model,
                 "realtime": self.openai_realtime_model,

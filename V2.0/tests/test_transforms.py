@@ -7,6 +7,8 @@ from app.calibration.transforms import (
     apply_homography,
     apply_rigid_transform,
     build_transform_matrix,
+    build_transform_from_ur_pose,
+    compose_transform_matrices,
     compute_homography,
     deproject_pixel_to_camera_xyz,
     fit_depth_compensation,
@@ -38,6 +40,28 @@ def test_build_and_apply_rigid_transform_translation_only():
     world = apply_rigid_transform([10.0, 20.0, 30.0], matrix)
 
     assert world == [110.0, -30.0, 55.0]
+
+
+def test_ur_pose_composes_tcp_to_camera_offset():
+    base_to_tcp = build_transform_from_ur_pose([100.0, 200.0, 300.0, 0.0, 0.0, 0.0])
+    tcp_to_camera = build_transform_matrix([55.0, -30.0, 0.0], [0.0, 0.0, 0.0])
+    base_to_camera = compose_transform_matrices(base_to_tcp, tcp_to_camera)
+
+    world = apply_rigid_transform([10.0, 20.0, 30.0], base_to_camera)
+
+    assert world == [165.0, 190.0, 330.0]
+
+
+def test_ur_rotation_vector_rotates_tcp_camera_offset():
+    base_to_tcp = build_transform_from_ur_pose([0.0, 0.0, 0.0, 0.0, 0.0, 1.5707963267948966])
+    tcp_to_camera = build_transform_matrix([55.0, -30.0, 0.0], [0.0, 0.0, 0.0])
+    base_to_camera = compose_transform_matrices(base_to_tcp, tcp_to_camera)
+
+    world = apply_rigid_transform([0.0, 0.0, 0.0], base_to_camera)
+
+    assert round(world[0], 3) == 30.0
+    assert round(world[1], 3) == 55.0
+    assert round(world[2], 3) == 0.0
 
 
 def test_fit_depth_compensation_with_single_sample_keeps_gain_one():

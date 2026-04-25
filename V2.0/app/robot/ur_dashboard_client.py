@@ -8,10 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 class URDashboardClient:
-    def __init__(self, host: str, port: int, timeout: float = 1.5) -> None:
+    def __init__(self, host: str, port: int, timeout: float = 1.5, log_commands: bool = False) -> None:
         self.host = host
         self.port = port
         self.timeout = timeout
+        self.log_commands = log_commands
         self._socket: Optional[socket.socket] = None
 
     def connect(self) -> bool:
@@ -39,7 +40,8 @@ class URDashboardClient:
         try:
             self._socket.sendall((command.strip() + "\n").encode("utf-8"))
             response = self._socket.recv(1024).decode("utf-8", errors="ignore").strip()
-            logger.info("Dashboard %s -> %s", command, response)
+            if self.log_commands:
+                logger.info("Dashboard %s -> %s", command, response)
             return response
         except OSError as error:
             logger.warning("Error en Dashboard command '%s': %s", command, error)

@@ -134,10 +134,28 @@ def save_depth_calibration():
     return jsonify({"ok": True, "calibration": result})
 
 
+@api_blueprint.get("/calibration/hand-follow")
+def get_hand_follow_calibration():
+    return jsonify(_services()["vision"].get_hand_follow_calibration())
+
+
+@api_blueprint.post("/calibration/hand-follow")
+def set_hand_follow_calibration():
+    payload = request.get_json(silent=True) or {}
+    try:
+        result = _services()["vision"].set_hand_follow_calibration(
+            plane_z_mm=payload.get("plane_z_mm"),
+            save=bool(payload.get("save", False)),
+        )
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
+    return jsonify({"ok": True, "hand_follow": result})
+
+
 @api_blueprint.post("/calibration/camera-transform")
 def set_camera_transform():
     payload = request.get_json(silent=True) or {}
     translation_mm = payload.get("translation_mm", [0.0, 0.0, 0.0])
     rotation_rpy_deg = payload.get("rotation_rpy_deg", [0.0, 0.0, 0.0])
     result = _services()["vision"].set_camera_transform(translation_mm, rotation_rpy_deg)
-    return jsonify({"ok": True, "camera_to_robot": result})
+    return jsonify({"ok": True, "camera_to_robot": result, "tcp_to_camera": result})
