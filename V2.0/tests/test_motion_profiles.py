@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from app.robot.motion_profiles import (
     apply_deadzone,
+    estimate_linear_move_duration_mm,
     estimate_joint_move_duration_deg,
     limit_velocity_acceleration,
     smooth_velocity,
@@ -46,6 +47,14 @@ def test_estimated_joint_move_duration_grows_with_joint_distance():
         speed_rad_s=1.5,
         acceleration_rad_s2=2.5,
     )
+
+    assert short_move > 0.0
+    assert long_move > short_move
+
+
+def test_estimated_linear_move_duration_grows_with_distance():
+    short_move = estimate_linear_move_duration_mm([0.0, 0.0, 0.0], [20.0, 0.0, 0.0], 0.16, 0.45)
+    long_move = estimate_linear_move_duration_mm([0.0, 0.0, 0.0], [200.0, 0.0, 0.0], 0.16, 0.45)
 
     assert short_move > 0.0
     assert long_move > short_move

@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import logging
+import math
 import threading
 import time
 from typing import Any, Dict, Optional, Tuple
 
-from ..robot.motion_profiles import limit_velocity_acceleration, smooth_velocity, velocity_from_error_mm
+from ..robot.motion_profiles import estimate_joint_move_duration_deg, estimate_linear_move_duration_mm
 from ..robot.sequences import build_pick_waypoints
 
 logger = logging.getLogger(__name__)
@@ -23,10 +24,12 @@ class TrackingService:
         self._stop_event = threading.Event()
         self._pending_pick: Optional[Dict[str, object]] = None
         self._last_hand_seen_ts = 0.0
-        self._prev_velocity = [0.0, 0.0, 0.0]
-        self._last_command_ts = 0.0
         self._last_stop_ts = 0.0
         self._last_stop_reason = ""
+        self._active_follow_target_xyz: Optional[list[float]] = None
+        self._active_follow_started_at = 0.0
+        self._last_pose_sample_xyz: Optional[list[float]] = None
+        self._last_pose_sample_ts = 0.0
 
     def start(self) -> None:
         if self._running:
@@ -47,10 +50,12 @@ class TrackingService:
 
         if mode == "idle":
             self._pending_pick = None
+            self._reset_follow_motion_state()
             self._stop_tracking("idle")
 
         self.state.set_mode(mode)
         if mode == "hand_follow":
+            self._reset_follow_motion_state()
             self._publish_tracking_status(
                 {
                     "active": True,
@@ -95,7 +100,7 @@ class TrackingService:
             if self.state.snapshot()["mode"] == "hand_follow":
                 self._follow_hand_step()
             else:
-                self._prev_velocity = [0.0, 0.0, 0.0]
+                self._reset_follow_motion_state()
                 self._publish_tracking_status({"active": False, "stop_reason": "idle"})
 
             time.sleep(0.05)
@@ -135,62 +140,51 @@ class TrackingService:
         error_x = target_xyz[0] - current_pose[0]
         error_y = target_xyz[1] - current_pose[1]
         error_z = target_xyz[2] - current_pose[2]
-
-        raw_velocity = [
-            velocity_from_error_mm(error_x, self.config.max_track_speed_xy_mm_s, self.config.hand_deadzone_mm),
-            velocity_from_error_mm(error_y, self.config.max_track_speed_xy_mm_s, self.config.hand_deadzone_mm),
-            velocity_from_error_mm(error_z, self.config.max_track_speed_z_mm_s, self.config.hand_deadzone_mm),
-        ]
-        smoothed = smooth_velocity(self._prev_velocity, raw_velocity, self.config.track_smoothing_alpha)
-        command_interval_s = self._command_interval_s()
-        if self._last_command_ts and now - self._last_command_ts < command_interval_s:
+        if self._follow_motion_in_progress(current_pose, now):
             self._publish_tracking_status(
                 self._tracking_payload(
                     target,
                     target_xyz,
                     [error_x, error_y, error_z],
-                    self._prev_velocity,
+                    [0.0, 0.0, 0.0],
                     target_age_s,
-                    "rate_limited",
+                    "robot_moving",
                     stream_health,
                 )
             )
             return
 
-        dt_s = max(command_interval_s, now - self._last_command_ts) if self._last_command_ts else command_interval_s
-        limited = limit_velocity_acceleration(
-            self._prev_velocity,
-            smoothed,
-            float(getattr(self.config, "max_track_accel_mm_s2", 300.0)),
-            dt_s,
-        )
-        self._prev_velocity = limited
-        self._last_command_ts = now
-
-        if max(abs(value) for value in limited) < 0.5:
-            self._stop_tracking(
-                "deadzone",
+        if self._within_hand_follow_tolerance(current_pose, target_xyz):
+            self._publish_tracking_status(
                 self._tracking_payload(
                     target,
                     target_xyz,
                     [error_x, error_y, error_z],
-                    limited,
+                    [0.0, 0.0, 0.0],
                     target_age_s,
-                    "deadzone",
+                    "in_tolerance",
                     stream_health,
-                ),
+                )
             )
             return
 
-        self.gateway.speed_linear_mm(limited)
+        self.gateway.move_linear_mm(
+            target_xyz,
+            speed=float(getattr(self.config, "hand_follow_move_speed_m_s", 0.5)),
+            acceleration=float(getattr(self.config, "hand_follow_move_acceleration_m_s2", 0.5)),
+        )
+        self._active_follow_target_xyz = list(target_xyz)
+        self._active_follow_started_at = now
+        self._last_pose_sample_xyz = list(current_pose[:3])
+        self._last_pose_sample_ts = now
         self._publish_tracking_status(
             self._tracking_payload(
                 target,
                 target_xyz,
                 [error_x, error_y, error_z],
-                limited,
+                [0.0, 0.0, 0.0],
                 target_age_s,
-                "",
+                "command_sent",
                 stream_health,
             )
         )
@@ -206,8 +200,7 @@ class TrackingService:
             self.gateway.stop_motion()
             self._last_stop_ts = now
             self._last_stop_reason = reason
-        self._prev_velocity = [0.0, 0.0, 0.0]
-        self._last_command_ts = 0.0
+        self._reset_follow_motion_state()
         payload = {
             "active": self.state.snapshot().get("mode") == "hand_follow",
             "velocity_mm_s": [0.0, 0.0, 0.0],
@@ -232,6 +225,60 @@ class TrackingService:
         except (TypeError, ValueError):
             hz = 10.0
         return 1.0 / hz if hz > 0.0 else 0.0
+
+    def _reset_follow_motion_state(self) -> None:
+        self._active_follow_target_xyz = None
+        self._active_follow_started_at = 0.0
+        self._last_pose_sample_xyz = None
+        self._last_pose_sample_ts = 0.0
+
+    def _within_hand_follow_tolerance(self, current_pose: list[float], target_xyz: list[float]) -> bool:
+        ratio = max(0.0, float(getattr(self.config, "hand_follow_position_tolerance_ratio", 0.10)))
+        absolute_deadzone_mm = max(0.0, float(getattr(self.config, "hand_deadzone_mm", 12.0)))
+        tolerance_x = max(absolute_deadzone_mm, abs(float(target_xyz[0])) * ratio)
+        tolerance_y = max(absolute_deadzone_mm, abs(float(target_xyz[1])) * ratio)
+        return (
+            abs(float(target_xyz[0]) - float(current_pose[0])) <= tolerance_x
+            and abs(float(target_xyz[1]) - float(current_pose[1])) <= tolerance_y
+        )
+
+    def _follow_motion_in_progress(self, current_pose: list[float], now: float) -> bool:
+        if not self._active_follow_target_xyz:
+            self._last_pose_sample_xyz = list(current_pose[:3])
+            self._last_pose_sample_ts = now
+            return False
+
+        if self._within_hand_follow_tolerance(current_pose, self._active_follow_target_xyz):
+            self._reset_follow_motion_state()
+            return False
+
+        start_delay_s = max(0.0, float(getattr(self.config, "hand_follow_motion_start_delay_s", 0.12)))
+        if self._active_follow_started_at > 0.0 and (now - self._active_follow_started_at) < start_delay_s:
+            self._last_pose_sample_xyz = list(current_pose[:3])
+            self._last_pose_sample_ts = now
+            return True
+
+        if self._last_pose_sample_xyz is None or self._last_pose_sample_ts <= 0.0:
+            self._last_pose_sample_xyz = list(current_pose[:3])
+            self._last_pose_sample_ts = now
+            return True
+
+        dt_s = max(1e-6, now - self._last_pose_sample_ts)
+        delta_mm = math.sqrt(
+            sum(
+                (float(current) - float(previous)) ** 2
+                for previous, current in zip(self._last_pose_sample_xyz[:3], current_pose[:3])
+            )
+        )
+        observed_speed_mm_s = delta_mm / dt_s
+        self._last_pose_sample_xyz = list(current_pose[:3])
+        self._last_pose_sample_ts = now
+
+        stop_speed_mm_s = max(0.0, float(getattr(self.config, "hand_follow_stop_speed_mm_s", 10.0)))
+        if observed_speed_mm_s <= stop_speed_mm_s:
+            self._reset_follow_motion_state()
+            return False
+        return True
 
     def _tracking_payload(
         self,
@@ -283,20 +330,88 @@ class TrackingService:
             return
 
         self.state.add_event("robot_log", f"Recogiendo {target['label']}.", {"target": target})
-        waypoints = build_pick_waypoints(target_xyz[:2], target_xyz[2], self.config.pick_approach_lift_mm)
+        waypoints = build_pick_waypoints(
+            target_xyz[:2],
+            target_xyz[2],
+            self.config.pick_approach_lift_mm,
+            float(getattr(self.config, "pick_pre_grasp_offset_mm", 45.0)),
+        )
 
-        self.gateway.move_linear_mm(waypoints["approach"])
-        time.sleep(0.8)
-        self.gateway.move_linear_mm(waypoints["pick"])
-        time.sleep(0.8)
-        self.gateway.set_magnet(True)
-        time.sleep(0.4)
-        self.gateway.move_linear_mm(waypoints["retreat"])
-        time.sleep(0.8)
+        for waypoint_name in ("approach", "pre_pick", "pick", "retreat"):
+            ok, message = self.safety.evaluate_target("object_pick", waypoints[waypoint_name])
+            if not ok:
+                self.state.lock_safety(
+                    message,
+                    {
+                        "mode": "object_pick",
+                        "target": waypoints[waypoint_name],
+                        "waypoint": waypoint_name,
+                    },
+                )
+                return
+
+        robot_status = self.gateway.refresh_status()
+        start_pose = list(robot_status.get("current_pose_mm") or self.gateway.current_pose_mm())
+        start_joints = list(robot_status.get("joint_positions_deg") or self.config.home_joints_deg)
+        return_home = not bool(request.get("deliver_to_hand"))
+        sequence_duration_s = self._estimate_pick_duration_s(
+            start_pose_xyz_mm=start_pose[:3],
+            start_joints_deg=start_joints,
+            waypoints=waypoints,
+            include_home=return_home,
+        )
+
+        ok, message = self.gateway.execute_pick_sequence_mm(
+            waypoints,
+            speed=float(getattr(self.config, "pick_linear_speed_m_s", 0.16)),
+            acceleration=float(getattr(self.config, "pick_linear_acceleration_m_s2", 0.45)),
+            blend_radius=float(getattr(self.config, "pick_blend_radius_m", 0.012)),
+            settle_s=float(getattr(self.config, "pick_settle_s", 0.15)),
+            magnet_settle_s=float(getattr(self.config, "pick_magnet_settle_s", 0.25)),
+            return_home=return_home,
+            home_joints_deg=list(self.config.home_joints_deg),
+        )
+        if not ok:
+            self.state.add_event("system_event", message, {"target": target})
+            return
+
+        time.sleep(sequence_duration_s)
+        self.state.set_selected_object_label(None)
 
         if bool(request.get("deliver_to_hand")):
             self.state.set_mode("hand_follow")
+            self._reset_follow_motion_state()
             self.state.add_event("robot_log", "Objeto recogido. Cambiando a seguir mano.", {"label": label})
         else:
-            self.gateway.go_home()
+            self.state.set_mode("idle")
             self.state.add_event("robot_log", "Objeto recogido. Regresando a home.", {"label": label})
+
+    def _estimate_pick_duration_s(
+        self,
+        start_pose_xyz_mm: list[float],
+        start_joints_deg: list[float],
+        waypoints: Dict[str, list[float]],
+        include_home: bool,
+    ) -> float:
+        speed = float(getattr(self.config, "pick_linear_speed_m_s", 0.16))
+        acceleration = float(getattr(self.config, "pick_linear_acceleration_m_s2", 0.45))
+        settle_s = max(0.0, float(getattr(self.config, "pick_settle_s", 0.15)))
+        magnet_settle_s = max(0.0, float(getattr(self.config, "pick_magnet_settle_s", 0.25)))
+
+        duration_s = 0.0
+        current_xyz = list(start_pose_xyz_mm[:3])
+        for waypoint_name in ("approach", "pre_pick", "pick", "retreat"):
+            target_xyz = list(waypoints[waypoint_name][:3])
+            duration_s += estimate_linear_move_duration_mm(current_xyz, target_xyz, speed, acceleration)
+            current_xyz = target_xyz
+
+        duration_s += settle_s + magnet_settle_s
+        if include_home:
+            duration_s += estimate_joint_move_duration_deg(
+                start_joints_deg,
+                list(self.config.home_joints_deg),
+                speed_rad_s=1.5,
+                acceleration_rad_s2=2.5,
+            )
+
+        return max(0.5, duration_s + 0.35)

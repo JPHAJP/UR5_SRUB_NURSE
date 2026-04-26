@@ -168,7 +168,7 @@ class VisionService:
             if stream_kind == "depth"
             else getattr(self.config, "vision_preview_fps", 8.0)
         )
-        stream_interval = self._fps_interval(preview_fps) or 0.05
+        stream_interval = self._fps_interval(preview_fps)
         while True:
             now = time.time()
             with self._frame_lock:
@@ -189,7 +189,7 @@ class VisionService:
                     b"--frame\r\n"
                     b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
                 )
-            time.sleep(stream_interval)
+            time.sleep(stream_interval if stream_interval > 0.0 else 0.005)
 
     def get_latest_hand_target(self) -> Dict[str, Any] | None:
         with self._frame_lock:
@@ -573,13 +573,8 @@ class VisionService:
                 hand_target = None
                 detector_mode = "yolo_objects"
 
-            needs_annotated = self._latest_jpeg is not None or self._latest_annotated_timestamp > 0.0
-            if needs_annotated:
-                annotated = self._annotate_frame(plotted_frame, detections, hand_target, detector_mode)
-                success, buffer = self._cv2.imencode(".jpg", annotated)
-            else:
-                success = False
-                buffer = None
+            annotated = self._annotate_frame(plotted_frame, detections, hand_target, detector_mode)
+            success, buffer = self._cv2.imencode(".jpg", annotated)
 
             with self._frame_lock:
                 self._latest_detections = detections
@@ -1186,7 +1181,7 @@ class VisionService:
         if self._model is None:
             return [], frame
 
-        inference_frame = frame
+        inference_frame = frame.copy()
 
         try:
             detected_at_s = time.time()
@@ -1205,8 +1200,7 @@ class VisionService:
             return [], frame
 
         result = results[0]
-        needs_plot = self._latest_jpeg is not None or self._latest_annotated_timestamp > 0.0
-        plotted_frame = result.plot() if needs_plot else frame
+        plotted_frame = frame.copy()
         names = self._class_names()
         detections: List[Dict[str, Any]] = []
 
@@ -1526,29 +1520,38 @@ class VisionService:
     def _annotate_frame(self, frame, detections, hand_target, detector_mode: str = "yolo_objects"):
         cv2 = self._cv2
 
-        if hand_target:
-            box = hand_target.get("bbox")
-            if box:
-                cv2.rectangle(frame, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (80, 220, 120), 2)
+        selected_hand_box = hand_target.get("bbox") if hand_target else None
+        for detection in detections:
+            box = detection.get("bbox")
+            if not box or len(box) < 4:
+                continue
+
+            x1, y1, x2, y2 = [int(value) for value in box[:4]]
+            is_hand = detection.get("type") == "hand"
+            is_selected_hand = bool(selected_hand_box) and list(box[:4]) == list(selected_hand_box[:4])
+            color = (80, 220, 120) if is_hand else (60, 170, 255)
+            thickness = 3 if is_selected_hand else 2
+
+            cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
+            cv2.putText(
+                frame,
+                f"{detection['label']} {detection['confidence']:.2f}",
+                (x1, max(22, y1 - 8)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                color,
+                2,
+            )
+            if detection.get("depth_valid") and detection.get("depth_avg_mm") is not None:
                 cv2.putText(
                     frame,
-                    f"{hand_target['label']} {hand_target['confidence']:.2f}",
-                    (int(box[0]), max(22, int(box[1] - 8))),
+                    f"Z {detection['depth_avg_mm']:.1f} mm",
+                    (x1, max(46, y1 + 22)),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    0.6,
-                    (80, 220, 120),
+                    0.55,
+                    (235, 235, 235),
                     2,
                 )
-                if hand_target.get("depth_valid") and hand_target.get("depth_avg_mm") is not None:
-                    cv2.putText(
-                        frame,
-                        f"Z {hand_target['depth_avg_mm']:.1f} mm",
-                        (int(box[0]), max(46, int(box[1] + 22))),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.55,
-                        (235, 235, 235),
-                        2,
-                    )
 
         depth_avg_mm = self._latest_depth_report.get("average_depth_mm")
         depth_text = f"Centro: {depth_avg_mm:.1f} mm" if isinstance(depth_avg_mm, (int, float)) else "Centro: sin profundidad"

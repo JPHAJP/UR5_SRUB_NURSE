@@ -191,12 +191,23 @@ class AppConfig:
     max_track_speed_z_mm_s: float
     hand_deadzone_mm: float
     track_smoothing_alpha: float
+    hand_follow_move_speed_m_s: float
+    hand_follow_move_acceleration_m_s2: float
+    hand_follow_position_tolerance_ratio: float
+    hand_follow_stop_speed_mm_s: float
+    hand_follow_motion_start_delay_s: float
     target_loss_timeout_s: float
     hand_target_max_age_s: float
     track_command_hz: float
     max_track_accel_mm_s2: float
     safety_poll_ms: int
     pick_approach_lift_mm: float
+    pick_pre_grasp_offset_mm: float
+    pick_linear_speed_m_s: float
+    pick_linear_acceleration_m_s2: float
+    pick_blend_radius_m: float
+    pick_settle_s: float
+    pick_magnet_settle_s: float
     home_joints_deg: List[float]
     greet_sequence_deg: List[List[float]]
     greet_speed_rad_s: float
@@ -284,9 +295,9 @@ class AppConfig:
             ),
             vision_device=os.getenv("VISION_DEVICE", "auto").strip().lower() or "auto",
             vision_confidence_threshold=_parse_float("VISION_CONFIDENCE_THRESHOLD", 0.5),
-            vision_inference_fps=_parse_float("VISION_INFERENCE_FPS", 8.0),
-            vision_preview_fps=_parse_float("VISION_PREVIEW_FPS", 8.0),
-            vision_depth_preview_fps=_parse_float("VISION_DEPTH_PREVIEW_FPS", 4.0),
+            vision_inference_fps=_parse_float("VISION_INFERENCE_FPS", 0.0),
+            vision_preview_fps=_parse_float("VISION_PREVIEW_FPS", 0.0),
+            vision_depth_preview_fps=_parse_float("VISION_DEPTH_PREVIEW_FPS", 0.0),
             vision_detector_mode=_normalize_detector_mode(os.getenv("VISION_DETECTOR_MODE", "full")),
             vision_backend=os.getenv("VISION_BACKEND", "hp60c_ros2").strip().lower() or "hp60c_ros2",
             depth_sampling_ratio=_parse_float("DEPTH_SAMPLING_RATIO", 0.10),
@@ -369,12 +380,23 @@ class AppConfig:
             max_track_speed_z_mm_s=_parse_float("MAX_TRACK_SPEED_Z_MM_S", 60.0),
             hand_deadzone_mm=_parse_float("HAND_DEADZONE_MM", 12.0),
             track_smoothing_alpha=_parse_float("TRACK_SMOOTHING_ALPHA", 0.35),
+            hand_follow_move_speed_m_s=_parse_float("HAND_FOLLOW_MOVE_SPEED_M_S", 0.5),
+            hand_follow_move_acceleration_m_s2=_parse_float("HAND_FOLLOW_MOVE_ACCELERATION_M_S2", 0.5),
+            hand_follow_position_tolerance_ratio=_parse_float("HAND_FOLLOW_POSITION_TOLERANCE_RATIO", 0.10),
+            hand_follow_stop_speed_mm_s=_parse_float("HAND_FOLLOW_STOP_SPEED_MM_S", 10.0),
+            hand_follow_motion_start_delay_s=_parse_float("HAND_FOLLOW_MOTION_START_DELAY_S", 0.12),
             target_loss_timeout_s=_parse_float("TARGET_LOSS_TIMEOUT_S", 1.0),
             hand_target_max_age_s=_parse_float("HAND_TARGET_MAX_AGE_S", 0.5),
             track_command_hz=_parse_float("TRACK_COMMAND_HZ", 10.0),
             max_track_accel_mm_s2=_parse_float("MAX_TRACK_ACCEL_MM_S2", 300.0),
             safety_poll_ms=_parse_int("SAFETY_POLL_MS", 500),
             pick_approach_lift_mm=_parse_float("PICK_APPROACH_LIFT_MM", 120.0),
+            pick_pre_grasp_offset_mm=_parse_float("PICK_PRE_GRASP_OFFSET_MM", 45.0),
+            pick_linear_speed_m_s=_parse_float("PICK_LINEAR_SPEED_M_S", 0.16),
+            pick_linear_acceleration_m_s2=_parse_float("PICK_LINEAR_ACCELERATION_M_S2", 0.45),
+            pick_blend_radius_m=_parse_float("PICK_BLEND_RADIUS_M", 0.012),
+            pick_settle_s=_parse_float("PICK_SETTLE_S", 0.15),
+            pick_magnet_settle_s=_parse_float("PICK_MAGNET_SETTLE_S", 0.25),
             home_joints_deg=_parse_joint_list("HOME_JOINTS_DEG", default_home),
             greet_sequence_deg=greet_sequence,
             greet_speed_rad_s=_parse_float("GREET_SPEED_RAD_S", 1.0),

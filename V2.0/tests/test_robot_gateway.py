@@ -52,3 +52,32 @@ def test_greet_sends_single_blended_program_and_returns_home():
     assert "greet_sequence()" in commands[0]
     assert commands[0].count("r = 0.02)") == 2
     assert commands[0].count("r = 0.0)") == 1
+
+
+def test_pick_sequence_sends_single_program_with_blended_approach_and_magnet():
+    commands = []
+
+    gateway = RobotGateway.__new__(RobotGateway)
+    gateway.config = SimpleNamespace(magnet_do_pin=0)
+    gateway.current_pose_mm = lambda: [100.0, 200.0, 300.0, 0.0, 3.142, 0.0]
+    gateway.send_urscript = lambda command: (commands.append(command) or True, "ok")
+
+    ok, _ = RobotGateway.execute_pick_sequence_mm(
+        gateway,
+        waypoints={
+            "approach": [150.0, 250.0, 420.0],
+            "pre_pick": [150.0, 250.0, 380.0],
+            "pick": [150.0, 250.0, 340.0],
+            "retreat": [150.0, 250.0, 420.0],
+        },
+        return_home=True,
+        home_joints_deg=[20.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    )
+
+    assert ok is True
+    assert len(commands) == 1
+    assert "def pick_sequence():" in commands[0]
+    assert commands[0].count("movel(") == 4
+    assert "set_standard_digital_out(0, True)" in commands[0]
+    assert commands[0].count("r = 0.012)") == 2
+    assert "movej([" in commands[0]

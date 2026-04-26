@@ -5,7 +5,7 @@ import sys
 import time
 from io import BytesIO
 from pathlib import Path
-from types import SimpleNamespace
+from types import SimpleNamespace, ModuleType
 
 import numpy as np
 import pytest
@@ -159,6 +159,35 @@ def test_yolo_can_return_hand_targets_for_follow_mode(tmp_path):
     assert detections[0]["frame_id"] == 7
 
 
+def test_annotate_frame_draws_object_boxes_without_yolo_plot(tmp_path):
+    service = make_service(tmp_path)
+
+    class FakeCV2:
+        FONT_HERSHEY_SIMPLEX = object()
+
+        def __init__(self):
+            self.rectangles = []
+            self.texts = []
+
+        def rectangle(self, frame, start, end, color, thickness):
+            self.rectangles.append((start, end, color, thickness))
+
+        def putText(self, frame, text, origin, *_args):
+            self.texts.append((text, origin))
+
+    fake_cv2 = FakeCV2()
+    service._cv2 = fake_cv2
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    detections = [
+        service._build_detection("Pinzas", 0.88, [300.0, 220.0, 340.0, 260.0]),
+    ]
+
+    service._annotate_frame(frame, detections, None, "yolo_objects")
+
+    assert fake_cv2.rectangles
+    assert any("Pinzas 0.88" in text for text, _origin in fake_cv2.texts)
+
+
 def test_build_detection_keeps_objects_separate(tmp_path):
     service = make_service(tmp_path)
 
@@ -267,6 +296,10 @@ def test_hand_only_inference_initialization_keeps_yolo_enabled(monkeypatch, tmp_
         "_load_model",
         lambda: load_called.__setitem__("value", True),
     )
+    monkeypatch.setitem(sys.modules, "torch", ModuleType("torch"))
+    ultralytics_module = ModuleType("ultralytics")
+    ultralytics_module.YOLO = object()
+    monkeypatch.setitem(sys.modules, "ultralytics", ultralytics_module)
 
     service._inference_loop()
 
@@ -759,3 +792,4 @@ def test_preview_refresh_respects_fps_limit(tmp_path):
     assert service._should_refresh_preview(10.0, 0.0, 8.0) is True
     assert service._should_refresh_preview(10.05, 10.0, 8.0) is False
     assert service._should_refresh_preview(10.13, 10.0, 8.0) is True
+    assert service._should_refresh_preview(10.01, 10.0, 0.0) is True

@@ -140,13 +140,28 @@ class RobotGateway:
     ) -> Tuple[bool, str]:
         current = self.current_pose_mm()
         orientation = orientation or current[3:] or DEFAULT_ORIENTATION
-        x_m, y_m, z_m = [float(value) / 1000.0 for value in pose_xyz_mm[:3]]
-        rx, ry, rz = orientation
-        command = (
-            f"movel(p[{x_m:.6f},{y_m:.6f},{z_m:.6f},{rx:.6f},{ry:.6f},{rz:.6f}], "
-            f"a = {acceleration}, v = {speed}, t = 0, r = 0)"
+        command = self._build_movel_command_mm(
+            pose_xyz_mm,
+            orientation=orientation,
+            speed=speed,
+            acceleration=acceleration,
         )
         return self.send_urscript(command)
+
+    @staticmethod
+    def _build_movel_command_mm(
+        pose_xyz_mm: List[float],
+        orientation: List[float],
+        speed: float,
+        acceleration: float,
+        blend_radius: float = 0.0,
+    ) -> str:
+        x_m, y_m, z_m = [float(value) / 1000.0 for value in pose_xyz_mm[:3]]
+        rx, ry, rz = [float(value) for value in orientation[:3]]
+        return (
+            f"movel(p[{x_m:.6f},{y_m:.6f},{z_m:.6f},{rx:.6f},{ry:.6f},{rz:.6f}], "
+            f"a = {acceleration}, v = {speed}, t = 0, r = {max(0.0, blend_radius)})"
+        )
 
     def speed_linear_mm(
         self,
@@ -164,6 +179,44 @@ class RobotGateway:
             f"], {acceleration}, {time_step})"
         )
         return self.send_urscript(command)
+
+    def execute_pick_sequence_mm(
+        self,
+        waypoints: Dict[str, List[float]],
+        orientation: List[float] | None = None,
+        speed: float = 0.16,
+        acceleration: float = 0.45,
+        blend_radius: float = 0.012,
+        settle_s: float = 0.15,
+        magnet_settle_s: float = 0.25,
+        return_home: bool = False,
+        home_joints_deg: List[float] | None = None,
+        home_speed: float = 1.5,
+        home_acceleration: float = 2.5,
+    ) -> Tuple[bool, str]:
+        current = self.current_pose_mm()
+        orientation = orientation or current[3:] or DEFAULT_ORIENTATION
+        commands = [
+            "def pick_sequence():",
+            f"  {self._build_movel_command_mm(waypoints['approach'], orientation, speed, acceleration, blend_radius)}",
+            f"  {self._build_movel_command_mm(waypoints['pre_pick'], orientation, speed, acceleration, blend_radius)}",
+            f"  {self._build_movel_command_mm(waypoints['pick'], orientation, speed, acceleration, 0.0)}",
+        ]
+
+        if settle_s > 0.0:
+            commands.append(f"  sleep({max(0.0, float(settle_s)):.3f})")
+        commands.append(f"  set_standard_digital_out({self.config.magnet_do_pin}, True)")
+        if magnet_settle_s > 0.0:
+            commands.append(f"  sleep({max(0.0, float(magnet_settle_s)):.3f})")
+        commands.append(f"  {self._build_movel_command_mm(waypoints['retreat'], orientation, speed, acceleration, 0.0)}")
+
+        if return_home and home_joints_deg:
+            commands.append(
+                f"  {self._build_movej_command_deg(home_joints_deg, home_speed, home_acceleration, 0.0)}"
+            )
+
+        commands.extend(["end", "pick_sequence()"])
+        return self.send_urscript("\n".join(commands))
 
     def stop_motion(self, acceleration: float = 1.5) -> Tuple[bool, str]:
         ok_l, _ = self.send_urscript(f"stopl({acceleration})")

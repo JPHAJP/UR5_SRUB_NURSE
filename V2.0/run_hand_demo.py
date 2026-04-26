@@ -2,7 +2,9 @@ import os
 
 os.environ["VISION_DETECTOR_MODE"] = "hand_only"
 os.environ.setdefault("HAND_FOLLOW_Z_OFFSET_MM", "200")
-os.environ["VISION_INFERENCE_FPS"] = os.getenv("HAND_DEMO_INFERENCE_FPS", "5")
+os.environ["VISION_INFERENCE_FPS"] = os.getenv("HAND_DEMO_INFERENCE_FPS", "0")
+os.environ.setdefault("VISION_PREVIEW_FPS", os.getenv("HAND_DEMO_PREVIEW_FPS", "0"))
+os.environ.setdefault("VISION_DEPTH_PREVIEW_FPS", os.getenv("HAND_DEMO_DEPTH_PREVIEW_FPS", "0"))
 
 from app import create_app, socketio
 

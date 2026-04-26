@@ -13,7 +13,7 @@ Aplicacion Flask modular para controlar el UR5 desde una interfaz web moderna, c
 - Vision unificada:
   - YOLO con el modelo actual configurable por `VISION_MODEL_PATH`
   - Device de inferencia configurable por `VISION_DEVICE` (`auto`, `cpu`, `cuda:0`)
-  - Limites de carga configurables con `VISION_INFERENCE_FPS`, `VISION_PREVIEW_FPS` y `VISION_DEPTH_PREVIEW_FPS`
+- Limites de carga configurables con `VISION_INFERENCE_FPS`, `VISION_PREVIEW_FPS` y `VISION_DEPTH_PREVIEW_FPS`; usa `0` para dejar el stream sin limite
   - Umbral configurable por `VISION_CONFIDENCE_THRESHOLD` (default `0.50`)
   - Backend principal HP60C V2 por ROS 2 Jazzy
   - Subscripciones a RGB, depth y `camera_info`
@@ -91,9 +91,9 @@ Si quieres forzar GPU NVIDIA con una build compatible de PyTorch para drivers CU
 Para bajar carga de CPU/GPU sin tocar codigo, empieza con:
 
 ```bash
-VISION_INFERENCE_FPS=8
-VISION_PREVIEW_FPS=8
-VISION_DEPTH_PREVIEW_FPS=4
+VISION_INFERENCE_FPS=0
+VISION_PREVIEW_FPS=0
+VISION_DEPTH_PREVIEW_FPS=0
 ROS_CAMERA_NODE_FPS=10
 ROS_CAMERA_STARTUP_GRACE_S=8
 ROS_CAMERA_STALL_TIMEOUT_S=3
@@ -154,7 +154,7 @@ tail -f V2.0/data/logs/hp60c_autolaunch.log
 python3 V2.0/run_hand_demo.py
 ```
 
-Abre `http://localhost:5050/hand-demo`. Esta ruta muestra RGB crudo, YOLO anotado, depth, calibracion del plano de mano, target XYZ, delta contra el TCP y velocidad enviada. El runner fuerza `VISION_DETECTOR_MODE=hand_only` y `VISION_INFERENCE_FPS=5`, asi que la demo trabaja solo con la clase `Mano` de YOLO.
+Abre `http://localhost:5050/hand-demo`. Esta ruta muestra RGB crudo, YOLO anotado, depth, calibracion del plano de mano, target XYZ, delta contra el TCP y velocidad enviada. El runner fuerza `VISION_DETECTOR_MODE=hand_only` y deja `VISION_INFERENCE_FPS=0`, asi que la demo trabaja solo con la clase `Mano` de YOLO sin limitar el stream por FPS.
 
 ## Cloudflare Tunnel
 

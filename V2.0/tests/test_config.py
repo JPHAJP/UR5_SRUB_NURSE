@@ -84,6 +84,18 @@ def test_loads_vision_fps_limits(monkeypatch):
     assert config.hand_landmarker_delegate == "gpu"
 
 
+def test_vision_fps_defaults_to_unlimited(monkeypatch):
+    monkeypatch.setenv("VISION_INFERENCE_FPS", "")
+    monkeypatch.setenv("VISION_PREVIEW_FPS", "")
+    monkeypatch.setenv("VISION_DEPTH_PREVIEW_FPS", "")
+
+    config = AppConfig.load()
+
+    assert config.vision_inference_fps == 0.0
+    assert config.vision_preview_fps == 0.0
+    assert config.vision_depth_preview_fps == 0.0
+
+
 def test_loads_hand_only_detector_mode(monkeypatch):
     monkeypatch.setenv("VISION_DETECTOR_MODE", "hand_only")
 
@@ -130,12 +142,18 @@ def test_loads_tracking_freshness_and_smoothing_limits(monkeypatch):
     monkeypatch.setenv("HAND_TARGET_MAX_AGE_S", "0.4")
     monkeypatch.setenv("TRACK_COMMAND_HZ", "12")
     monkeypatch.setenv("MAX_TRACK_ACCEL_MM_S2", "250")
+    monkeypatch.setenv("HAND_FOLLOW_MOVE_SPEED_M_S", "0.5")
+    monkeypatch.setenv("HAND_FOLLOW_MOVE_ACCELERATION_M_S2", "0.5")
+    monkeypatch.setenv("HAND_FOLLOW_POSITION_TOLERANCE_RATIO", "0.1")
 
     config = AppConfig.load()
 
     assert config.hand_target_max_age_s == 0.4
     assert config.track_command_hz == 12.0
     assert config.max_track_accel_mm_s2 == 250.0
+    assert config.hand_follow_move_speed_m_s == 0.5
+    assert config.hand_follow_move_acceleration_m_s2 == 0.5
+    assert config.hand_follow_position_tolerance_ratio == 0.1
 
 
 def test_dashboard_command_logs_can_be_toggled(monkeypatch):

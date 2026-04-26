@@ -14,14 +14,17 @@ def build_pick_waypoints(
     target_xy_mm: Sequence[float],
     target_z_mm: float,
     approach_lift_mm: float,
+    pre_grasp_offset_mm: float,
 ) -> Dict[str, List[float]]:
     x_mm, y_mm = float(target_xy_mm[0]), float(target_xy_mm[1])
     z_mm = float(target_z_mm)
     approach = [x_mm, y_mm, z_mm + approach_lift_mm]
+    pre_pick = [x_mm, y_mm, z_mm + max(0.0, pre_grasp_offset_mm)]
     pick = [x_mm, y_mm, z_mm]
     retreat = [x_mm, y_mm, z_mm + approach_lift_mm]
     return {
         "approach": approach,
+        "pre_pick": pre_pick,
         "pick": pick,
         "retreat": retreat,
     }

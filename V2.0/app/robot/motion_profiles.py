@@ -72,3 +72,30 @@ def estimate_joint_move_duration_deg(
 
     cruise_distance_rad = max_delta_rad - (2.0 * accel_distance_rad)
     return (2.0 * accel_time_s) + (cruise_distance_rad / speed_rad_s)
+
+
+def estimate_linear_move_duration_mm(
+    start_xyz_mm: Iterable[float],
+    target_xyz_mm: Iterable[float],
+    speed_m_s: float,
+    acceleration_m_s2: float,
+) -> float:
+    if speed_m_s <= 0.0 or acceleration_m_s2 <= 0.0:
+        return 0.0
+
+    deltas_mm = [
+        float(target) - float(start)
+        for start, target in zip(start_xyz_mm, target_xyz_mm)
+    ]
+    distance_m = math.sqrt(sum((delta / 1000.0) ** 2 for delta in deltas_mm))
+    if distance_m <= 0.0:
+        return 0.0
+
+    accel_time_s = speed_m_s / acceleration_m_s2
+    accel_distance_m = 0.5 * acceleration_m_s2 * (accel_time_s ** 2)
+
+    if distance_m <= 2.0 * accel_distance_m:
+        return 2.0 * math.sqrt(distance_m / acceleration_m_s2)
+
+    cruise_distance_m = distance_m - (2.0 * accel_distance_m)
+    return (2.0 * accel_time_s) + (cruise_distance_m / speed_m_s)
