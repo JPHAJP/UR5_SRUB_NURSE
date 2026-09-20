@@ -41,6 +41,8 @@ def bootstrap_runtime_environment(repo_dir: Path | None = None) -> bool:
     repo_root = repo_dir or Path(__file__).resolve().parents[2]
     _preload_app_env_files(repo_root)
     _install_mediapipe_stderr_filter()
+    if str(os.getenv("VISION_BACKEND", "webcam") or "webcam").strip().lower() == "webcam":
+        return imports_available
     env_updates = _capture_ros_environment(str(repo_root))
     if not env_updates:
         return imports_available

@@ -33,7 +33,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 class UR5WebController:
-    def __init__(self, robot_ip="192.168.0.101", robot_port=30002):
+    def __init__(self, robot_ip="192.168.100.100", robot_port=30002):
         """Inicializar controlador UR5 para aplicación web con comunicación por socket"""
         self.robot_ip = robot_ip
         self.robot_port = robot_port
@@ -1885,4 +1885,3 @@ class UR5WebController:
         except Exception as e:
             logger.error(f"❌ Error ejecutando toggle de luz: {e}")
             return False
-

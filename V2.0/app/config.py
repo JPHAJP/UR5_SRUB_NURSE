@@ -63,6 +63,11 @@ def _normalize_detector_mode(value: str) -> str:
     return normalized if normalized in {"full", "hand_only"} else "full"
 
 
+def _normalize_hand_detector_backend(value: str) -> str:
+    normalized = str(value or "mediapipe").strip().lower()
+    return normalized if normalized in {"mediapipe", "yolo"} else "mediapipe"
+
+
 def _parse_joint_list(name: str, default: List[float]) -> List[float]:
     raw = os.getenv(name)
     if not raw:
@@ -169,6 +174,7 @@ class AppConfig:
     hand_landmarker_model_path: Path
     hand_landmarker_model_url: str
     hand_landmarker_delegate: str
+    hand_detector_backend: str
     camera_index: int
     camera_width: int
     camera_height: int
@@ -181,6 +187,7 @@ class AppConfig:
     magnet_do_pin: int
     hand_plane_z_mm: float
     object_plane_z_mm: float
+    robot_plane_z_offset_mm: float
     hand_follow_height_mm: float
     hand_follow_z_offset_mm: float
     tcp_to_camera_translation_mm: List[float]
@@ -290,7 +297,16 @@ class AppConfig:
             vision_model_path=Path(
                 os.getenv(
                     "VISION_MODEL_PATH",
-                    str(repo_dir / "V_COVA" / "Dashboard" / "V6_best.pt"),
+                    str(
+                        repo_dir
+                        / "V1.0"
+                        / "Train"
+                        / "runs_intsoob"
+                        / "obb"
+                        / "ur5_yolo11n_obb_512_ultralight"
+                        / "weights"
+                        / "best.pt"
+                    ),
                 )
             ),
             vision_device=os.getenv("VISION_DEVICE", "auto").strip().lower() or "auto",
@@ -299,7 +315,7 @@ class AppConfig:
             vision_preview_fps=_parse_float("VISION_PREVIEW_FPS", 0.0),
             vision_depth_preview_fps=_parse_float("VISION_DEPTH_PREVIEW_FPS", 0.0),
             vision_detector_mode=_normalize_detector_mode(os.getenv("VISION_DETECTOR_MODE", "full")),
-            vision_backend=os.getenv("VISION_BACKEND", "hp60c_ros2").strip().lower() or "hp60c_ros2",
+            vision_backend=os.getenv("VISION_BACKEND", "webcam").strip().lower() or "webcam",
             depth_sampling_ratio=_parse_float("DEPTH_SAMPLING_RATIO", 0.10),
             ros_rgb_topic=os.getenv("ROS_RGB_TOPIC", "/ascamera/camera_publisher/rgb0/image"),
             ros_depth_topic=os.getenv("ROS_DEPTH_TOPIC", "/ascamera/camera_publisher/depth0/image_raw"),
@@ -358,6 +374,7 @@ class AppConfig:
                 "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
             ),
             hand_landmarker_delegate=os.getenv("HAND_LANDMARKER_DELEGATE", "auto").strip().lower() or "auto",
+            hand_detector_backend=_normalize_hand_detector_backend(os.getenv("HAND_DETECTOR_BACKEND", "mediapipe")),
             camera_index=_parse_int("CAMERA_INDEX", 0),
             camera_width=_parse_int("CAMERA_WIDTH", 1280),
             camera_height=_parse_int("CAMERA_HEIGHT", 720),
@@ -370,6 +387,7 @@ class AppConfig:
             magnet_do_pin=_parse_int("MAGNET_DO_PIN", 0),
             hand_plane_z_mm=hand_plane_z_mm,
             object_plane_z_mm=_parse_float("OBJECT_PLANE_Z_MM", 120.0),
+            robot_plane_z_offset_mm=_parse_float("ROBOT_PLANE_Z_OFFSET_MM", 95.0),
             hand_follow_height_mm=hand_follow_height_mm,
             hand_follow_z_offset_mm=hand_follow_z_offset_mm,
             tcp_to_camera_translation_mm=_parse_float_list("TCP_TO_CAMERA_TRANSLATION_MM", [55.0, -30.0, 0.0], 3),
@@ -473,12 +491,15 @@ class AppConfig:
                 "tcp_to_camera_translation_mm": self.tcp_to_camera_translation_mm,
                 "tcp_to_camera_rotation_rpy_deg": self.tcp_to_camera_rotation_rpy_deg,
                 "hand_plane_z_mm": self.hand_plane_z_mm,
+                "object_plane_z_mm": self.object_plane_z_mm,
+                "robot_plane_z_offset_mm": self.robot_plane_z_offset_mm,
                 "hand_follow_z_offset_mm": self.hand_follow_z_offset_mm,
                 "hand_follow_height_mm": self.hand_follow_height_mm,
             },
             "robot": {
                 "dashboard_log_commands": self.ur5_dashboard_log_commands,
             },
+            "hand_detector_backend": self.hand_detector_backend,
             "hand_landmarker_delegate": self.hand_landmarker_delegate,
             "models": {
                 "text": self.openai_text_model,

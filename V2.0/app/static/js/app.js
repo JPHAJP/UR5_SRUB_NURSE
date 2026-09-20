@@ -4,6 +4,7 @@ const stateEls = {
   robotConnection: document.getElementById("robot-connection"),
   safetyMessage: document.getElementById("safety-message"),
   visionMessage: document.getElementById("vision-message"),
+  cameraSelect: document.getElementById("camera-select"),
   voiceStatus: document.getElementById("voice-status"),
   robotPose: document.getElementById("robot-pose"),
   conversationId: document.getElementById("conversation-id"),
@@ -22,23 +23,6 @@ const stateEls = {
   transcribeTestPath: document.getElementById("transcribe-test-path"),
   pushToTalkStatus: document.getElementById("push-to-talk-status"),
   pushToTalkOutput: document.getElementById("push-to-talk-output"),
-  depthBackend: document.getElementById("depth-backend"),
-  depthCenterDistance: document.getElementById("depth-center-distance"),
-  depthStreamStatus: document.getElementById("depth-stream-status"),
-  depthIntrinsicsStatus: document.getElementById("depth-intrinsics-status"),
-  depthRobotError: document.getElementById("depth-robot-error"),
-  depthGridBody: document.getElementById("depth-grid-body"),
-  depthCompSummary: document.getElementById("depth-comp-summary"),
-  cameraTransformSummary: document.getElementById("camera-transform-summary"),
-  depthCalibrationStatus: document.getElementById("depth-calibration-status"),
-  depthGainInput: document.getElementById("depth-gain-input"),
-  depthOffsetInput: document.getElementById("depth-offset-input"),
-  transformXInput: document.getElementById("transform-x-input"),
-  transformYInput: document.getElementById("transform-y-input"),
-  transformZInput: document.getElementById("transform-z-input"),
-  transformRollInput: document.getElementById("transform-roll-input"),
-  transformPitchInput: document.getElementById("transform-pitch-input"),
-  transformYawInput: document.getElementById("transform-yaw-input"),
 };
 
 const buttons = {
@@ -54,11 +38,7 @@ const buttons = {
   resetSafety: document.getElementById("reset-safety-btn"),
   transcribeTest: document.getElementById("transcribe-test-btn"),
   pushToTalk: document.getElementById("push-to-talk-btn"),
-  captureDepthSample: document.getElementById("capture-depth-sample-btn"),
-  fitDepth: document.getElementById("fit-depth-btn"),
-  saveDepthCalibration: document.getElementById("save-depth-calibration-btn"),
-  applyDepthComp: document.getElementById("apply-depth-comp-btn"),
-  applyCameraTransform: document.getElementById("apply-camera-transform-btn"),
+  refreshCameras: document.getElementById("refresh-cameras-btn"),
 };
 
 const chatForm = document.getElementById("chat-form");
@@ -75,8 +55,8 @@ let pushToTalkRunning = false;
 let pushToTalkRecorder = null;
 let activeExclusiveCapture = null;
 let resumeVoiceAfterExclusiveCapture = false;
-let latestDepthDiagnostics = null;
-let latestDepthCalibration = null;
+let latestCameraCatalog = null;
+let cameraSelectionBusy = false;
 
 function isLocalhostHostname(hostname) {
   return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
@@ -148,14 +128,16 @@ function postJSON(url, payload) {
 
 function renderState(snapshot) {
   latestState = snapshot;
+  const vision = snapshot.vision_status || {};
   stateEls.mode.textContent = snapshot.mode;
   stateEls.robotConnection.textContent = snapshot.robot_status.connected ? "Conectado" : "Desconectado";
   stateEls.safetyMessage.textContent = snapshot.safety_message || "Sin datos";
-  stateEls.visionMessage.textContent = snapshot.vision_status.ok
-    ? `${snapshot.vision_status.detections || 0} detecciones`
-    : (snapshot.vision_status.message || "Sin datos");
+  stateEls.visionMessage.textContent = vision.ok
+    ? `${vision.detections || 0} detecciones`
+    : (vision.message || "Sin datos");
   stateEls.voiceStatus.textContent = snapshot.voice_active ? "Escuchando" : "Inactiva";
   stateEls.conversationId.textContent = snapshot.conversation_id || "Sin sesion";
+  syncCameraSelectionFromState(vision);
 
   const pose = snapshot.robot_status.current_pose_mm || [];
   stateEls.robotPose.textContent = JSON.stringify({
@@ -188,105 +170,92 @@ function formatNumber(value, digits = 2) {
   return Number(value).toFixed(digits);
 }
 
-function syncNumericInput(input, value, digits = 3) {
-  if (!input || document.activeElement === input) {
-    return;
-  }
-  if (value === null || value === undefined || Number.isNaN(Number(value))) {
-    input.value = "";
-    return;
-  }
-  input.value = Number(value).toFixed(digits);
+function formatCameraOption(camera) {
+  const size = camera.width && camera.height ? `${camera.width}x${camera.height}` : "tamano desconocido";
+  const fps = camera.fps ? `${camera.fps} fps` : "fps N/A";
+  const flags = [];
+  if (camera.active) flags.push("activa");
+  if (camera.selected && !camera.active) flags.push("seleccionada");
+  const suffix = flags.length ? ` [${flags.join(", ")}]` : "";
+  return `${camera.label || `Webcam ${camera.index}`} (${size}, ${fps})${suffix}`;
 }
 
-function renderDepthPanel(depthData, calibrationData) {
-  latestDepthDiagnostics = depthData || latestDepthDiagnostics;
-  latestDepthCalibration = calibrationData || latestDepthCalibration;
+function renderCameraCatalog(payload) {
+  latestCameraCatalog = payload;
+  const select = stateEls.cameraSelect;
+  if (!select) return;
 
-  const diagnostics = latestDepthDiagnostics || {};
-  const calibration = latestDepthCalibration || {};
-  const points = diagnostics.points || [];
-  const recovery = diagnostics.camera_recovery || {};
-  const depthComp = calibration.depth_compensation || diagnostics.depth_compensation || {};
-  const transform = calibration.tcp_to_camera || diagnostics.tcp_to_camera || calibration.camera_to_robot || diagnostics.camera_to_robot || {};
-  const robotReference = calibration.robot_reference || null;
+  const cameras = Array.isArray(payload?.cameras) ? payload.cameras : [];
+  const selectedIndex = payload?.selected_index;
+  const activeIndex = payload?.active_index;
 
-  stateEls.depthBackend.textContent = `Backend: ${calibration.backend || diagnostics.source || "hp60c_ros2"}`;
-  stateEls.depthCenterDistance.textContent = diagnostics.average_depth_mm !== null && diagnostics.average_depth_mm !== undefined
-    ? `${formatNumber(diagnostics.average_depth_mm, 2)} mm`
-    : "Sin datos validos";
-  stateEls.depthStreamStatus.textContent = diagnostics.depth_ok
-    ? `OK (${diagnostics.valid_points || 0}/9 validos)`
-    : "Sin frames de profundidad";
-  stateEls.depthIntrinsicsStatus.textContent = diagnostics.intrinsics_ok
-    ? (diagnostics.alignment_ok ? "OK y alineados" : "Intrinsecos listos, falta alineacion")
-    : "Sin camera_info";
-
-  if (robotReference) {
-    stateEls.depthRobotError.textContent = `${formatNumber(robotReference.error_mm, 2)} mm`;
-  } else {
-    stateEls.depthRobotError.textContent = "Sin referencia";
+  select.innerHTML = "";
+  if (!cameras.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Sin webcams detectadas";
+    select.appendChild(option);
+    select.disabled = true;
+    return;
   }
 
-  if (!points.length) {
-    stateEls.depthGridBody.innerHTML = "<tr><td colspan='3'>Esperando profundidad...</td></tr>";
-  } else {
-    stateEls.depthGridBody.innerHTML = points.map((point) => `
-      <tr>
-        <td>${point.id}</td>
-        <td>(${point.x}, ${point.y})</td>
-        <td>${point.display}</td>
-      </tr>
-    `).join("");
+  cameras.forEach((camera) => {
+    const option = document.createElement("option");
+    option.value = String(camera.index);
+    option.textContent = formatCameraOption(camera);
+    if (selectedIndex !== null && selectedIndex !== undefined && Number(camera.index) === Number(selectedIndex)) {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  });
+  select.disabled = cameraSelectionBusy;
+
+  if ((selectedIndex === null || selectedIndex === undefined) && activeIndex !== null && activeIndex !== undefined) {
+    select.value = String(activeIndex);
   }
-
-  stateEls.depthCompSummary.textContent = [
-    `Gain: ${formatNumber(depthComp.gain, 6)}`,
-    `Offset: ${formatNumber(depthComp.offset_mm, 3)} mm`,
-    `Muestras: ${depthComp.sample_count || 0}`,
-    `Error ultimo: ${formatNumber(depthComp.last_error_abs_mm, 3)} mm`,
-    `Error medio: ${formatNumber(depthComp.last_error_mean_mm, 3)} mm`,
-  ].join("\n");
-
-  stateEls.cameraTransformSummary.textContent = [
-    `Configurada: ${transform.configured ? "si" : "no"}`,
-    `TCP -> camara: ${(transform.translation_mm || []).join(", ") || "55, -30, 0"}`,
-    `Rotacion RPY: ${(transform.rotation_rpy_deg || []).join(", ") || "0, 0, 0"}`,
-  ].join("\n");
-
-  stateEls.depthCalibrationStatus.textContent = [
-    diagnostics.depth_ok ? "Profundidad activa." : "Profundidad no disponible.",
-    diagnostics.intrinsics_ok ? "CameraInfo recibido." : "Falta camera_info.",
-    diagnostics.alignment_ok ? "RGB y depth alineados." : "RGB y depth no alineados todavia.",
-    robotReference ? `Robot Z: ${formatNumber(robotReference.robot_z_mm, 2)} mm` : "Sin referencia actual del robot.",
-    recovery.state ? `Recovery: ${recovery.state}` : "",
-    recovery.next_retry_in_s !== null && recovery.next_retry_in_s !== undefined
-      ? `Reintento watchdog: ${formatNumber(recovery.next_retry_in_s, 1)} s`
-      : "",
-    recovery.last_driver_issue ? `Driver: ${recovery.last_driver_issue}` : "",
-  ].filter(Boolean).join("\n");
-
-  syncNumericInput(stateEls.depthGainInput, depthComp.gain, 6);
-  syncNumericInput(stateEls.depthOffsetInput, depthComp.offset_mm, 3);
-  syncNumericInput(stateEls.transformXInput, (transform.translation_mm || [])[0], 3);
-  syncNumericInput(stateEls.transformYInput, (transform.translation_mm || [])[1], 3);
-  syncNumericInput(stateEls.transformZInput, (transform.translation_mm || [])[2], 3);
-  syncNumericInput(stateEls.transformRollInput, (transform.rotation_rpy_deg || [])[0], 3);
-  syncNumericInput(stateEls.transformPitchInput, (transform.rotation_rpy_deg || [])[1], 3);
-  syncNumericInput(stateEls.transformYawInput, (transform.rotation_rpy_deg || [])[2], 3);
 }
 
-async function refreshDepthPanel() {
+function syncCameraSelectionFromState(vision) {
+  const select = stateEls.cameraSelect;
+  if (!select || !vision) return;
+  const selectedIndex = vision.selected_camera_index;
+  const activeIndex = vision.active_camera_index;
+  if (selectedIndex !== null && selectedIndex !== undefined && select.value !== String(selectedIndex) && !cameraSelectionBusy) {
+    select.value = String(selectedIndex);
+  } else if ((selectedIndex === null || selectedIndex === undefined) && activeIndex !== null && activeIndex !== undefined && !cameraSelectionBusy) {
+    select.value = String(activeIndex);
+  }
+}
+
+async function refreshCameraCatalog(forceRefresh = false) {
+  const response = await fetch(`/api/vision/cameras${forceRefresh ? "?refresh=1" : ""}`, { cache: "no-store" });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || "No se pudo leer la lista de webcams.");
+  }
+  renderCameraCatalog(data);
+  return data;
+}
+
+async function changeCamera(index) {
+  cameraSelectionBusy = true;
+  if (stateEls.cameraSelect) {
+    stateEls.cameraSelect.disabled = true;
+  }
+  if (buttons.refreshCameras) {
+    buttons.refreshCameras.disabled = true;
+  }
   try {
-    const [depthResponse, calibrationResponse] = await Promise.all([
-      fetch("/api/vision/depth", { cache: "no-store" }),
-      fetch("/api/calibration/depth", { cache: "no-store" }),
-    ]);
-    const depthData = await depthResponse.json();
-    const calibrationData = await calibrationResponse.json();
-    renderDepthPanel(depthData, calibrationData);
-  } catch (error) {
-    stateEls.depthCalibrationStatus.textContent = "No se pudo leer el diagnostico de profundidad.";
+    const data = await postJSON("/api/vision/camera", { index: Number(index) });
+    renderCameraCatalog(data);
+  } finally {
+    cameraSelectionBusy = false;
+    if (stateEls.cameraSelect) {
+      stateEls.cameraSelect.disabled = !latestCameraCatalog?.cameras?.length;
+    }
+    if (buttons.refreshCameras) {
+      buttons.refreshCameras.disabled = false;
+    }
   }
 }
 
@@ -806,58 +775,25 @@ buttons.release.addEventListener("click", () => postJSON("/api/agent/tool", { ac
 buttons.resetSafety.addEventListener("click", () => postJSON("/api/safety/reset").catch(alert));
 buttons.transcribeTest.addEventListener("click", () => runTranscriptionTest());
 buttons.pushToTalk.addEventListener("click", () => runPushToTalk());
-buttons.captureDepthSample.addEventListener("click", async () => {
+buttons.refreshCameras?.addEventListener("click", async () => {
   try {
-    await postJSON("/api/calibration/depth/sample", {});
-    await refreshDepthPanel();
+    buttons.refreshCameras.disabled = true;
+    await refreshCameraCatalog(true);
   } catch (error) {
     alert(error.message);
+  } finally {
+    buttons.refreshCameras.disabled = false;
   }
 });
-buttons.fitDepth.addEventListener("click", async () => {
+
+stateEls.cameraSelect?.addEventListener("change", async (event) => {
+  const value = event.target.value;
+  if (value === "") return;
   try {
-    await postJSON("/api/calibration/depth/fit", {});
-    await refreshDepthPanel();
+    await changeCamera(value);
   } catch (error) {
     alert(error.message);
-  }
-});
-buttons.saveDepthCalibration.addEventListener("click", async () => {
-  try {
-    await postJSON("/api/calibration/depth/save", {});
-    await refreshDepthPanel();
-  } catch (error) {
-    alert(error.message);
-  }
-});
-buttons.applyDepthComp.addEventListener("click", async () => {
-  try {
-    await postJSON("/api/calibration/depth", {
-      gain: parseInputNumber(stateEls.depthGainInput),
-      offset_mm: parseInputNumber(stateEls.depthOffsetInput),
-    });
-    await refreshDepthPanel();
-  } catch (error) {
-    alert(error.message);
-  }
-});
-buttons.applyCameraTransform.addEventListener("click", async () => {
-  try {
-    await postJSON("/api/calibration/camera-transform", {
-      translation_mm: [
-        parseInputNumber(stateEls.transformXInput),
-        parseInputNumber(stateEls.transformYInput),
-        parseInputNumber(stateEls.transformZInput),
-      ],
-      rotation_rpy_deg: [
-        parseInputNumber(stateEls.transformRollInput),
-        parseInputNumber(stateEls.transformPitchInput),
-        parseInputNumber(stateEls.transformYawInput),
-      ],
-    });
-    await refreshDepthPanel();
-  } catch (error) {
-    alert(error.message);
+    refreshCameraCatalog(true).catch(() => {});
   }
 });
 
@@ -959,5 +895,4 @@ async function processVoiceChunkLoop() {
 renderNetworkStatus();
 updateTranscriptionTestIdleState();
 updatePushToTalkIdleState();
-refreshDepthPanel();
-setInterval(refreshDepthPanel, 1000);
+refreshCameraCatalog().catch(() => {});

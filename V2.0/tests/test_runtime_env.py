@@ -83,6 +83,7 @@ def test_bootstrap_runtime_environment_reexecs_before_applying_paths(monkeypatch
         pass
 
     calls = {"reexec": None, "applied": False}
+    monkeypatch.setenv("VISION_BACKEND", "hp60c_ros2")
 
     def fake_reexec(env_updates):
         calls["reexec"] = dict(env_updates)
@@ -121,6 +122,17 @@ def test_bootstrap_runtime_environment_returns_visible_imports_without_setup(mon
     monkeypatch.setattr("app.runtime_env._capture_ros_environment", lambda repo_dir: {})
 
     assert bootstrap_runtime_environment(tmp_path) is True
+
+
+def test_bootstrap_runtime_environment_skips_ros_for_webcam(monkeypatch, tmp_path):
+    monkeypatch.setenv("VISION_BACKEND", "webcam")
+    monkeypatch.setattr("app.runtime_env._ros_imports_available", lambda: False)
+    monkeypatch.setattr(
+        "app.runtime_env._capture_ros_environment",
+        lambda repo_dir: (_ for _ in ()).throw(AssertionError("No debe intentar cargar ROS en webcam")),
+    )
+
+    assert bootstrap_runtime_environment(tmp_path) is False
 
 
 def test_preload_app_env_files_reads_v2_env(monkeypatch, tmp_path):

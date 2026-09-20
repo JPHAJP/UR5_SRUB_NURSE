@@ -1,0 +1,1 @@
+{"timestamp_s": 1777244920.57835, "tcp_pose_mm": [86.78, -417.16, 408.23, -2.895, 1.184, -0.012], "hand_world_mm": null, "target_xyz_mm": null, "error_xyz_mm": null, "distance_tcp_to_hand_mm": null, "distance_tcp_to_target_mm": null, "distance_delta_mm": null, "approaching_hand": null, "active_axis": "x", "command_state": ""}

@@ -1,52 +1,103 @@
 {
   "camera": {
-    "index": 0,
+    "index": 2,
     "width": 1280,
     "height": 720,
-    "fps": 30,
-    "backend": "hp60c_ros2"
+    "fps": 7,
+    "hfov_deg": 30.64,
+    "vfov_deg": 49.02
   },
   "hand_follow": {
-    "plane_z_mm": 0.0,
+    "plane_z_mm": 350.0,
     "image_points": [],
     "world_points_mm": [],
     "homography": [],
     "workspace": {
       "x": [
-        -450,
-        450
+        -450.0,
+        450.0
       ],
       "y": [
-        -700,
-        150
+        -700.0,
+        150.0
       ],
       "z": [
-        150,
-        700
+        150.0,
+        700.0
       ]
     }
   },
   "object_pick": {
-    "plane_z_mm": 120.0,
-    "image_points": [],
-    "world_points_mm": [],
-    "homography": [],
+    "plane_z_mm": 582.28,
+    "image_points": [
+      [
+        149.0,
+        711.0
+      ],
+      [
+        150.0,
+        27.0
+      ],
+      [
+        1148.0,
+        30.0
+      ],
+      [
+        1174.0,
+        716.0
+      ]
+    ],
+    "world_points_mm": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        319.0,
+        0.0
+      ],
+      [
+        319.0,
+        531.0
+      ],
+      [
+        0.0,
+        531.0
+      ]
+    ],
+    "homography": [
+      [
+        0.002278301732351785,
+        -0.4670518556735368,
+        331.73440242576424
+      ],
+      [
+        0.5342940095819898,
+        0.0007811315916961051,
+        -80.16519199026861
+      ],
+      [
+        2.6221116935366896e-06,
+        3.950766651448295e-05,
+        1.0
+      ]
+    ],
     "workspace": {
       "x": [
-        -450,
-        450
+        -50.0,
+        369.0
       ],
       "y": [
-        -700,
-        150
+        -50.0,
+        581.0
       ],
       "z": [
-        20,
-        600
+        0.0,
+        882.28
       ]
     }
   },
-  "backend": "hp60c_ros2",
+  "backend": "webcam",
   "topics": {
     "rgb": "/ascamera/camera_publisher/rgb0/image",
     "depth": "/ascamera/camera_publisher/depth0/image_raw",
@@ -62,7 +113,7 @@
       "cx": 0.0,
       "cy": 0.0,
       "frame_id": "",
-      "topic": "/ascamera/camera_publisher/rgb0/camera_info"
+      "topic": ""
     },
     "depth": {
       "width": 0,
@@ -72,13 +123,13 @@
       "cx": 0.0,
       "cy": 0.0,
       "frame_id": "",
-      "topic": "/ascamera/camera_publisher/depth0/camera_info"
+      "topic": ""
     }
   },
   "camera_to_robot": {
     "translation_mm": [
-      55.0,
-      -30.0,
+      0.0,
+      0.0,
       0.0
     ],
     "rotation_rpy_deg": [
@@ -86,33 +137,8 @@
       0.0,
       0.0
     ],
-    "matrix_4x4": [
-      [
-        1.0,
-        0.0,
-        0.0,
-        55.0
-      ],
-      [
-        0.0,
-        1.0,
-        0.0,
-        -30.0
-      ],
-      [
-        0.0,
-        0.0,
-        1.0,
-        0.0
-      ],
-      [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    ],
-    "configured": true
+    "matrix_4x4": [],
+    "configured": false
   },
   "tcp_to_camera": {
     "translation_mm": [
@@ -125,32 +151,7 @@
       0.0,
       0.0
     ],
-    "matrix_4x4": [
-      [
-        1.0,
-        0.0,
-        0.0,
-        55.0
-      ],
-      [
-        0.0,
-        1.0,
-        0.0,
-        -30.0
-      ],
-      [
-        0.0,
-        0.0,
-        1.0,
-        0.0
-      ],
-      [
-        0.0,
-        0.0,
-        0.0,
-        1.0
-      ]
-    ],
+    "matrix_4x4": [],
     "configured": true
   },
   "depth_compensation": {

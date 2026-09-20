@@ -6,4 +6,4 @@ opencv-python>=4.10
 pytest>=8.0
 requests>=2.32
 simple-websocket>=1.0
-ultralytics>=8.2
+ultralytics>=8.3.0

@@ -4,6 +4,7 @@ const els = {
   origin: document.getElementById("demo-origin"),
   detector: document.getElementById("demo-detector"),
   cameraStatus: document.getElementById("demo-camera-status"),
+  cameraSelect: document.getElementById("demo-camera-select"),
   mode: document.getElementById("demo-mode-pill"),
   robotStatus: document.getElementById("demo-robot-status"),
   safetyStatus: document.getElementById("demo-safety-status"),
@@ -22,10 +23,13 @@ const buttons = {
   resetSafety: document.getElementById("demo-reset-safety-btn"),
   calibratePlane: document.getElementById("demo-calibrate-plane-btn"),
   savePlane: document.getElementById("demo-save-plane-btn"),
+  refreshCameras: document.getElementById("demo-refresh-cameras-btn"),
 };
 
 let latestState = null;
 let latestCalibration = null;
+let latestCameraCatalog = null;
+let cameraSelectionBusy = false;
 
 function postJSON(url, payload) {
   return fetch(url, {
@@ -55,6 +59,29 @@ function formatVector(values) {
   return values.map((value) => formatNumber(value, 1)).join(", ");
 }
 
+function formatApproachTrend(value) {
+  if (value === true) {
+    return "acercandose";
+  }
+  if (value === false) {
+    return "alejandose";
+  }
+  return "sin referencia";
+}
+
+function formatHandDetectorLabel(value) {
+  if (value === "mediapipe") {
+    return "MediaPipe mano";
+  }
+  if (value === "yolo_fallback") {
+    return "YOLO mano fallback";
+  }
+  if (value === "yolo") {
+    return "YOLO mano";
+  }
+  return value || "N/A";
+}
+
 function syncPlaneInput(value) {
   if (document.activeElement !== els.planeZInput && value !== null && value !== undefined) {
     els.planeZInput.value = Number(value).toFixed(1);
@@ -68,10 +95,101 @@ function renderCalibration(calibration) {
   }
   syncPlaneInput(calibration.plane_z_mm);
   els.planeSummary.textContent = [
-    `Plano Z: ${formatNumber(calibration.plane_z_mm, 1)} mm`,
-    `Offset Z: ${formatNumber(calibration.z_offset_mm, 1)} mm`,
-    `Objetivo Z: ${formatNumber(calibration.target_z_mm, 1)} mm`,
+    `Plano base Z: ${formatNumber(calibration.plane_z_mm, 1)} mm`,
+    `Offset hacia abajo: ${formatNumber(calibration.z_offset_mm, 1)} mm`,
+    `Objetivo Z = plano - offset: ${formatNumber(calibration.target_z_mm, 1)} mm`,
   ].join("\n");
+}
+
+function formatCameraOption(camera) {
+  const size = camera.width && camera.height ? `${camera.width}x${camera.height}` : "tamano desconocido";
+  const fps = camera.fps ? `${camera.fps} fps` : "fps N/A";
+  const flags = [];
+  if (camera.active) flags.push("activa");
+  if (camera.selected && !camera.active) flags.push("seleccionada");
+  const suffix = flags.length ? ` [${flags.join(", ")}]` : "";
+  return `${camera.label || `Webcam ${camera.index}`} (${size}, ${fps})${suffix}`;
+}
+
+function renderCameraCatalog(payload) {
+  latestCameraCatalog = payload;
+  if (!els.cameraSelect) {
+    return;
+  }
+
+  const cameras = Array.isArray(payload?.cameras) ? payload.cameras : [];
+  const selectedIndex = payload?.selected_index;
+  const activeIndex = payload?.active_index;
+
+  els.cameraSelect.innerHTML = "";
+  if (!cameras.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Sin webcams detectadas";
+    els.cameraSelect.appendChild(option);
+    els.cameraSelect.disabled = true;
+    return;
+  }
+
+  cameras.forEach((camera) => {
+    const option = document.createElement("option");
+    option.value = String(camera.index);
+    option.textContent = formatCameraOption(camera);
+    if (selectedIndex !== null && selectedIndex !== undefined && Number(camera.index) === Number(selectedIndex)) {
+      option.selected = true;
+    }
+    els.cameraSelect.appendChild(option);
+  });
+  els.cameraSelect.disabled = cameraSelectionBusy;
+
+  if ((selectedIndex === null || selectedIndex === undefined) && activeIndex !== null && activeIndex !== undefined) {
+    els.cameraSelect.value = String(activeIndex);
+  }
+}
+
+function syncCameraSelectionFromState(vision) {
+  if (!els.cameraSelect || !vision) {
+    return;
+  }
+  const selectedIndex = vision.selected_camera_index;
+  const activeIndex = vision.active_camera_index;
+  if (selectedIndex !== null && selectedIndex !== undefined && !cameraSelectionBusy) {
+    els.cameraSelect.value = String(selectedIndex);
+  } else if (activeIndex !== null && activeIndex !== undefined && !cameraSelectionBusy) {
+    els.cameraSelect.value = String(activeIndex);
+  }
+}
+
+async function refreshCameraCatalog(forceRefresh = false) {
+  const response = await fetch(`/api/vision/cameras${forceRefresh ? "?refresh=1" : ""}`, { cache: "no-store" });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || "No se pudo leer la lista de webcams.");
+  }
+  renderCameraCatalog(data);
+  return data;
+}
+
+async function changeCamera(index) {
+  cameraSelectionBusy = true;
+  if (els.cameraSelect) {
+    els.cameraSelect.disabled = true;
+  }
+  if (buttons.refreshCameras) {
+    buttons.refreshCameras.disabled = true;
+  }
+  try {
+    const data = await postJSON("/api/vision/camera", { index: Number(index) });
+    renderCameraCatalog(data);
+  } finally {
+    cameraSelectionBusy = false;
+    if (els.cameraSelect) {
+      els.cameraSelect.disabled = !latestCameraCatalog?.cameras?.length;
+    }
+    if (buttons.refreshCameras) {
+      buttons.refreshCameras.disabled = false;
+    }
+  }
 }
 
 async function refreshCalibration() {
@@ -87,15 +205,22 @@ function renderState(snapshot) {
   const hand = snapshot.hand_target || {};
   const pose = snapshot.robot_status?.current_pose_mm || [];
   const connected = Boolean(snapshot.robot_status?.connected);
-  const detectorMode = vision.detector_mode || window.SILVIA_SETTINGS?.vision_detector_mode || "hand_only";
+  const handDetectorMode = vision.hand_detector_mode || window.SILVIA_SETTINGS?.hand_detector_backend || "mediapipe";
+  const activeAxis = tracking.active_axis === "xy"
+    ? "XY"
+    : (tracking.active_axis === "y" ? "Y" : "X");
+  const fixedAxis = tracking.active_axis === "xy"
+    ? "ninguno"
+    : (activeAxis === "Y" ? "X" : "Y");
 
   els.origin.textContent = `Origen: ${window.location.origin}`;
-  els.detector.textContent = detectorMode === "hand_only" ? "YOLO mano" : "YOLO activo";
+  els.detector.textContent = formatHandDetectorLabel(handDetectorMode);
   els.detector.classList.toggle("is-warning", false);
   els.detector.classList.toggle("is-ok", true);
 
   els.mode.textContent = snapshot.mode || "idle";
-  els.cameraStatus.textContent = vision.rgb_ok && vision.depth_ok ? "RGB/depth OK" : (vision.message || "Sin datos");
+  els.cameraStatus.textContent = vision.ok ? "Webcam OK" : (vision.message || "Sin datos");
+  syncCameraSelectionFromState(vision);
   els.robotStatus.textContent = connected ? "Conectado" : "Desconectado";
   els.safetyStatus.textContent = snapshot.safety_locked ? snapshot.safety_message : "Sistema listo";
   els.handStatus.textContent = hand.world_mm ? `Detectada (${formatVector(hand.world_mm)})` : "No detectada";
@@ -112,8 +237,13 @@ function renderState(snapshot) {
 
   els.trackingSummary.textContent = [
     `Mano XYZ: ${formatVector(tracking.hand_world_mm || hand.world_mm)}`,
-    `Objetivo XYZ: ${formatVector(tracking.target_xyz_mm)}`,
-    `Delta XYZ: ${formatVector(tracking.error_xyz_mm)}`,
+    `Objetivo XYZ (${fixedAxis === "ninguno" ? "X/Y activos" : `${fixedAxis} fijo`}): ${formatVector(tracking.target_xyz_mm)}`,
+    `Delta XYZ (${activeAxis} activo): ${formatVector(tracking.error_xyz_mm)}`,
+    `TCP -> mano: ${formatNumber(tracking.distance_tcp_to_hand_mm, 3)} mm`,
+    `TCP -> objetivo: ${formatNumber(tracking.distance_tcp_to_target_mm, 3)} mm`,
+    `Delta distancia: ${formatNumber(tracking.distance_delta_mm, 3)} mm`,
+    `Tendencia: ${formatApproachTrend(tracking.approaching_hand)}`,
+    `Log activo: ${tracking.distance_log_path || "N/A"}`,
     `Velocidad: ${formatVector(tracking.velocity_mm_s)} mm/s`,
     `Edad target: ${formatNumber(tracking.target_age_s, 3)} s`,
   ].join("\n");
@@ -171,9 +301,34 @@ buttons.savePlane.addEventListener("click", async () => {
   }
 });
 
+buttons.refreshCameras?.addEventListener("click", async () => {
+  try {
+    buttons.refreshCameras.disabled = true;
+    await refreshCameraCatalog(true);
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    buttons.refreshCameras.disabled = false;
+  }
+});
+
+els.cameraSelect?.addEventListener("change", async (event) => {
+  const value = event.target.value;
+  if (value === "") {
+    return;
+  }
+  try {
+    await changeCamera(value);
+  } catch (error) {
+    alert(error.message);
+    refreshCameraCatalog(true).catch(() => {});
+  }
+});
+
 socket.on("state", renderState);
 
 refreshCalibration().catch(() => {
   els.planeSummary.textContent = "No se pudo leer la calibracion.";
 });
+refreshCameraCatalog().catch(() => {});
 setInterval(() => refreshCalibration().catch(() => {}), 3000);

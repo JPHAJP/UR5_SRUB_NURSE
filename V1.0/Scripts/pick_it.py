@@ -12,6 +12,20 @@ import rtde_receive
 import rtde_io
 
 import random
+import os
+
+DEFAULT_YOLO_MODEL_PATH = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "Train",
+        "runs_intsoob",
+        "obb",
+        "ur5_yolo11n_obb_512_ultralight",
+        "weights",
+        "best.pt",
+    )
+)
 
 # Diccionario que mapea identificadores de clase a nombres de clase
 CLASS_NAMES = {
@@ -352,7 +366,7 @@ def main(control):
     safe_move_to_home(control)
     # Inicializar la cámara y el modelo YOLO
     pipeline = initialize_pipeline()
-    model = YOLO(r'V1.0/Models/V6_best.pt')
+    model = YOLO(os.getenv("VISION_MODEL_PATH", DEFAULT_YOLO_MODEL_PATH))
 
     # Iniciar un hilo para monitorear el estado del sensor digital y detener el robot si se activa
     stop_event = threading.Event()

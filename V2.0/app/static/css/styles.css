@@ -117,7 +117,7 @@ body {
 }
 
 .grid-top {
-    grid-template-columns: 1.05fr 1.35fr;
+    grid-template-columns: 1fr 1.32fr;
     margin-bottom: 24px;
 }
 
@@ -206,9 +206,20 @@ body {
     border-radius: 18px;
     background: #08131f;
     aspect-ratio: 16 / 9;
+    min-height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.video-frame-lg {
+    min-height: 320px;
+}
+
+.video-frame-xl {
+    min-height: 420px;
+    max-height: 68vh;
+    aspect-ratio: 16 / 9;
 }
 
 .video-frame img {
@@ -221,6 +232,10 @@ body {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+}
+
+.feed-grid-single {
+    grid-template-columns: 1fr;
 }
 
 .video-card {
@@ -502,6 +517,16 @@ button:disabled {
     .depth-summary-grid,
     .depth-tools-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1320px) {
+    .grid-top {
+        grid-template-columns: 1fr 1.18fr;
+    }
+
+    .video-frame-xl {
+        min-height: 360px;
     }
 }
 

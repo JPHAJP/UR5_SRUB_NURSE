@@ -19,7 +19,20 @@ ofzr = 0.01
 app = Flask(__name__)
 
 # Usar la ruta absoluta del modelo YOLO
-model_path = os.path.abspath('V6_best.pt')
+repo_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+model_path = os.getenv(
+    "VISION_MODEL_PATH",
+    os.path.join(
+        repo_dir,
+        "V1.0",
+        "Train",
+        "runs_intsoob",
+        "obb",
+        "ur5_yolo11n_obb_512_ultralight",
+        "weights",
+        "best.pt",
+    ),
+)
 camera = Camera(model_path)
 
 # Función para capturar frames de la cámara RealSense y ejecutar YOLO

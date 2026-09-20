@@ -61,10 +61,12 @@ def build_stub_config(tmp_path: Path):
         log_dir=tmp_path / "logs",
         hand_plane_z_mm=350.0,
         object_plane_z_mm=120.0,
+        robot_plane_z_offset_mm=95.0,
         hand_follow_height_mm=550.0,
         hand_follow_z_offset_mm=200.0,
         hand_landmarker_model_path=tmp_path / "hand_landmarker.task",
         hand_landmarker_delegate="auto",
+        hand_detector_backend="mediapipe",
         tcp_to_camera_translation_mm=[55.0, -30.0, 0.0],
         tcp_to_camera_rotation_rpy_deg=[0.0, 0.0, 0.0],
         hand_workspace={"x": [-450.0, 450.0], "y": [-700.0, 150.0], "z": [150.0, 700.0]},
@@ -129,6 +131,66 @@ class FakeYoloModel:
         )
         result = SimpleNamespace(obb=None, boxes=boxes, plot=lambda: np.zeros((480, 640, 3), dtype=np.uint8))
         return [result]
+
+
+class FakeCaptureDevice:
+    def __init__(self, index, opened=True, frame_shape=(480, 640, 3), fps=30.0):
+        self.index = index
+        self.opened = opened
+        self.frame_shape = frame_shape
+        self.fps = fps
+        self.released = False
+        self._last_width = frame_shape[1]
+        self._last_height = frame_shape[0]
+
+    def isOpened(self):
+        return self.opened
+
+    def set(self, prop, value):
+        if prop == 3:
+            self._last_width = int(value)
+        elif prop == 4:
+            self._last_height = int(value)
+        elif prop == 5:
+            self.fps = float(value)
+        return True
+
+    def get(self, prop):
+        if prop == 3:
+            return float(self.frame_shape[1] if self.opened else 0)
+        if prop == 4:
+            return float(self.frame_shape[0] if self.opened else 0)
+        if prop == 5:
+            return float(self.fps)
+        return 0.0
+
+    def read(self):
+        if not self.opened:
+            return False, None
+        return True, np.zeros(self.frame_shape, dtype=np.uint8)
+
+    def release(self):
+        self.released = True
+
+
+class FakeCV2Module:
+    CAP_PROP_FRAME_WIDTH = 3
+    CAP_PROP_FRAME_HEIGHT = 4
+    CAP_PROP_FPS = 5
+
+    def __init__(self, devices):
+        self.devices = devices
+
+    def VideoCapture(self, index):
+        prototype = self.devices.get(int(index))
+        if prototype is None:
+            return FakeCaptureDevice(index, opened=False)
+        return FakeCaptureDevice(
+            index,
+            opened=prototype.opened,
+            frame_shape=prototype.frame_shape,
+            fps=prototype.fps,
+        )
 
 
 def test_yolo_filters_hand_labels_and_keeps_instruments(tmp_path):
@@ -225,8 +287,97 @@ def test_build_detection_adds_depth_and_world_coordinates(tmp_path):
     assert len(detection["depth_samples"]) == 9
 
 
+def test_webcam_detection_uses_homography_and_robot_plane_offset(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service.calibration.hand_follow.homography = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+    service.calibration.object_pick.homography = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+
+    hand_detection = service._build_detection("Mano", 0.88, [300.0, 220.0, 340.0, 260.0])
+    object_detection = service._build_detection("Pinzas", 0.88, [300.0, 220.0, 340.0, 260.0])
+
+    assert hand_detection["world_mm"] == [320.0, 240.0, 255.0]
+    assert object_detection["world_mm"] == [320.0, 240.0, 25.0]
+    assert hand_detection["depth_valid"] is False
+    assert object_detection["depth_valid"] is False
+
+
+def test_webcam_detection_without_homography_leaves_world_none(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service.calibration.object_pick.homography = []
+
+    detection = service._build_detection("Pinzas", 0.88, [300.0, 220.0, 340.0, 260.0])
+
+    assert detection["world_mm"] is None
+
+
+def test_hand_follow_uses_object_homography_as_fallback(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service.calibration.hand_follow.homography = []
+    service.calibration.object_pick.homography = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+
+    detection = service._build_detection("Mano", 0.88, [300.0, 220.0, 340.0, 260.0])
+
+    assert detection["world_mm"] == [320.0, 240.0, 255.0]
+
+
+def test_list_available_cameras_returns_all_detected_webcams(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service._selected_camera_index = 0
+    service._active_camera_index = 0
+    service._camera_probe_max_index = 3
+    service.calibration.camera.update({"width": 1280, "height": 720, "fps": 25})
+    service._cv2 = FakeCV2Module(
+        {
+            1: FakeCaptureDevice(1, opened=True, frame_shape=(600, 800, 3), fps=20.0),
+            2: FakeCaptureDevice(2, opened=False),
+        }
+    )
+
+    payload = service.list_available_cameras(force_refresh=True)
+
+    assert payload["ok"] is True
+    assert [camera["index"] for camera in payload["cameras"]] == [0, 1]
+    assert payload["cameras"][0]["active"] is True
+    assert payload["cameras"][0]["width"] == 1280
+    assert payload["cameras"][1]["width"] == 800
+    assert payload["selected_index"] == 0
+
+
+def test_select_camera_requests_hot_switch_and_updates_topics(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service._selected_camera_index = 0
+    service._active_camera_index = 0
+    service._camera_probe_max_index = 2
+    service._latest_frame = np.ones((10, 10, 3), dtype=np.uint8)
+    service._latest_rgb_jpeg = b"rgb"
+    service._latest_jpeg = b"annotated"
+    service._rgb_stream_ok = True
+    service._cv2 = FakeCV2Module(
+        {
+            1: FakeCaptureDevice(1, opened=True, frame_shape=(720, 1280, 3), fps=30.0),
+        }
+    )
+
+    payload = service.select_camera(1)
+
+    assert payload["selected_index"] == 1
+    assert service.config.camera_index == 1
+    assert service._requested_camera_index == 1
+    assert service._rgb_stream_ok is False
+    assert service._latest_frame is None
+    assert service.calibration.topics["rgb"] == "webcam:1"
+    assert service.calibration.camera["index"] == 1
+
+
 def test_mediapipe_hand_target_uses_frame_resolution_and_tcp_offset(tmp_path):
     service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+    service.calibration.hand_follow.homography = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
     service.calibration.intrinsics["rgb"].width = 1280
     service.calibration.intrinsics["rgb"].height = 720
     service.calibration.intrinsics["rgb"].fx = 800.0
@@ -239,6 +390,9 @@ def test_mediapipe_hand_target_uses_frame_resolution_and_tcp_offset(tmp_path):
     service._latest_depth_frame = np.full((720, 1280), 400, dtype=np.uint16)
     service.state.set_robot_status({"current_pose_mm": [100.0, 200.0, 300.0, 0.0, 0.0, 0.0]})
     landmarks = [SimpleNamespace(x=0.5, y=0.5, z=0.0) for _ in range(21)]
+    landmarks[0] = SimpleNamespace(x=0.25, y=0.25, z=0.0)
+    landmarks[5] = SimpleNamespace(x=0.75, y=0.75, z=0.0)
+    landmarks[9] = SimpleNamespace(x=0.70, y=0.60, z=0.0)
 
     target = service._build_mediapipe_hand_target(
         hand_landmarks=landmarks,
@@ -250,32 +404,182 @@ def test_mediapipe_hand_target_uses_frame_resolution_and_tcp_offset(tmp_path):
     assert target["source"] == "mediapipe"
     assert target["center_px"] == [640.0, 360.0]
     assert target["confidence"] == 0.77
-    assert target["world_mm"] == [155.0, 170.0, 705.0]
+    assert target["world_mm"] == [640.0, 360.0, 255.0]
+    assert target["landmark"] == "HAND_BBOX_CENTER"
     assert target["follow_plane_z_mm"] == 350.0
-    assert target["follow_z_offset_mm"] == 200.0
-    assert target["follow_height_mm"] == 550.0
+    assert target["follow_z_offset_mm"] == 95.0
+    assert target["follow_height_mm"] == 255.0
     assert "timestamp_s" in target
 
 
-def test_hand_only_mode_uses_yolo_hand_detection(tmp_path):
+def test_webcam_depth_diagnostics_reports_disabled(tmp_path):
+    service = make_service(tmp_path)
+    service.config.vision_backend = "webcam"
+
+    diagnostics = service.get_depth_diagnostics()
+
+    assert diagnostics["depth_enabled"] is False
+    assert "deshabilitada" in diagnostics["message"]
+
+
+def test_hand_only_mode_uses_mediapipe_as_primary_hand_backend(monkeypatch, tmp_path):
     config = build_stub_config(tmp_path)
     config.vision_detector_mode = "hand_only"
-    service = make_service(tmp_path)
-    service.config.vision_detector_mode = "hand_only"
-    service._model = FakeYoloModel()
-    service._inference_device = "cpu"
+    config.hand_detector_backend = "mediapipe"
+    service = VisionService(config, AppState())
+    service._cv2 = SimpleNamespace(imencode=lambda *_args, **_kwargs: (True, np.array([1], dtype=np.uint8)))
+    service._latest_frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    service._latest_frame_id = 1
+    service._running = True
+    service._stop_event.clear()
 
-    detections, _frame = service._detect_with_yolo(
-        np.zeros((480, 640, 3), dtype=np.uint8),
-        include_hand=True,
-        hand_only=True,
-    )
-    target = service._select_hand_target(detections)
+    monkeypatch.setitem(sys.modules, "torch", ModuleType("torch"))
+    ultralytics_module = ModuleType("ultralytics")
+    ultralytics_module.YOLO = object()
+    monkeypatch.setitem(sys.modules, "ultralytics", ultralytics_module)
+    monkeypatch.setattr(service, "_configure_inference_device", lambda: None)
+    monkeypatch.setattr(service, "_load_model", lambda: setattr(service, "_model", object()))
+    monkeypatch.setattr(service, "_load_hand_landmarker", lambda: setattr(service, "_hand_landmarker", object()))
+    monkeypatch.setattr(service, "_detect_with_yolo", lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("YOLO no debe usarse para mano en hand_only con MediaPipe")))
 
+    def fake_detect_hand(_frame, _frame_id):
+        service._running = False
+        return {
+            "type": "hand",
+            "label": "Mano",
+            "confidence": 0.93,
+            "bbox": [10.0, 20.0, 40.0, 60.0],
+            "center_px": [25.0, 40.0],
+            "world_mm": [120.0, 220.0, 255.0],
+            "source": "mediapipe",
+            "timestamp_s": time.time(),
+        }
+
+    monkeypatch.setattr(service, "_detect_hand_with_mediapipe", fake_detect_hand)
+    monkeypatch.setattr(service, "_annotate_frame", lambda frame, *_args, **_kwargs: frame)
+
+    service._inference_loop()
+
+    snapshot = service.state.snapshot()
     assert service._is_hand_only_mode() is True
-    assert target is not None
-    assert target["source"] == "yolo"
-    assert [item["label"] for item in detections] == ["Mano"]
+    assert snapshot["hand_target"]["source"] == "mediapipe"
+    assert snapshot["detections"][0]["source"] == "mediapipe"
+    assert snapshot["vision_status"]["hand_detector_mode"] == "mediapipe"
+
+
+def test_full_mode_combines_yolo_objects_with_mediapipe_hand(monkeypatch, tmp_path):
+    config = build_stub_config(tmp_path)
+    config.vision_detector_mode = "full"
+    config.hand_detector_backend = "mediapipe"
+    service = VisionService(config, AppState())
+    service._cv2 = SimpleNamespace(imencode=lambda *_args, **_kwargs: (True, np.array([1], dtype=np.uint8)))
+    service._latest_frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    service._latest_frame_id = 1
+    service._running = True
+    service._stop_event.clear()
+
+    monkeypatch.setitem(sys.modules, "torch", ModuleType("torch"))
+    ultralytics_module = ModuleType("ultralytics")
+    ultralytics_module.YOLO = object()
+    monkeypatch.setitem(sys.modules, "ultralytics", ultralytics_module)
+    monkeypatch.setattr(service, "_configure_inference_device", lambda: None)
+    monkeypatch.setattr(service, "_load_model", lambda: setattr(service, "_model", object()))
+    monkeypatch.setattr(service, "_load_hand_landmarker", lambda: setattr(service, "_hand_landmarker", object()))
+
+    def fake_detect_with_yolo(_frame, frame_id=0, include_hand=False, hand_only=False):
+        assert include_hand is False
+        assert hand_only is False
+        return (
+            [{
+                "type": "object",
+                "label": "Pinzas",
+                "confidence": 0.88,
+                "bbox": [100.0, 120.0, 160.0, 200.0],
+                "center_px": [130.0, 160.0],
+                "world_mm": [300.0, 200.0, 120.0],
+                "source": "yolo",
+                "timestamp_s": time.time(),
+                "frame_id": frame_id,
+            }],
+            _frame.copy(),
+        )
+
+    def fake_detect_hand(_frame, _frame_id):
+        service._running = False
+        return {
+            "type": "hand",
+            "label": "Mano",
+            "confidence": 0.91,
+            "bbox": [10.0, 20.0, 40.0, 60.0],
+            "center_px": [25.0, 40.0],
+            "world_mm": [120.0, 220.0, 255.0],
+            "source": "mediapipe",
+            "timestamp_s": time.time(),
+        }
+
+    monkeypatch.setattr(service, "_detect_with_yolo", fake_detect_with_yolo)
+    monkeypatch.setattr(service, "_detect_hand_with_mediapipe", fake_detect_hand)
+    monkeypatch.setattr(service, "_annotate_frame", lambda frame, *_args, **_kwargs: frame)
+
+    service._inference_loop()
+
+    snapshot = service.state.snapshot()
+    assert [item["type"] for item in snapshot["detections"]] == ["object", "hand"]
+    assert snapshot["detections"][0]["source"] == "yolo"
+    assert snapshot["detections"][1]["source"] == "mediapipe"
+    assert snapshot["vision_status"]["hand_detector_mode"] == "mediapipe"
+
+
+def test_mediapipe_startup_failure_falls_back_to_yolo_for_hand(monkeypatch, tmp_path):
+    config = build_stub_config(tmp_path)
+    config.vision_detector_mode = "hand_only"
+    config.hand_detector_backend = "mediapipe"
+    service = VisionService(config, AppState())
+    service._cv2 = SimpleNamespace(imencode=lambda *_args, **_kwargs: (True, np.array([1], dtype=np.uint8)))
+    service._latest_frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    service._latest_frame_id = 1
+    service._running = True
+    service._stop_event.clear()
+
+    monkeypatch.setitem(sys.modules, "torch", ModuleType("torch"))
+    ultralytics_module = ModuleType("ultralytics")
+    ultralytics_module.YOLO = object()
+    monkeypatch.setitem(sys.modules, "ultralytics", ultralytics_module)
+    monkeypatch.setattr(service, "_configure_inference_device", lambda: None)
+    monkeypatch.setattr(service, "_load_model", lambda: setattr(service, "_model", object()))
+
+    def fake_load_hand_landmarker():
+        service._hand_landmarker = None
+        service._hand_landmarker_delegate_reason = "fallo de carga"
+
+    def fake_detect_with_yolo(_frame, frame_id=0, include_hand=False, hand_only=False):
+        service._running = False
+        assert include_hand is True
+        assert hand_only is True
+        return (
+            [{
+                "type": "hand",
+                "label": "Mano",
+                "confidence": 0.89,
+                "bbox": [15.0, 20.0, 55.0, 70.0],
+                "center_px": [35.0, 45.0],
+                "world_mm": [100.0, 200.0, 255.0],
+                "source": "yolo",
+                "timestamp_s": time.time(),
+                "frame_id": frame_id,
+            }],
+            _frame.copy(),
+        )
+
+    monkeypatch.setattr(service, "_load_hand_landmarker", fake_load_hand_landmarker)
+    monkeypatch.setattr(service, "_detect_with_yolo", fake_detect_with_yolo)
+    monkeypatch.setattr(service, "_annotate_frame", lambda frame, *_args, **_kwargs: frame)
+
+    service._inference_loop()
+
+    snapshot = service.state.snapshot()
+    assert snapshot["hand_target"]["source"] == "yolo"
+    assert snapshot["vision_status"]["hand_detector_mode"] == "yolo_fallback"
 
 
 def test_hand_only_inference_initialization_keeps_yolo_enabled(monkeypatch, tmp_path):

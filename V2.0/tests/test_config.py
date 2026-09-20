@@ -5,6 +5,7 @@ import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+import app.config as config_module
 from app.config import AppConfig
 
 
@@ -70,6 +71,32 @@ def test_loads_vision_device(monkeypatch):
     assert config.vision_device == "cuda:0"
 
 
+def test_vision_model_path_defaults_to_yolo11_obb_weights(monkeypatch):
+    monkeypatch.delenv("VISION_MODEL_PATH", raising=False)
+    monkeypatch.setattr(config_module, "_load_env_file", lambda path: None)
+
+    config = AppConfig.load()
+
+    assert config.vision_model_path == (
+        config.repo_dir
+        / "V1.0"
+        / "Train"
+        / "runs_intsoob"
+        / "obb"
+        / "ur5_yolo11n_obb_512_ultralight"
+        / "weights"
+        / "best.pt"
+    )
+
+
+def test_vision_backend_defaults_to_webcam(monkeypatch):
+    monkeypatch.delenv("VISION_BACKEND", raising=False)
+
+    config = AppConfig.load()
+
+    assert config.vision_backend == "webcam"
+
+
 def test_loads_vision_fps_limits(monkeypatch):
     monkeypatch.setenv("VISION_INFERENCE_FPS", "6")
     monkeypatch.setenv("VISION_PREVIEW_FPS", "5")
@@ -104,6 +131,22 @@ def test_loads_hand_only_detector_mode(monkeypatch):
     assert config.vision_detector_mode == "hand_only"
 
 
+def test_loads_hand_detector_backend(monkeypatch):
+    monkeypatch.setenv("HAND_DETECTOR_BACKEND", "mediapipe")
+
+    config = AppConfig.load()
+
+    assert config.hand_detector_backend == "mediapipe"
+
+
+def test_invalid_hand_detector_backend_falls_back_to_mediapipe(monkeypatch):
+    monkeypatch.setenv("HAND_DETECTOR_BACKEND", "invalido")
+
+    config = AppConfig.load()
+
+    assert config.hand_detector_backend == "mediapipe"
+
+
 def test_loads_hand_follow_height_and_tcp_camera_offset(monkeypatch):
     monkeypatch.setenv("HAND_FOLLOW_HEIGHT_MM", "550")
     monkeypatch.setenv("TCP_TO_CAMERA_TRANSLATION_MM", "55,-30,0")
@@ -136,6 +179,14 @@ def test_derives_hand_follow_offset_from_legacy_height(monkeypatch):
 
     assert config.hand_follow_z_offset_mm == 225.0
     assert config.hand_follow_height_mm == 525.0
+
+
+def test_robot_plane_z_offset_defaults_to_95(monkeypatch):
+    monkeypatch.delenv("ROBOT_PLANE_Z_OFFSET_MM", raising=False)
+
+    config = AppConfig.load()
+
+    assert config.robot_plane_z_offset_mm == 95.0
 
 
 def test_loads_tracking_freshness_and_smoothing_limits(monkeypatch):

@@ -14,7 +14,7 @@ DEFAULT_CALIBRATION = CameraCalibration.from_dict(
             "height": 720,
             "fps": 30,
         },
-        "backend": "hp60c_ros2",
+        "backend": "webcam",
         "topics": {
             "rgb": "/ascamera/camera_publisher/rgb0/image",
             "depth": "/ascamera/camera_publisher/depth0/image_raw",

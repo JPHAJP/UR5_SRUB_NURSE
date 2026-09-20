@@ -15,15 +15,14 @@ Aplicacion Flask modular para controlar el UR5 desde una interfaz web moderna, c
   - Device de inferencia configurable por `VISION_DEVICE` (`auto`, `cpu`, `cuda:0`)
 - Limites de carga configurables con `VISION_INFERENCE_FPS`, `VISION_PREVIEW_FPS` y `VISION_DEPTH_PREVIEW_FPS`; usa `0` para dejar el stream sin limite
   - Umbral configurable por `VISION_CONFIDENCE_THRESHOLD` (default `0.50`)
-  - Backend principal HP60C V2 por ROS 2 Jazzy
-  - Subscripciones a RGB, depth y `camera_info`
-  - Promedio central `3x3` al `10%` para diagnostico de profundidad
-  - Compensacion de profundidad `gain + offset` calibrable contra la altura real del UR5
-  - Instrumentos y mano con YOLO
-  - Seguimiento de mano con Z objetivo `HAND_PLANE_Z_MM + HAND_FOLLOW_Z_OFFSET_MM` (default `350 + 200 = 550` mm)
-  - Demo `/hand-demo` en modo `VISION_DETECTOR_MODE=hand_only`, usando solo la clase `Mano` de YOLO
+  - Backend principal `webcam`
+  - `X/Y` por homografia 2D de webcam
+  - `Z` fija por robot usando `plane_z_mm - ROBOT_PLANE_Z_OFFSET_MM`
+  - Instrumentos con YOLO
+  - Mano con MediaPipe `HandLandmarker` por default, con fallback a YOLO si MediaPipe no carga al iniciar
+  - Seguimiento de mano con Z objetivo `HAND_PLANE_Z_MM - ROBOT_PLANE_Z_OFFSET_MM` (default `350 - 95 = 255` mm)
+  - Demo `/hand-demo` en modo `VISION_DETECTOR_MODE=hand_only`, usando backend de mano configurable por `HAND_DETECTOR_BACKEND`
   - Paro por target/camara viejos con `HAND_TARGET_MAX_AGE_S`, `TRACK_COMMAND_HZ` y `MAX_TRACK_ACCEL_MM_S2`
-  - Transformacion dinamica `base -> TCP -> camara` usando el offset `TCP_TO_CAMERA_TRANSLATION_MM=55,-30,0`
   - Captura ROS2 e inferencia corren en hilos separados
 - Voz con OpenAI:
   - STT: `gpt-4o-mini-transcribe`
@@ -49,6 +48,7 @@ V2.0/
 
 - `rclpy`, `cv_bridge` y los mensajes ROS no se instalan con `pip`.
 - Deben venir del entorno ROS 2 Jazzy del sistema y de la workspace de `ascamera`.
+- Esta ruta queda deshabilitada para el flujo normal con `VISION_BACKEND=webcam`.
 - La app puede autoarrancar `ascamera_node` con `ROS_AUTO_LAUNCH_CAMERA=true`.
 - Si prefieres correr la camara por fuera, debe publicar:
   - `/ascamera/camera_publisher/rgb0/image`
@@ -59,9 +59,9 @@ V2.0/
 ## Flujo recomendado
 
 1. Copia `V2.0/.env.example` a `V2.0/.env` o usa la raiz `.env`.
-2. Ajusta `VISION_MODEL_PATH`, `VISION_DEVICE`, los FPS de vision, `UR5_HOST`, la resolucion HP60C y los topics ROS si cambiaste el namespace.
-3. Si SILVIA va a controlar la HP60C, deja `ROS_AUTO_LAUNCH_CAMERA=true`.
-4. Si prefieres fijar la camara por fuera, arrancala desde el bundle o tu entorno ROS 2 y desactiva `ROS_AUTO_LAUNCH_CAMERA`.
+2. Ajusta `VISION_MODEL_PATH`, `VISION_DEVICE`, los FPS de vision, `UR5_HOST`, `CAMERA_INDEX`, `CAMERA_WIDTH`, `CAMERA_HEIGHT` y `CAMERA_FPS`.
+3. Deja `VISION_BACKEND=webcam` para el flujo normal.
+4. Si necesitas volver a HP60C, reactiva `VISION_BACKEND=hp60c_ros2` y configura ROS 2 por fuera.
 5. Si necesitas una calibracion planar legacy, corre la demo:
 
 ```bash
@@ -102,7 +102,7 @@ ROS_CAMERA_HARD_RESTART_TIMEOUT_S=6
 ROS_CAMERA_HEALTHY_RESET_S=20
 ROS_CAMERA_BACKOFF_SEQUENCE_S=2,5,10,20
 VISION_DETECTOR_MODE=full
-HAND_FOLLOW_Z_OFFSET_MM=200
+ROBOT_PLANE_Z_OFFSET_MM=95
 HAND_TARGET_MAX_AGE_S=0.5
 TRACK_COMMAND_HZ=10
 MAX_TRACK_ACCEL_MM_S2=300
@@ -120,10 +120,9 @@ python3 V2.0/run.py
 - En la misma maquina: `http://localhost:5050`
 - Desde otro equipo en la red: `http://<IP-LAN-DEL-SERVIDOR>:5050`
 
-9. En `Profundidad HP60C`, verifica que aparezcan `CameraInfo recibido` y `RGB y depth alineados`.
-10. Deja la transformacion TCP-camara en `[55, -30, 0]` mm y RPY `[0, 0, 0]` si los ejes estan alineados.
-11. Si la profundidad tiene sesgo, captura muestras, ajusta `gain/offset` y guarda la calibracion.
-12. Usa `Seguir Mano`; YOLO toma la deteccion `Mano` y el UR5e sigue el centro de la caja manteniendo Z TCP en `plano_mano + 200 mm`.
+9. Calibra la homografia webcam con `python3 V2.0/demo/webcam_calibrator.py`.
+10. Ajusta el plano Z del robot en el dashboard o en `/hand-demo`.
+11. Usa `Seguir Mano`; YOLO toma la deteccion `Mano` y el UR5e mantiene `X` fijo para pruebas, corrige `Y` y conserva Z TCP en `plano_mano - 95 mm`.
 
 ## Watchdog HP60C y USB
 
@@ -148,13 +147,13 @@ ros2 topic echo --once /ascamera/camera_publisher/rgb0/camera_info
 tail -f V2.0/data/logs/hp60c_autolaunch.log
 ```
 
-## Demo YOLO mano
+## Demo Hand Follow
 
 ```bash
-python3 V2.0/run_hand_demo.py
+python3 V2.0/hand_demo.py
 ```
 
-Abre `http://localhost:5050/hand-demo`. Esta ruta muestra RGB crudo, YOLO anotado, depth, calibracion del plano de mano, target XYZ, delta contra el TCP y velocidad enviada. El runner fuerza `VISION_DETECTOR_MODE=hand_only` y deja `VISION_INFERENCE_FPS=0`, asi que la demo trabaja solo con la clase `Mano` de YOLO sin limitar el stream por FPS.
+Abre `http://localhost:5050/hand-demo`. Esta ruta muestra RGB crudo, deteccion anotada, calibracion del plano base Z del robot, target XYZ, delta contra el TCP y velocidad enviada. El seguimiento corrige `X` y `Y`, y mantiene `Z` por offset. El runner fuerza `VISION_DETECTOR_MODE=hand_only` y deja `VISION_INFERENCE_FPS=0`; por default usa MediaPipe para mano y puede caer a YOLO si MediaPipe no esta disponible al iniciar.
 
 ## Cloudflare Tunnel
 
@@ -204,8 +203,8 @@ export FLASK_PORT=5051
 
 ## Notas
 
-- El modelo por defecto apunta a `V_COVA/Dashboard/V6_best.pt`.
+- El modelo por defecto apunta a `V1.0/Train/runs_intsoob/obb/ur5_yolo11n_obb_512_ultralight/weights/best.pt`.
 - El electroiman usa `DO0` por defecto.
 - Si el robot entra en fault de safety, la app bloquea los modos automaticos hasta que un operador lo libere manualmente.
-- El dashboard principal muestra solo RGB; la profundidad se usa internamente para coordenadas y calibracion.
-- La tarjeta `Profundidad HP60C` permite capturar muestras robot-vs-camara, ajustar `gain/offset`, configurar TCP-camara y guardar la calibracion persistente.
+- El dashboard principal usa webcam + YOLO y calcula `X/Y` por homografia.
+- La Z objetivo ahora se toma del plano del robot con un offset fijo hacia abajo.

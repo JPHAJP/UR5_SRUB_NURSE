@@ -83,7 +83,7 @@ tqdm==4.66.5
 triton==2.3.1
 typing_extensions==4.12.2
 tzdata==2024.2
-ultralytics==8.2.100
+ultralytics>=8.3.0
 ultralytics-thop==2.0.8
 ur_rtde==1.5.9
 urllib3==2.2.3

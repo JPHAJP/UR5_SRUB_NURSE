@@ -96,6 +96,26 @@ def get_depth_diagnostics():
     return jsonify(_services()["vision"].get_depth_diagnostics())
 
 
+@api_blueprint.get("/vision/cameras")
+def get_available_cameras():
+    refresh = str(request.args.get("refresh", "")).strip().lower() in {"1", "true", "yes", "on"}
+    try:
+        payload = _services()["vision"].list_available_cameras(force_refresh=refresh)
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error), "cameras": []}), 400
+    return jsonify(payload)
+
+
+@api_blueprint.post("/vision/camera")
+def select_camera():
+    payload = request.get_json(silent=True) or {}
+    try:
+        result = _services()["vision"].select_camera(payload.get("index"))
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
+    return jsonify(result)
+
+
 @api_blueprint.get("/calibration/depth")
 def get_depth_calibration():
     services = _services()
@@ -108,7 +128,10 @@ def set_depth_calibration():
     payload = request.get_json(silent=True) or {}
     gain = payload.get("gain")
     offset_mm = payload.get("offset_mm")
-    result = _services()["vision"].set_depth_compensation(gain=gain, offset_mm=offset_mm)
+    try:
+        result = _services()["vision"].set_depth_compensation(gain=gain, offset_mm=offset_mm)
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
     return jsonify({"ok": True, "depth_compensation": result})
 
 
@@ -124,13 +147,19 @@ def capture_depth_calibration_sample():
 
 @api_blueprint.post("/calibration/depth/fit")
 def fit_depth_calibration():
-    result = _services()["vision"].fit_depth_calibration()
+    try:
+        result = _services()["vision"].fit_depth_calibration()
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
     return jsonify({"ok": True, "depth_compensation": result})
 
 
 @api_blueprint.post("/calibration/depth/save")
 def save_depth_calibration():
-    result = _services()["vision"].save_calibration_to_disk()
+    try:
+        result = _services()["vision"].save_calibration_to_disk()
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
     return jsonify({"ok": True, "calibration": result})
 
 
@@ -157,5 +186,8 @@ def set_camera_transform():
     payload = request.get_json(silent=True) or {}
     translation_mm = payload.get("translation_mm", [0.0, 0.0, 0.0])
     rotation_rpy_deg = payload.get("rotation_rpy_deg", [0.0, 0.0, 0.0])
-    result = _services()["vision"].set_camera_transform(translation_mm, rotation_rpy_deg)
+    try:
+        result = _services()["vision"].set_camera_transform(translation_mm, rotation_rpy_deg)
+    except ValueError as error:
+        return jsonify({"ok": False, "message": str(error)}), 400
     return jsonify({"ok": True, "camera_to_robot": result, "tcp_to_camera": result})

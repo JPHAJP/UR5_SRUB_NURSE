@@ -1,0 +1,23 @@
+{
+  "diagnosis": "insufficient_tracking_data",
+  "oscillation_detected": false,
+  "insufficient_tracking_data": true,
+  "samples_total": 77,
+  "samples_valid": 0,
+  "valid_sample_ratio": 0.0,
+  "invalid_state_ratio": 0.987,
+  "direction_reversals": 0,
+  "approach_toggles": 0,
+  "distance_start_mm": null,
+  "distance_end_mm": null,
+  "distance_min_mm": null,
+  "distance_max_mm": null,
+  "net_distance_change_mm": null,
+  "mode": "live",
+  "base_url": "http://127.0.0.1:5050",
+  "duration_s": 20.0,
+  "poll_hz": 10.0,
+  "tracking_log_path": "/home/jpha/Documents/proyectos/UR5_SRUB_NURSE/V2.0/data/logs/hand_follow_distance_20260426T230810Z_688140937.jsonl",
+  "state_capture_path": "/home/jpha/Documents/proyectos/UR5_SRUB_NURSE/V2.0/data/logs/hand_follow_state_capture_20260426T230830Z_964982039.jsonl",
+  "report_path": "/home/jpha/Documents/proyectos/UR5_SRUB_NURSE/V2.0/data/logs/hand_follow_diagnostic_report_20260426T230830Z_971057907.json"
+}

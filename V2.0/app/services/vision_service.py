@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional, Sequence
 from ..calibration.loader import load_calibration, save_calibration
 from ..calibration.schema import CameraIntrinsics, DepthCalibrationSample
 from ..calibration.transforms import (
+    apply_homography,
     apply_rigid_transform,
     build_transform_matrix,
     build_transform_from_ur_pose,
@@ -39,14 +40,17 @@ HAND_LABEL_ALIASES = {
     "mano",
 }
 
-MIDDLE_FINGER_MCP_INDEX = 9
-
-
 class VisionService:
     def __init__(self, config, state) -> None:
         self.config = config
         self.state = state
         self._calibration_file_exists = self.config.calibration_file().exists()
+        self._camera_probe_max_index = 8
+        self._selected_camera_index = int(self.config.camera_index)
+        self._active_camera_index: int | None = None
+        self._requested_camera_index: int | None = None
+        self._available_cameras: List[Dict[str, Any]] = []
+        self._available_cameras_updated_at = 0.0
         self.calibration = load_calibration(self.config.calibration_file())
         self._sync_calibration_defaults()
         self._running = False
@@ -109,6 +113,7 @@ class VisionService:
         self._torch_cuda_available = False
         self._torch_cuda_device_count = 0
         self._torch_cuda_version = ""
+        self._hand_detector_mode = "mediapipe"
         self._last_rgb_preview_monotonic = 0.0
         self._last_depth_preview_monotonic = 0.0
         self._logged_first_rgb_frame = False
@@ -213,6 +218,62 @@ class VisionService:
                 "depth_id": self._latest_depth_id,
             }
 
+    def list_available_cameras(self, force_refresh: bool = False) -> Dict[str, Any]:
+        if not self._is_webcam_backend():
+            raise ValueError("La seleccion de webcam solo esta disponible en backend webcam.")
+
+        cameras = self._scan_available_webcams(force_refresh=force_refresh)
+        with self._frame_lock:
+            active_index = self._active_camera_index
+            selected_index = self._selected_camera_index
+            updated_at = self._available_cameras_updated_at
+
+        return {
+            "ok": bool(cameras),
+            "backend": "webcam",
+            "active_index": active_index,
+            "selected_index": selected_index,
+            "updated_at_ms": int(updated_at * 1000) if updated_at > 0.0 else 0,
+            "cameras": [dict(camera) for camera in cameras],
+            "message": (
+                f"{len(cameras)} webcam(s) detectada(s)."
+                if cameras
+                else "No se detectaron webcams disponibles."
+            ),
+        }
+
+    def select_camera(self, index: Any) -> Dict[str, Any]:
+        if not self._is_webcam_backend():
+            raise ValueError("La seleccion de webcam solo esta disponible en backend webcam.")
+
+        try:
+            requested_index = int(index)
+        except (TypeError, ValueError) as error:
+            raise ValueError("Indice de webcam invalido.") from error
+
+        cameras = self._scan_available_webcams(force_refresh=True)
+        if not any(int(camera.get("index", -1)) == requested_index for camera in cameras):
+            raise ValueError(f"No se detecto la webcam indice {requested_index}.")
+
+        with self._frame_lock:
+            self._selected_camera_index = requested_index
+            self._requested_camera_index = requested_index
+            self.config.camera_index = requested_index
+            self._update_webcam_calibration_target(requested_index)
+            self._camera_open = False
+            self._rgb_stream_ok = False
+            self._latest_frame = None
+            self._latest_jpeg = None
+            self._latest_rgb_jpeg = None
+            self._latest_rgb_timestamp = 0.0
+            self._latest_annotated_timestamp = 0.0
+            self._latest_detections = []
+            self._latest_hand_target = None
+
+        result = self.list_available_cameras(force_refresh=True)
+        result["message"] = f"Cambio solicitado a webcam indice {requested_index}."
+        return result
+
     def find_object_target(self, label: str | None = None) -> Dict[str, Any] | None:
         with self._frame_lock:
             detections = list(self._latest_detections)
@@ -226,6 +287,8 @@ class VisionService:
         return objects[0]
 
     def get_depth_diagnostics(self) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            return self._webcam_depth_disabled_payload()
         now = time.time()
         with self._frame_lock:
             report = dict(self._latest_depth_report)
@@ -256,12 +319,12 @@ class VisionService:
     def get_hand_follow_calibration(self) -> Dict[str, Any]:
         with self._frame_lock:
             plane_z_mm = float(self.calibration.hand_follow.plane_z_mm)
-            offset_mm = float(getattr(self.config, "hand_follow_z_offset_mm", 200.0))
+            offset_mm = float(getattr(self.config, "robot_plane_z_offset_mm", 95.0))
             return {
                 "ok": True,
                 "plane_z_mm": round(plane_z_mm, 3),
                 "z_offset_mm": round(offset_mm, 3),
-                "target_z_mm": round(plane_z_mm + offset_mm, 3),
+                "target_z_mm": round(plane_z_mm - offset_mm, 3),
                 "workspace": dict(self.calibration.hand_follow.workspace or self.config.hand_workspace),
             }
 
@@ -283,6 +346,8 @@ class VisionService:
             return summary
 
     def get_depth_calibration_summary(self, robot_pose_mm: Sequence[float] | None = None) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            return self._webcam_depth_disabled_payload()
         with self._frame_lock:
             summary = {
                 "backend": self.calibration.backend,
@@ -313,6 +378,8 @@ class VisionService:
         return summary
 
     def set_depth_compensation(self, gain: float | None = None, offset_mm: float | None = None) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            raise ValueError("La profundidad esta deshabilitada en backend webcam.")
         with self._frame_lock:
             if gain is not None:
                 self.calibration.depth_compensation.gain = float(gain)
@@ -327,6 +394,8 @@ class VisionService:
         translation_mm: Sequence[float],
         rotation_rpy_deg: Sequence[float],
     ) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            raise ValueError("La transformacion TCP-camara esta deshabilitada en backend webcam.")
         with self._frame_lock:
             self.calibration.tcp_to_camera.translation_mm = [float(value) for value in translation_mm[:3]]
             self.calibration.tcp_to_camera.rotation_rpy_deg = [float(value) for value in rotation_rpy_deg[:3]]
@@ -342,6 +411,8 @@ class VisionService:
             return self._camera_transform_summary()
 
     def capture_depth_calibration_sample(self, robot_pose_mm: Sequence[float]) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            raise ValueError("La profundidad esta deshabilitada en backend webcam.")
         if len(robot_pose_mm) < 3:
             raise ValueError("La pose del robot no incluye z.")
 
@@ -364,6 +435,8 @@ class VisionService:
             return sample.to_dict()
 
     def fit_depth_calibration(self) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            raise ValueError("La profundidad esta deshabilitada en backend webcam.")
         with self._frame_lock:
             fit = fit_depth_compensation(
                 [
@@ -383,11 +456,264 @@ class VisionService:
             return self._depth_compensation_summary()
 
     def save_calibration_to_disk(self) -> Dict[str, Any]:
+        if self._is_webcam_backend():
+            raise ValueError("La calibracion de profundidad esta deshabilitada en backend webcam.")
         with self._frame_lock:
             save_calibration(self.config.calibration_file(), self.calibration)
             return self.get_depth_calibration_summary()
 
     def _camera_loop(self) -> None:
+        if self._is_webcam_backend():
+            self._camera_loop_webcam()
+            return
+
+        # HP60C/ROS2 sigue disponible para compatibilidad y referencia,
+        # pero la ruta normal de V2 ahora arranca en backend webcam.
+        self._camera_loop_ros2()
+
+    def _camera_loop_webcam(self) -> None:
+        cv2 = self._load_cv2()
+        if cv2 is None:  # pragma: no cover - dependency fallback
+            self._last_capture_error = "OpenCV no disponible para backend webcam."
+            self._publish_status(ok=False, message=self._last_capture_error)
+            return
+
+        self._camera_recovery_state = "healthy"
+        self._last_depth_error = "Profundidad deshabilitada en backend webcam."
+        capture = None
+        current_index: int | None = None
+        while self._running and not self._stop_event.is_set():
+            desired_index = self._consume_requested_camera_index(current_index)
+            if capture is None or desired_index != current_index:
+                if capture is not None:
+                    capture.release()
+                    capture = None
+
+                capture = self._open_webcam_capture(cv2, desired_index)
+                if capture is None:
+                    with self._frame_lock:
+                        self._active_camera_index = None
+                        self._camera_open = False
+                        self._rgb_stream_ok = False
+                    self._last_capture_error = f"No se pudo abrir la webcam indice {desired_index}."
+                    self._publish_status(ok=False, message=self._last_capture_error)
+                    logger.warning(self._last_capture_error)
+                    time.sleep(0.25)
+                    continue
+
+                current_index = desired_index
+                with self._frame_lock:
+                    self._active_camera_index = current_index
+                    self._selected_camera_index = current_index
+                self._refresh_available_cameras(force_refresh=True, active_capture=capture, active_index=current_index)
+                logger.info("Webcam activa en indice %s.", current_index)
+
+            ok, frame = capture.read()
+            if not ok or frame is None:
+                self._rgb_stream_ok = False
+                self._camera_open = False
+                self._last_capture_error = f"La webcam indice {current_index} no entrego un frame valido."
+                if capture is not None:
+                    capture.release()
+                    capture = None
+                with self._frame_lock:
+                    self._active_camera_index = None
+                self._publish_status(ok=False, message=self._last_capture_error)
+                time.sleep(0.05)
+                continue
+
+            timestamp = time.time()
+            preview_timestamp = time.monotonic()
+            encoded = None
+            if self._should_refresh_preview(
+                preview_timestamp,
+                self._last_rgb_preview_monotonic,
+                getattr(self.config, "vision_preview_fps", 0.0),
+            ):
+                encoded = self._encode_jpeg(frame)
+
+            with self._frame_lock:
+                self._latest_frame = frame
+                self._latest_frame_id += 1
+                self._latest_rgb_timestamp = timestamp
+                if encoded is not None:
+                    self._latest_rgb_jpeg = encoded
+                    self._last_rgb_preview_monotonic = preview_timestamp
+                self._latest_depth_frame = None
+                self._latest_depth_jpeg = None
+                self._latest_depth_timestamp = 0.0
+                self._latest_depth_report = self._empty_depth_report()
+                self._camera_open = True
+                self._rgb_stream_ok = True
+                self._depth_stream_ok = False
+                self.calibration.camera.update(
+                    {
+                        "backend": self.config.vision_backend,
+                        "index": int(current_index if current_index is not None else self.config.camera_index),
+                        "width": int(frame.shape[1]),
+                        "height": int(frame.shape[0]),
+                        "fps": int(capture.get(getattr(cv2, "CAP_PROP_FPS", 5)) or self.config.camera_fps),
+                    }
+                )
+
+            if not self._logged_first_rgb_frame:
+                logger.info(
+                    "Webcam activa en indice %s con %sx%s.",
+                    current_index,
+                    frame.shape[1],
+                    frame.shape[0],
+                )
+                self._logged_first_rgb_frame = True
+
+            self._last_capture_error = ""
+            self._publish_status(ok=True)
+            time.sleep(0.005)
+
+        if capture is not None:
+            capture.release()
+        with self._frame_lock:
+            self._active_camera_index = None
+
+    def _load_cv2(self):
+        if self._cv2 is not None:
+            return self._cv2
+        try:
+            import cv2
+        except Exception as error:  # pragma: no cover - dependency fallback
+            logger.warning("VisionService sin OpenCV: %s", error)
+            return None
+        self._cv2 = cv2
+        return cv2
+
+    def _open_webcam_capture(self, cv2, index: int):
+        capture = cv2.VideoCapture(int(index))
+        capture.set(getattr(cv2, "CAP_PROP_FRAME_WIDTH", 3), int(self.config.camera_width))
+        capture.set(getattr(cv2, "CAP_PROP_FRAME_HEIGHT", 4), int(self.config.camera_height))
+        capture.set(getattr(cv2, "CAP_PROP_FPS", 5), int(self.config.camera_fps))
+        if capture.isOpened():
+            return capture
+        capture.release()
+        return None
+
+    def _consume_requested_camera_index(self, current_index: int | None) -> int:
+        with self._frame_lock:
+            if self._requested_camera_index is not None:
+                requested = int(self._requested_camera_index)
+                self._requested_camera_index = None
+                return requested
+            if current_index is not None:
+                return int(current_index)
+            return int(self._selected_camera_index)
+
+    def _refresh_available_cameras(self, force_refresh: bool = False, active_capture=None, active_index: int | None = None) -> List[Dict[str, Any]]:
+        cameras = self._scan_available_webcams(
+            force_refresh=force_refresh,
+            active_capture=active_capture,
+            active_index=active_index,
+        )
+        return [dict(camera) for camera in cameras]
+
+    def _scan_available_webcams(
+        self,
+        force_refresh: bool = False,
+        active_capture=None,
+        active_index: int | None = None,
+    ) -> List[Dict[str, Any]]:
+        cv2 = self._load_cv2()
+        if cv2 is None:
+            return []
+
+        now = time.time()
+        with self._frame_lock:
+            if (
+                not force_refresh
+                and self._available_cameras
+                and (now - self._available_cameras_updated_at) < 2.0
+            ):
+                return [dict(camera) for camera in self._available_cameras]
+            selected_index = int(self._selected_camera_index)
+            live_active_index = self._active_camera_index if active_index is None else active_index
+
+        cameras: List[Dict[str, Any]] = []
+        seen_indexes: set[int] = set()
+        if live_active_index is not None:
+            active_info = self._active_camera_descriptor(
+                cv2,
+                int(live_active_index),
+                active_capture=active_capture,
+                selected_index=selected_index,
+            )
+            cameras.append(active_info)
+            seen_indexes.add(int(live_active_index))
+
+        for index in range(max(1, int(self._camera_probe_max_index))):
+            if index in seen_indexes:
+                continue
+            camera_info = self._probe_webcam_index(cv2, index, selected_index=selected_index)
+            if camera_info is not None:
+                cameras.append(camera_info)
+                seen_indexes.add(index)
+
+        cameras.sort(key=lambda item: int(item.get("index", 0)))
+        with self._frame_lock:
+            self._available_cameras = [dict(camera) for camera in cameras]
+            self._available_cameras_updated_at = now
+        return [dict(camera) for camera in cameras]
+
+    def _active_camera_descriptor(self, cv2, index: int, active_capture=None, selected_index: int | None = None) -> Dict[str, Any]:
+        with self._frame_lock:
+            width = int(self.calibration.camera.get("width") or self.config.camera_width)
+            height = int(self.calibration.camera.get("height") or self.config.camera_height)
+            fps = int(self.calibration.camera.get("fps") or self.config.camera_fps)
+        if active_capture is not None:
+            width = int(active_capture.get(getattr(cv2, "CAP_PROP_FRAME_WIDTH", 3)) or width)
+            height = int(active_capture.get(getattr(cv2, "CAP_PROP_FRAME_HEIGHT", 4)) or height)
+            fps = int(active_capture.get(getattr(cv2, "CAP_PROP_FPS", 5)) or fps)
+        return {
+            "index": int(index),
+            "label": f"Webcam {index}",
+            "width": width,
+            "height": height,
+            "fps": fps,
+            "active": True,
+            "selected": bool(selected_index == index),
+        }
+
+    def _probe_webcam_index(self, cv2, index: int, selected_index: int | None = None) -> Dict[str, Any] | None:
+        capture = cv2.VideoCapture(int(index))
+        if not capture.isOpened():
+            capture.release()
+            return None
+        capture.set(getattr(cv2, "CAP_PROP_FRAME_WIDTH", 3), int(self.config.camera_width))
+        capture.set(getattr(cv2, "CAP_PROP_FRAME_HEIGHT", 4), int(self.config.camera_height))
+        capture.set(getattr(cv2, "CAP_PROP_FPS", 5), int(self.config.camera_fps))
+        ok, frame = capture.read()
+        width = int(frame.shape[1]) if ok and frame is not None else int(capture.get(getattr(cv2, "CAP_PROP_FRAME_WIDTH", 3)) or 0)
+        height = int(frame.shape[0]) if ok and frame is not None else int(capture.get(getattr(cv2, "CAP_PROP_FRAME_HEIGHT", 4)) or 0)
+        fps = int(capture.get(getattr(cv2, "CAP_PROP_FPS", 5)) or self.config.camera_fps)
+        capture.release()
+        if not ok and frame is None and width <= 0 and height <= 0:
+            return None
+        return {
+            "index": int(index),
+            "label": f"Webcam {index}",
+            "width": width or int(self.config.camera_width),
+            "height": height or int(self.config.camera_height),
+            "fps": fps,
+            "active": False,
+            "selected": bool(selected_index == index),
+        }
+
+    def _update_webcam_calibration_target(self, index: int) -> None:
+        self.calibration.backend = self.config.vision_backend
+        self.calibration.topics["rgb"] = f"webcam:{int(index)}"
+        self.calibration.topics["depth"] = ""
+        self.calibration.topics["rgb_camera_info"] = ""
+        self.calibration.topics["depth_camera_info"] = ""
+        self.calibration.camera["backend"] = self.config.vision_backend
+        self.calibration.camera["index"] = int(index)
+
+    def _camera_loop_ros2(self) -> None:
         try:
             import cv2
         except Exception as error:  # pragma: no cover - dependency fallback
@@ -524,14 +850,26 @@ class VisionService:
         if self._yolo is not None:
             self._configure_inference_device()
             self._load_model()
-            if self._is_hand_only_mode():
-                logger.info("VisionService en modo hand_only: seguimiento de mano por YOLO.")
         self._hand_landmarker = None
         self._mp = None
         self._mp_vision = None
         self._last_hand_error = ""
-        self._hand_landmarker_delegate = "disabled"
-        self._hand_landmarker_delegate_reason = "MediaPipe desactivado. Seguimiento por YOLO."
+        if self._hand_detector_backend() == "mediapipe":
+            self._load_hand_landmarker()
+            if self._hand_landmarker is None:
+                self._hand_landmarker_delegate = "disabled"
+                self._hand_landmarker_delegate_reason = (
+                    f"{self._hand_landmarker_delegate_reason} Fallback a YOLO para mano."
+                ).strip()
+        else:
+            self._hand_landmarker_delegate = "disabled"
+            self._hand_landmarker_delegate_reason = "MediaPipe desactivado por HAND_DETECTOR_BACKEND=yolo."
+
+        if self._is_hand_only_mode():
+            logger.info(
+                "VisionService en modo hand_only: seguimiento de mano por %s.",
+                self._effective_hand_detector_mode(),
+            )
 
         last_processed_frame_id = 0
         inference_interval_s = self._fps_interval(getattr(self.config, "vision_inference_fps", 8.0))
@@ -558,19 +896,48 @@ class VisionService:
 
             processing_started_at = time.monotonic()
             mode = self.state.snapshot().get("mode", "idle")
-            hand_tracking_active = self._is_hand_only_mode() or mode == "hand_follow"
-            if hand_tracking_active:
+            hand_detection_requested = self._is_hand_only_mode() or mode == "hand_follow" or self._detector_mode() == "full"
+            hand_detector_mode = self._effective_hand_detector_mode()
+
+            if self._is_hand_only_mode():
+                detections = []
+                plotted_frame = frame.copy()
+            else:
                 detections, plotted_frame = self._detect_with_yolo(
                     frame,
                     frame_id=frame_id,
-                    include_hand=True,
-                    hand_only=self._is_hand_only_mode(),
+                    include_hand=False,
                 )
-                hand_target = self._select_hand_target(detections)
-                detector_mode = "yolo_hand_only" if self._is_hand_only_mode() else "yolo_hand_follow"
+
+            hand_target = None
+            if hand_detection_requested:
+                if hand_detector_mode == "mediapipe":
+                    hand_target = self._detect_hand_with_mediapipe(frame, frame_id)
+                else:
+                    hand_detections, hand_frame = self._detect_with_yolo(
+                        frame,
+                        frame_id=frame_id,
+                        include_hand=True,
+                        hand_only=True,
+                    )
+                    hand_target = self._select_hand_target(hand_detections)
+                    if self._is_hand_only_mode():
+                        plotted_frame = hand_frame
+
+                hand_detection = self._hand_target_to_detection(hand_target)
+                if hand_detection is not None:
+                    if self._is_hand_only_mode():
+                        detections = [hand_detection]
+                    else:
+                        detections.append(hand_detection)
+
+            if self._is_hand_only_mode():
+                detector_mode = f"{hand_detector_mode}_hand_only"
+            elif mode == "hand_follow":
+                detector_mode = f"{hand_detector_mode}_hand_follow"
+            elif self._detector_mode() == "full":
+                detector_mode = f"yolo_objects+{hand_detector_mode}_hand"
             else:
-                detections, plotted_frame = self._detect_with_yolo(frame, frame_id=frame_id)
-                hand_target = None
                 detector_mode = "yolo_objects"
 
             annotated = self._annotate_frame(plotted_frame, detections, hand_target, detector_mode)
@@ -601,9 +968,9 @@ class VisionService:
             return None
         import numpy as np
 
-        title = "RGB HP60C"
+        title = "RGB Webcam" if self._is_webcam_backend() else "RGB HP60C"
         if stream_kind == "depth":
-            title = "Depth HP60C"
+            title = "Depth deshabilitada" if self._is_webcam_backend() else "Depth HP60C"
         elif stream_kind == "annotated":
             title = "RGB + YOLO"
 
@@ -621,6 +988,21 @@ class VisionService:
 
     def _status_overlay_lines(self, stream_kind: str) -> List[str]:
         lines = []
+        if self._is_webcam_backend():
+            if self._last_capture_error:
+                lines.append(self._last_capture_error)
+            if stream_kind == "annotated" and self._last_inference_error:
+                lines.append(self._last_inference_error)
+            if stream_kind == "depth":
+                lines.append("Depth deshabilitada en backend webcam.")
+            lines.append(f"Modelo YOLO: {self.config.vision_model_path.name}")
+            lines.append(f"Modelo cargado: {'si' if self._model else 'no'}")
+            lines.append("Backend: webcam")
+            lines.append(f"Camara indice: {self.config.camera_index}")
+            lines.append(f"Mano: {self._effective_hand_detector_mode()}")
+            lines.append(f"Inferencia: {self._inference_device} @ {getattr(self.config, 'vision_inference_fps', 0.0):.1f} FPS")
+            return lines[:7]
+
         if self._camera_recovery_state in {"stalled", "restarting"}:
             lines.append("Recuperando HP60C...")
         elif self._camera_recovery_state == "failed" and self._next_camera_launch_attempt_at > time.time():
@@ -643,9 +1025,9 @@ class VisionService:
         lines.append(f"Modelo YOLO: {self.config.vision_model_path.name}")
         lines.append(f"Modelo cargado: {'si' if self._model else 'no'}")
         if self._is_hand_only_mode():
-            lines.append("Detector: YOLO mano solamente")
+            lines.append(f"Detector mano: {self._effective_hand_detector_mode()}")
         else:
-            lines.append("Detector: YOLO objetos/mano")
+            lines.append(f"Detector mano: {self._effective_hand_detector_mode()} | objetos: YOLO")
         lines.append(f"Inferencia: {self._inference_device} @ {getattr(self.config, 'vision_inference_fps', 8.0):.1f} FPS")
         lines.append(f"RGB topic: {self.config.ros_rgb_topic}")
         if stream_kind == "depth":
@@ -1236,6 +1618,16 @@ class VisionService:
         self._last_inference_error = ""
         return detections, plotted_frame
 
+    def _hand_target_to_detection(self, hand_target: Dict[str, Any] | None) -> Dict[str, Any] | None:
+        if not hand_target:
+            return None
+        detection = dict(hand_target)
+        detection["type"] = "hand"
+        detection["label"] = str(detection.get("label") or "Mano")
+        detection["source"] = str(detection.get("source") or self._effective_hand_detector_mode())
+        detection["confidence"] = round(float(detection.get("confidence", 0.0) or 0.0), 3)
+        return detection
+
     def _load_hand_landmarker(self) -> None:
         model_path = self.config.hand_landmarker_model_path
         if not model_path.is_absolute():
@@ -1380,14 +1772,10 @@ class VisionService:
         frame_id: int | None = None,
         detected_at_s: float | None = None,
     ) -> Dict[str, Any] | None:
-        if len(hand_landmarks) <= MIDDLE_FINGER_MCP_INDEX:
+        if not hand_landmarks:
             return None
 
         height, width = frame_shape[:2]
-        landmark = hand_landmarks[MIDDLE_FINGER_MCP_INDEX]
-        center_x = self._clamp(float(getattr(landmark, "x", 0.0)) * width, 0.0, max(0.0, width - 1.0))
-        center_y = self._clamp(float(getattr(landmark, "y", 0.0)) * height, 0.0, max(0.0, height - 1.0))
-
         xs = [
             self._clamp(float(getattr(item, "x", 0.0)) * width, 0.0, max(0.0, width - 1.0))
             for item in hand_landmarks
@@ -1397,22 +1785,27 @@ class VisionService:
             for item in hand_landmarks
         ]
         box = [min(xs), min(ys), max(xs), max(ys)]
+        center_x = (box[0] + box[2]) / 2.0
+        center_y = (box[1] + box[3]) / 2.0
         span_x = max(1, int(max(12.0, abs(box[2] - box[0])) * self.config.depth_sampling_ratio))
         span_y = max(1, int(max(12.0, abs(box[3] - box[1])) * self.config.depth_sampling_ratio))
 
-        with self._frame_lock:
-            depth_frame = None if self._latest_depth_frame is None else self._latest_depth_frame.copy()
-            rgb_intrinsics = self.calibration.intrinsics["rgb"].to_dict()
-            alignment_ok = self._alignment_ok()
+        if self._is_webcam_backend():
+            depth_payload = self._build_webcam_world_payload("hand_follow", (center_x, center_y))
+        else:
+            with self._frame_lock:
+                depth_frame = None if self._latest_depth_frame is None else self._latest_depth_frame.copy()
+                rgb_intrinsics = self.calibration.intrinsics["rgb"].to_dict()
+                alignment_ok = self._alignment_ok()
 
-        depth_payload = self._compute_point_depth(
-            point_xy=(center_x, center_y),
-            span_x=span_x,
-            span_y=span_y,
-            depth_frame=depth_frame,
-            rgb_intrinsics=rgb_intrinsics,
-            alignment_ok=alignment_ok,
-        )
+            depth_payload = self._compute_point_depth(
+                point_xy=(center_x, center_y),
+                span_x=span_x,
+                span_y=span_y,
+                depth_frame=depth_frame,
+                rgb_intrinsics=rgb_intrinsics,
+                alignment_ok=alignment_ok,
+            )
 
         confidence = 1.0
         handedness_label = ""
@@ -1436,7 +1829,7 @@ class VisionService:
             "depth_valid": depth_payload["depth_valid"],
             "camera_xyz_mm": depth_payload["camera_xyz_mm"],
             "source": "mediapipe",
-            "landmark": "MIDDLE_FINGER_MCP",
+            "landmark": "HAND_BBOX_CENTER",
             "handedness": handedness_label,
             "timestamp_s": timestamp_s,
             "frame_id": int(frame_id or 0),
@@ -1465,17 +1858,21 @@ class VisionService:
         center_y = (box[1] + box[3]) / 2.0
         is_hand = self._is_hand_label(label)
 
-        with self._frame_lock:
-            depth_frame = None if self._latest_depth_frame is None else self._latest_depth_frame.copy()
-            rgb_intrinsics = self.calibration.intrinsics["rgb"].to_dict()
-            alignment_ok = self._alignment_ok()
+        if self._is_webcam_backend():
+            mode_name = "hand_follow" if is_hand else "object_pick"
+            depth_payload = self._build_webcam_world_payload(mode_name, (center_x, center_y))
+        else:
+            with self._frame_lock:
+                depth_frame = None if self._latest_depth_frame is None else self._latest_depth_frame.copy()
+                rgb_intrinsics = self.calibration.intrinsics["rgb"].to_dict()
+                alignment_ok = self._alignment_ok()
 
-        depth_payload = self._compute_detection_depth(
-            box=box,
-            depth_frame=depth_frame,
-            rgb_intrinsics=rgb_intrinsics,
-            alignment_ok=alignment_ok,
-        )
+            depth_payload = self._compute_detection_depth(
+                box=box,
+                depth_frame=depth_frame,
+                rgb_intrinsics=rgb_intrinsics,
+                alignment_ok=alignment_ok,
+            )
 
         detection = {
             "type": "hand" if is_hand else "object",
@@ -1517,6 +1914,58 @@ class VisionService:
         normalized = cls._normalize_label(label)
         return normalized in HAND_LABEL_ALIASES
 
+    def _mode_plane_z(self, mode_name: str) -> float:
+        mode_config = self.calibration.hand_follow if mode_name == "hand_follow" else self.calibration.object_pick
+        return float(mode_config.plane_z_mm)
+
+    def _mode_target_z(self, mode_name: str) -> float:
+        return self._mode_plane_z(mode_name) - float(getattr(self.config, "robot_plane_z_offset_mm", 95.0))
+
+    def _mode_homography(self, mode_name: str) -> List[List[float]]:
+        if mode_name == "hand_follow":
+            hand_homography = list(self.calibration.hand_follow.homography or [])
+            if hand_homography:
+                return hand_homography
+            return list(self.calibration.object_pick.homography or [])
+        return list(self.calibration.object_pick.homography or [])
+
+    def _build_webcam_world_payload(self, mode_name: str, point_xy: Sequence[float]) -> Dict[str, Any]:
+        homography = self._mode_homography(mode_name)
+        if not homography:
+            return {
+                "depth_valid": False,
+                "depth_samples": [],
+                "depth_avg_mm": None,
+                "depth_compensated_mm": None,
+                "camera_xyz_mm": None,
+                "world_mm": None,
+            }
+
+        try:
+            world_x_mm, world_y_mm = apply_homography(point_xy, homography)
+        except Exception:
+            return {
+                "depth_valid": False,
+                "depth_samples": [],
+                "depth_avg_mm": None,
+                "depth_compensated_mm": None,
+                "camera_xyz_mm": None,
+                "world_mm": None,
+            }
+
+        return {
+            "depth_valid": False,
+            "depth_samples": [],
+            "depth_avg_mm": None,
+            "depth_compensated_mm": None,
+            "camera_xyz_mm": None,
+            "world_mm": [
+                round(float(world_x_mm), 3),
+                round(float(world_y_mm), 3),
+                round(float(self._mode_target_z(mode_name)), 3),
+            ],
+        }
+
     def _annotate_frame(self, frame, detections, hand_target, detector_mode: str = "yolo_objects"):
         cv2 = self._cv2
 
@@ -1554,13 +2003,15 @@ class VisionService:
                 )
 
         depth_avg_mm = self._latest_depth_report.get("average_depth_mm")
-        depth_text = f"Centro: {depth_avg_mm:.1f} mm" if isinstance(depth_avg_mm, (int, float)) else "Centro: sin profundidad"
+        if self._is_webcam_backend():
+            depth_text = f"Z por robot: plano - {float(getattr(self.config, 'robot_plane_z_offset_mm', 95.0)):.1f} mm"
+        else:
+            depth_text = f"Centro: {depth_avg_mm:.1f} mm" if isinstance(depth_avg_mm, (int, float)) else "Centro: sin profundidad"
         model_text = f"Modelo: {self.config.vision_model_path.name}"
-        detection_text = (
-            "Detecciones: YOLO mano"
-            if self._is_hand_only_mode()
-            else f"Detecciones: {len(detections)} | Conf: {self.config.vision_confidence_threshold:.2f}"
-        )
+        if self._is_hand_only_mode():
+            detection_text = f"Detecciones: mano por {self._effective_hand_detector_mode()}"
+        else:
+            detection_text = f"Detecciones: {len(detections)} | Conf: {self.config.vision_confidence_threshold:.2f}"
 
         cv2.putText(
             frame,
@@ -1573,7 +2024,11 @@ class VisionService:
         )
         cv2.putText(
             frame,
-            f"Hand tracking: {detector_mode} + HP60C depth | {self._inference_device}",
+            (
+                f"Hand tracking: {detector_mode} + webcam homografia | {self._inference_device}"
+                if self._is_webcam_backend()
+                else f"Hand tracking: {detector_mode} + HP60C depth | {self._inference_device}"
+            ),
             (16, 56),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.7,
@@ -1746,15 +2201,24 @@ class VisionService:
 
     def _sync_calibration_defaults(self) -> None:
         self.calibration.backend = self.config.vision_backend
-        self.calibration.topics = {
-            "rgb": self.config.ros_rgb_topic,
-            "depth": self.config.ros_depth_topic,
-            "rgb_camera_info": self.config.ros_rgb_camera_info_topic,
-            "depth_camera_info": self.config.ros_depth_camera_info_topic,
-        }
+        if self._is_webcam_backend():
+            self.calibration.topics = {
+                "rgb": f"webcam:{self._selected_camera_index}",
+                "depth": "",
+                "rgb_camera_info": "",
+                "depth_camera_info": "",
+            }
+        else:
+            self.calibration.topics = {
+                "rgb": self.config.ros_rgb_topic,
+                "depth": self.config.ros_depth_topic,
+                "rgb_camera_info": self.config.ros_rgb_camera_info_topic,
+                "depth_camera_info": self.config.ros_depth_camera_info_topic,
+            }
         self.calibration.camera.update(
             {
                 "backend": self.config.vision_backend,
+                "index": self._selected_camera_index,
                 "width": self.config.camera_width,
                 "height": self.config.camera_height,
                 "fps": self.config.camera_fps,
@@ -1771,14 +2235,16 @@ class VisionService:
                 self.calibration.hand_follow.workspace = dict(self.config.hand_workspace)
             if not self.calibration.object_pick.workspace:
                 self.calibration.object_pick.workspace = dict(self.config.object_workspace)
+            self.config.hand_workspace = dict(self.calibration.hand_follow.workspace)
+            self.config.object_workspace = dict(self.calibration.object_pick.workspace)
 
         if "rgb" not in self.calibration.intrinsics:
             self.calibration.intrinsics["rgb"] = CameraIntrinsics()
         if "depth" not in self.calibration.intrinsics:
             self.calibration.intrinsics["depth"] = CameraIntrinsics()
 
-        self.calibration.intrinsics["rgb"].topic = self.config.ros_rgb_camera_info_topic
-        self.calibration.intrinsics["depth"].topic = self.config.ros_depth_camera_info_topic
+        self.calibration.intrinsics["rgb"].topic = "" if self._is_webcam_backend() else self.config.ros_rgb_camera_info_topic
+        self.calibration.intrinsics["depth"].topic = "" if self._is_webcam_backend() else self.config.ros_depth_camera_info_topic
 
         if not self.calibration.camera_to_robot.matrix_4x4:
             self.calibration.camera_to_robot.matrix_4x4 = build_transform_matrix(
@@ -2208,9 +2674,13 @@ class VisionService:
         )
 
     def _intrinsics_ok(self) -> bool:
+        if self._is_webcam_backend():
+            return True
         return self.calibration.intrinsics["rgb"].is_valid() and self.calibration.intrinsics["depth"].is_valid()
 
     def _alignment_ok(self) -> bool:
+        if self._is_webcam_backend():
+            return True
         if self._latest_frame is None or self._latest_depth_frame is None:
             return False
 
@@ -2274,8 +2744,20 @@ class VisionService:
         mode = str(getattr(self.config, "vision_detector_mode", "full") or "full").strip().lower()
         return mode if mode in {"full", "hand_only"} else "full"
 
+    def _hand_detector_backend(self) -> str:
+        backend = str(getattr(self.config, "hand_detector_backend", "mediapipe") or "mediapipe").strip().lower()
+        return backend if backend in {"mediapipe", "yolo"} else "mediapipe"
+
+    def _effective_hand_detector_mode(self) -> str:
+        if self._hand_detector_backend() == "mediapipe":
+            return "mediapipe" if self._hand_landmarker is not None else "yolo_fallback"
+        return "yolo"
+
     def _is_hand_only_mode(self) -> bool:
         return self._detector_mode() == "hand_only"
+
+    def _is_webcam_backend(self) -> bool:
+        return str(getattr(self.config, "vision_backend", "webcam") or "webcam").strip().lower() == "webcam"
 
     def _depth_compensation_summary(self) -> Dict[str, Any]:
         comp = self.calibration.depth_compensation
@@ -2288,14 +2770,66 @@ class VisionService:
             "sample_count": len(comp.samples),
         }
 
+    def _webcam_missing_calibration_message(self) -> str:
+        mode = self.state.snapshot().get("mode", "idle")
+        if self._is_hand_only_mode() or mode == "hand_follow":
+            return "Vision webcam activa. Falta calibracion homografica para mano."
+        if mode == "object_pick":
+            return "Vision webcam activa. Falta calibracion homografica para objetos."
+        return "Vision webcam activa. Falta calibracion homografica de mano u objetos."
+
+    def _webcam_depth_disabled_payload(self) -> Dict[str, Any]:
+        return {
+            "backend": "webcam",
+            "source": "webcam",
+            "depth_enabled": False,
+            "depth_ok": False,
+            "rgb_ok": self._rgb_stream_ok,
+            "intrinsics_ok": True,
+            "alignment_ok": True,
+            "camera_to_robot": self._camera_transform_summary(),
+            "tcp_to_camera": self._camera_transform_summary(),
+            "depth_compensation": self._depth_compensation_summary(),
+            "topics": dict(self.calibration.topics),
+            "model_loaded": bool(self._model),
+            "model_path": str(self.config.vision_model_path),
+            "vision_inference_fps": getattr(self.config, "vision_inference_fps", 0.0),
+            "vision_preview_fps": getattr(self.config, "vision_preview_fps", 0.0),
+            "vision_depth_preview_fps": getattr(self.config, "vision_depth_preview_fps", 0.0),
+            "camera_process_running": False,
+            "camera_auto_launch": False,
+            "camera_launch_error": "",
+            "camera_recovery": {"state": "disabled", "next_retry_in_s": None},
+            "detector_mode": self._detector_mode(),
+            "yolo_enabled": True,
+            "points": [],
+            "average_depth_mm": None,
+            "valid_points": 0,
+            "message": "La profundidad esta deshabilitada en backend webcam.",
+        }
+
     def _publish_status(self, ok: bool, message: str | None = None) -> None:
         now = time.time()
         preview_timeout_s = max(1.0, float(getattr(self.config, "ros_camera_stall_timeout_s", 6.0)))
         recovery = self._camera_recovery_summary(now)
         detections_fresh = self._is_recent_timestamp(self._latest_annotated_timestamp, now, preview_timeout_s)
+        depth_required = not self._is_webcam_backend()
+        active_mode = self.state.snapshot().get("mode", "idle")
+        if self._is_webcam_backend():
+            if self._is_hand_only_mode() or active_mode == "hand_follow":
+                calibration_ok = bool(self._mode_homography("hand_follow"))
+            elif active_mode == "object_pick":
+                calibration_ok = bool(self.calibration.object_pick.homography)
+            else:
+                calibration_ok = bool(self._mode_homography("hand_follow") or self.calibration.object_pick.homography)
+        else:
+            calibration_ok = self._intrinsics_ok() and self._alignment_ok() and self.calibration.tcp_to_camera.configured
         status = {
-            "ok": ok and self._rgb_stream_ok and self._depth_stream_ok,
+            "ok": ok and self._rgb_stream_ok and (self._depth_stream_ok if depth_required else True) and (calibration_ok if self._is_webcam_backend() else True),
             "camera_open": self._camera_open,
+            "active_camera_index": self._active_camera_index,
+            "selected_camera_index": self._selected_camera_index,
+            "available_camera_count": len(self._available_cameras),
             "capture_thread_running": bool(self._capture_thread and self._capture_thread.is_alive()),
             "inference_thread_running": bool(self._inference_thread and self._inference_thread.is_alive()),
             "camera_process_running": self._camera_process_running(),
@@ -2314,16 +2848,19 @@ class VisionService:
             "torch_cuda_version": self._torch_cuda_version,
             "detections": len(self._latest_detections) if detections_fresh else 0,
             "hand_visible": bool(self._latest_hand_target) if detections_fresh else False,
-            "hand_detector_mode": "yolo_hand_only" if self._is_hand_only_mode() else "yolo",
+            "hand_detector_mode": self._effective_hand_detector_mode(),
+            "hand_landmarker_delegate": self._hand_landmarker_delegate,
+            "hand_landmarker_delegate_reason": self._hand_landmarker_delegate_reason,
             "calibrated_hand": bool(self.calibration.hand_follow.homography),
             "calibrated_object": bool(self.calibration.object_pick.homography),
             "rgb_ok": self._rgb_stream_ok,
             "depth_ok": self._depth_stream_ok,
+            "depth_enabled": depth_required,
             "rgb_preview_ready": bool(self._latest_rgb_jpeg) and self._is_recent_timestamp(self._latest_rgb_timestamp, now, preview_timeout_s),
             "depth_preview_ready": bool(self._latest_depth_jpeg) and self._is_recent_timestamp(self._latest_depth_timestamp, now, preview_timeout_s),
             "intrinsics_ok": self._intrinsics_ok(),
             "alignment_ok": self._alignment_ok(),
-            "calibration_ok": self._intrinsics_ok() and self._alignment_ok() and self.calibration.tcp_to_camera.configured,
+            "calibration_ok": calibration_ok,
             "backend": self.calibration.backend,
             "tcp_to_camera": self._camera_transform_summary(),
             "depth_compensation": self._depth_compensation_summary(),
@@ -2333,6 +2870,16 @@ class VisionService:
 
         if message:
             status["message"] = message
+        elif self._is_webcam_backend() and not status["calibration_ok"]:
+            status["message"] = self._webcam_missing_calibration_message()
+        elif self._is_webcam_backend() and self._last_capture_error:
+            status["message"] = self._last_capture_error
+        elif self._is_webcam_backend() and self._last_inference_error:
+            status["message"] = self._last_inference_error
+        elif self._is_webcam_backend() and self._is_hand_only_mode():
+            status["message"] = f"Vision webcam + mano por {self._effective_hand_detector_mode()}."
+        elif self._is_webcam_backend():
+            status["message"] = f"Vision webcam + YOLO objetos + mano por {self._effective_hand_detector_mode()}."
         elif recovery["state"] in {"stalled", "restarting"}:
             status["message"] = "Recuperando HP60C..."
         elif (
@@ -2356,8 +2903,8 @@ class VisionService:
         elif not status["calibration_ok"]:
             status["message"] = "HP60C activa. Falta calibracion de profundidad o transformacion TCP-camara."
         elif self._is_hand_only_mode():
-            status["message"] = "Vision HP60C + YOLO mano activa."
+            status["message"] = f"Vision HP60C + mano por {self._effective_hand_detector_mode()}."
         else:
-            status["message"] = "Vision HP60C + YOLO activa."
+            status["message"] = f"Vision HP60C + YOLO objetos + mano por {self._effective_hand_detector_mode()}."
 
         self.state.set_vision_status(status)

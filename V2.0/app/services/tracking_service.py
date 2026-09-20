@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 import logging
 import math
 import threading
 import time
+from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
 from ..robot.motion_profiles import estimate_joint_move_duration_deg, estimate_linear_move_duration_mm
@@ -30,6 +32,10 @@ class TrackingService:
         self._active_follow_started_at = 0.0
         self._last_pose_sample_xyz: Optional[list[float]] = None
         self._last_pose_sample_ts = 0.0
+        self._distance_log_lock = threading.RLock()
+        self._distance_log_handle = None
+        self._distance_log_path: Path | None = None
+        self._previous_hand_distance_mm: float | None = None
 
     def start(self) -> None:
         if self._running:
@@ -43,11 +49,13 @@ class TrackingService:
         self._stop_event.set()
         if self._thread and self._thread.is_alive():
             self._thread.join(timeout=1.0)
+        self._close_distance_log_session()
 
     def set_mode(self, mode: str) -> Tuple[bool, str]:
         if mode not in {"idle", "hand_follow", "object_pick"}:
             return False, "Modo no valido."
 
+        previous_mode = self.state.snapshot().get("mode", "idle")
         if mode == "idle":
             self._pending_pick = None
             self._reset_follow_motion_state()
@@ -55,6 +63,8 @@ class TrackingService:
 
         self.state.set_mode(mode)
         if mode == "hand_follow":
+            if previous_mode != "hand_follow":
+                self._open_distance_log_session()
             self._reset_follow_motion_state()
             self._publish_tracking_status(
                 {
@@ -63,10 +73,13 @@ class TrackingService:
                     "velocity_mm_s": [0.0, 0.0, 0.0],
                 }
             )
+        elif previous_mode == "hand_follow":
+            self._close_distance_log_session()
         self.state.add_event("system_event", f"Modo cambiado a {mode}.", {"mode": mode})
         return True, f"Modo {mode} activado."
 
     def request_pick(self, label: str | None = None, deliver_to_hand: bool = False) -> Tuple[bool, str]:
+        self._close_distance_log_session()
         self._pending_pick = {
             "label": label,
             "deliver_to_hand": deliver_to_hand,
@@ -79,6 +92,7 @@ class TrackingService:
         self._pending_pick = None
         self.state.set_mode("idle")
         self._stop_tracking("cancel")
+        self._close_distance_log_session()
         self.gateway.set_magnet(False)
         self.state.clear_voice_session()
         return True, "Operacion cancelada."
@@ -107,7 +121,7 @@ class TrackingService:
 
     def _follow_hand_step(self) -> None:
         stream_health = self.vision.get_stream_health()
-        if not stream_health.get("rgb_ok") or not stream_health.get("depth_ok"):
+        if not stream_health.get("rgb_ok"):
             self._stop_tracking("camera_stale", {"stream_health": stream_health})
             return
 
@@ -168,11 +182,31 @@ class TrackingService:
             )
             return
 
-        self.gateway.move_linear_mm(
+        ok, message = self.gateway.move_linear_mm(
             target_xyz,
             speed=float(getattr(self.config, "hand_follow_move_speed_m_s", 0.5)),
             acceleration=float(getattr(self.config, "hand_follow_move_acceleration_m_s2", 0.5)),
         )
+        if not ok:
+            self._reset_follow_motion_state()
+            self.state.add_event(
+                "system_event",
+                message,
+                {"mode": "hand_follow", "target": list(target_xyz)},
+            )
+            self._publish_tracking_status(
+                self._tracking_payload(
+                    target,
+                    target_xyz,
+                    [error_x, error_y, error_z],
+                    [0.0, 0.0, 0.0],
+                    target_age_s,
+                    "command_failed",
+                    stream_health,
+                )
+            )
+            return
+
         self._active_follow_target_xyz = list(target_xyz)
         self._active_follow_started_at = now
         self._last_pose_sample_xyz = list(current_pose[:3])
@@ -205,6 +239,7 @@ class TrackingService:
             "active": self.state.snapshot().get("mode") == "hand_follow",
             "velocity_mm_s": [0.0, 0.0, 0.0],
             "stop_reason": reason,
+            "active_axis": self._active_hand_follow_axis() if self.state.snapshot().get("mode") == "hand_follow" else None,
         }
         if extra:
             payload.update(extra)
@@ -225,6 +260,92 @@ class TrackingService:
         except (TypeError, ValueError):
             hz = 10.0
         return 1.0 / hz if hz > 0.0 else 0.0
+
+    def _open_distance_log_session(self) -> None:
+        self._close_distance_log_session()
+        self.config.log_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+        path = self.config.log_dir / f"hand_follow_distance_{timestamp}_{time.time_ns() % 1_000_000_000:09d}.jsonl"
+        handle = path.open("a", encoding="utf-8")
+        with self._distance_log_lock:
+            self._distance_log_handle = handle
+            self._distance_log_path = path
+            self._previous_hand_distance_mm = None
+
+    def _close_distance_log_session(self) -> None:
+        with self._distance_log_lock:
+            handle = self._distance_log_handle
+            self._distance_log_handle = None
+            self._distance_log_path = None
+            self._previous_hand_distance_mm = None
+            if handle is not None:
+                handle.close()
+
+    @staticmethod
+    def _distance_xyz_mm(point_a: list[float] | None, point_b: list[float] | None) -> float | None:
+        if not point_a or not point_b or len(point_a) < 3 or len(point_b) < 3:
+            return None
+        return math.sqrt(
+            sum(
+                (float(value_a) - float(value_b)) ** 2
+                for value_a, value_b in zip(point_a[:3], point_b[:3])
+            )
+        )
+
+    def _active_hand_follow_axis(self) -> str:
+        return "xy"
+
+    def _log_tracking_sample(self, status: Dict[str, Any]) -> None:
+        tcp_pose_mm = list(self.gateway.current_pose_mm())
+        hand_world_mm = status.get("hand_world_mm")
+        target_xyz_mm = status.get("target_xyz_mm")
+        error_xyz_mm = status.get("error_xyz_mm")
+
+        distance_tcp_to_hand_mm = self._distance_xyz_mm(tcp_pose_mm, hand_world_mm)
+        distance_tcp_to_target_mm = self._distance_xyz_mm(tcp_pose_mm, target_xyz_mm)
+        with self._distance_log_lock:
+            handle = self._distance_log_handle
+            path = self._distance_log_path
+            previous_hand_distance_mm = self._previous_hand_distance_mm
+
+            if distance_tcp_to_hand_mm is not None and previous_hand_distance_mm is not None:
+                distance_delta_mm = distance_tcp_to_hand_mm - previous_hand_distance_mm
+                approaching_hand = distance_delta_mm < 0.0
+            else:
+                distance_delta_mm = None
+                approaching_hand = None
+
+            if distance_tcp_to_hand_mm is not None:
+                self._previous_hand_distance_mm = distance_tcp_to_hand_mm
+
+            status["distance_tcp_to_hand_mm"] = (
+                round(float(distance_tcp_to_hand_mm), 3) if distance_tcp_to_hand_mm is not None else None
+            )
+            status["distance_tcp_to_target_mm"] = (
+                round(float(distance_tcp_to_target_mm), 3) if distance_tcp_to_target_mm is not None else None
+            )
+            status["distance_delta_mm"] = round(float(distance_delta_mm), 3) if distance_delta_mm is not None else None
+            status["approaching_hand"] = approaching_hand
+            status["distance_log_path"] = str(path) if path else None
+
+            if handle is None:
+                return
+
+            sample = {
+                "timestamp_s": round(time.time(), 6),
+                "tcp_pose_mm": [round(float(value), 3) for value in tcp_pose_mm[:6]],
+                "hand_world_mm": hand_world_mm,
+                "target_xyz_mm": target_xyz_mm,
+                "error_xyz_mm": error_xyz_mm,
+                "distance_tcp_to_hand_mm": status["distance_tcp_to_hand_mm"],
+                "distance_tcp_to_target_mm": status["distance_tcp_to_target_mm"],
+                "distance_delta_mm": status["distance_delta_mm"],
+                "approaching_hand": approaching_hand,
+                "active_axis": self._active_hand_follow_axis(),
+                "command_state": status.get("stop_reason", ""),
+            }
+            handle.write(json.dumps(sample, ensure_ascii=True) + "\n")
+            handle.flush()
 
     def _reset_follow_motion_state(self) -> None:
         self._active_follow_target_xyz = None
@@ -298,10 +419,13 @@ class TrackingService:
             "velocity_mm_s": [round(float(value), 3) for value in velocity_xyz],
             "target_age_s": round(float(target_age_s), 3) if target_age_s is not None else None,
             "stop_reason": stop_reason,
+            "active_axis": self._active_hand_follow_axis(),
             "stream_health": stream_health,
         }
 
     def _publish_tracking_status(self, payload: Dict[str, Any]) -> None:
+        with self._distance_log_lock:
+            distance_log_path = str(self._distance_log_path) if self._distance_log_path else None
         status = {
             "active": False,
             "hand_world_mm": None,
@@ -312,8 +436,15 @@ class TrackingService:
             "stop_reason": "",
             "command_hz": float(getattr(self.config, "track_command_hz", 10.0)),
             "max_accel_mm_s2": float(getattr(self.config, "max_track_accel_mm_s2", 300.0)),
+            "distance_tcp_to_hand_mm": None,
+            "distance_tcp_to_target_mm": None,
+            "distance_delta_mm": None,
+            "approaching_hand": None,
+            "distance_log_path": distance_log_path,
+            "active_axis": self._active_hand_follow_axis() if self.state.snapshot().get("mode") == "hand_follow" else None,
         }
         status.update(payload)
+        self._log_tracking_sample(status)
         self.state.set_tracking_status(status)
 
     def _execute_pick(self, request: Dict[str, object]) -> None:
